@@ -119,11 +119,3 @@ let score = {
     document.querySelector("#score").innerText = this.score;
   },
 };
-
-function pauseGame() {
-  map.paused = true;
-}
-
-function unPauseGame() {
-  map.paused = false;
-}

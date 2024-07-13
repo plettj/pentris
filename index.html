@@ -12,13 +12,10 @@
     <p class="belowCanvases"></p>
 
     <section class="centeredContent">
-      <button style="float: left" class="button" onclick="unPauseGame()">
-        Play
-      </button>
-      <button style="float: right" class="button" onclick="pauseGame()">
-        Pause
-      </button>
-      <p class="centeredText">Score: <span id="score">0</span></p>
+      <button id="play" class="button" onclick="dom.togglePause()">Play</button>
+      <p class="centeredText">
+        Score: <strong id="score" style="color: deepPink">0</strong>
+      </p>
     </section>
   </body>
 

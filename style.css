@@ -57,6 +57,19 @@ p {
   font-size: calc(var(--unit) * 1);
 }
 
+button {
+  font-family: Arcology;
+  font-size: calc(var(--unit) * 0.35);
+  background-color: rgba(0, 0, 0, 0);
+  color: black;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px 25px;
+  cursor: pointer;
+  float: center;
+  margin: 5px 10px;
+}
+
 .centeredContent {
   position: absolute;
   left: 50%;
@@ -65,21 +78,7 @@ p {
 }
 
 .centeredText {
-  padding-top: 10px;
   text-align: center;
-}
-
-button {
-  font-family: Arcology;
-  font-size: calc(var(--unit) * 0.3);
-  background-color: rgba(0, 0, 0, 0);
-  color: black;
-  border: 1px solid black;
-  border-radius: 5px;
-  padding: 5px 20px;
-  cursor: pointer;
-  float: center;
-  margin: 5px 10px;
 }
 
 *::-webkit-scrollbar {
