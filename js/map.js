@@ -5,7 +5,6 @@ let map = {
   screen: [], // 2D array of the map.
   activePentomino: null, // The pentomino currently being controlled.
   paused: true, // Whether the game is paused.
-  speed: 5, // Number of game steps per second.
   pentBucket: [], // Remaining pentominoes in current 12-pentomino bucket.
   upcomingPentominoes: [], // Next 3 pentominoes to be used.
   init: function (x, y) {
@@ -30,7 +29,7 @@ let map = {
     ctx[2].fillStyle = allPentominoes[index - 1][1];
     ctx[2].fillRect(x * unit, unit * 4 + y * unit, unit, unit);
   },
-  refresh: function () {
+  animate: function () {
     clear(2); // Block canvas
 
     for (let i = 0; i < this.screen.length; i++) {
@@ -49,6 +48,8 @@ let map = {
     if (this.activePentomino.placed) {
       delete this.activePentomino;
       this.activePentomino = this.getNewPentomino();
+
+      score.newPlaced();
     }
 
     clear(3); // Bucket canvas
@@ -96,14 +97,14 @@ let map = {
       score.add(rows);
     }
   },
-  startGame: function () {
-    this.refresh();
-    this.paused = false;
-  },
   move: function (direction, pressing) {
     if (!pressing) return;
 
     this.activePentomino.move(direction);
+  },
+  startGame: function () {
+    this.animate();
+    this.paused = false;
   },
 };
 
@@ -111,11 +112,30 @@ let map = {
 let score = {
   score: 0,
   rowScores: [1, 2, 8, 32, 128],
+  progress: 0, // Progress in terms of time played (for game speed).
+  level: 0, // Current level (for game speed)
+  levelSpeeds: [
+    1.2, 1.5, 1.8, 2, 2.3, 2.6, 3, 3.4, 3.8, 4.2, 4.7, 5.2, 5.8, 6.5, 7,
+  ], // Game speeds for each level.
+  speed: 1, // Number of game steps per 60 frames.
+  totalPlaced: 0, // Total number of pentominoes placed.
   init: function () {
     this.score = 0;
   },
   add: function (rows) {
     this.score += this.rowScores[rows - 1];
     document.querySelector("#score").innerText = this.score;
+  },
+  newPlaced: function () {
+    this.totalPlaced++;
+
+    if (this.totalPlaced % 12 === 0) {
+      this.level++;
+      dom.setLevel();
+
+      if (this.level < this.levelSpeeds.length) {
+        this.speed = this.levelSpeeds[this.level];
+      }
+    }
   },
 };

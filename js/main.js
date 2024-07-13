@@ -89,11 +89,12 @@ window.onload = function () {
 };
 
 // To run actual frame-by-frame animation
-var stop = false;
-var frameCount = 0;
-var fps, fpsInterval, startTime, now, then, elapsed;
+let stop = false;
+let frameCount = 0;
+let fps = 30;
+let fpsInterval, startTime, now, then, elapsed;
 
-function startAnimating(fps) {
+function startAnimating() {
   fpsInterval = 1000 / fps;
   then = Date.now();
   startTime = then;
@@ -111,12 +112,12 @@ function animate() {
     if (!map.paused) {
       frame++;
 
-      if (!(frame % Math.round(60 / map.speed))) {
+      if (!(frame % Math.round(fps / score.speed))) {
         step++;
         map.newFrame();
       }
 
-      map.refresh();
+      map.animate();
     }
   }
 }
