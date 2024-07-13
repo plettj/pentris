@@ -23,7 +23,7 @@
 }
 
 body {
-  background-color: #343538;
+  background-color: black;
   --modeValue: 255;
   --x: 1;
   --y: 1;
@@ -40,7 +40,7 @@ body {
   --u2: #000000; /* for a slight gradient on the unsolved levels */
 
   overflow: hidden;
-  font-family: Arcology;
+  font-family: D_D;
   color: rgb(45, 45, 45);
 }
 
@@ -52,33 +52,45 @@ canvas {
   /* filter: grayscale(100%); */
 }
 
-.cover {
-  position: absolute;
-  width: calc(var(--unit) * var(--width));
-  height: calc(var(--unit) * var(--height));
-  left: calc((100% - var(--unit) * var(--width)) / 2);
-  top: calc((100% - var(--unit) * var(--height)) / 2);
-  background-color: rgba(0, 0, 0, 0.01);
+p {
+  color: black;
+  font-size: calc(var(--unit) * 1);
 }
 
-.scroll {
+.centeredContent {
   position: absolute;
-  left: calc(var(--unit) * -0.1);
-  bottom: 0;
-  padding-right: calc(var(--unit) * 0.2);
-  width: calc(var(--unit) * 9.2);
-  height: calc(var(--unit) * 9.4);
-  overflow-y: scroll;
+  left: 50%;
+  top: calc((100% - var(--unit) * var(--height)) / 2);
+  transform: translateX(-50%);
 }
-.scroll::-webkit-scrollbar {
+
+.centeredText {
+  padding-top: 10px;
+  text-align: center;
+}
+
+button {
+  font-family: Arcology;
+  font-size: calc(var(--unit) * 0.3);
+  background-color: rgba(0, 0, 0, 0);
+  color: black;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px 20px;
+  cursor: pointer;
+  float: center;
+  margin: 5px 10px;
+}
+
+*::-webkit-scrollbar {
   width: calc(var(--unit) * 0.15);
 }
-.scroll::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
   background-color: rgba(0, 0, 0, 0.1);
 }
-.scroll::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
   background: black;
 }
-.scroll::-webkit-scrollbar-thumb:hover {
+*::-webkit-scrollbar-thumb:hover {
   background: rgb(50, 50, 50);
 }

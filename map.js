@@ -63,8 +63,6 @@ let map = {
       1
     )[0];
 
-    console.log(nextPent);
-
     delete this.activePentomino;
 
     this.activePentomino = new Pentomino(
