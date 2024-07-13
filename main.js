@@ -1,13 +1,15 @@
 // GLOBAL, INITIALIZATION, & EVENTS
 
 // GLOBAL VARIABLES
-let width = 10; // in units
-let height = 24;
+let width = 13; // in units
+let height = 28;
 let assetLocation = "assets";
 let unit = Math.floor(window.innerHeight / (height + 0.1) / 2) * 2;
 if (window.innerWidth < (width + 0.1) * unit)
   unit = Math.floor(window.innerWidth / (width + 0.1) / 4) * 4;
 let pixel = unit / 10;
+
+let developmentMode = true;
 
 document.body.style.setProperty("--unit", unit + "px");
 document.body.style.setProperty("--width", width);
@@ -80,7 +82,7 @@ window.onload = function () {
 
   ctx[0].drawImage(img[0], 0, 0, unit * width, unit * height);
 
-  map.init(width, height - 8);
+  map.init(width, height - 4);
   score.init();
 
   map.startGame();
@@ -113,6 +115,8 @@ function animate() {
         step++;
         map.newFrame();
       }
+
+      map.refresh();
     }
   }
 }

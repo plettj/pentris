@@ -4,9 +4,10 @@
 let Pentomino = class {
   constructor(name, color, shape) {
     this.name = name; // name of the pentomino.
+    this.index = allPentominoes.findIndex((pent) => pent[0] === name); // index of the pentomino.
     this.color = color; // color of the pentomino.
     this.shape = shape; // 5x5 array of 0's and 1's representing a pentomino's shape.
-    this.coor = [3, 3]; // [x, y] of the top-left corner of the pentomino's shape.
+    this.coor = [4, 0]; // [x, y] of the top-left corner of the pentomino's shape.
     this.placed = false; // whether the pentomino has been placed.
   }
 
@@ -40,7 +41,21 @@ let Pentomino = class {
 
   drawSquare(x, y) {
     ctx[2].fillStyle = this.color;
-    ctx[2].fillRect(x * unit, y * unit, unit, unit);
+    ctx[2].fillRect(x * unit, unit * 4 + y * unit, unit, unit);
+  }
+
+  place() {
+    this.placed = true;
+
+    for (let y = 0; y < 5; y++) {
+      for (let x = 0; x < 5; x++) {
+        if (this.shape[y][x]) {
+          map.screen[this.coor[1] + y][this.coor[0] + x] = this.index + 1;
+        }
+      }
+    }
+
+    map.checkBreak();
   }
 
   newFrame() {
@@ -49,7 +64,7 @@ let Pentomino = class {
     if (!this.checkCollision(this.shape, this.coor[0], this.coor[1] + 1)) {
       this.coor[1]++;
     } else {
-      this.placed = true;
+      this.place();
     }
 
     return this.placed;
@@ -88,7 +103,7 @@ let Pentomino = class {
         ) {
           this.coor[1]++;
         }
-        this.placed = true;
+        this.place();
         break;
     }
   }
@@ -116,8 +131,9 @@ let Pentomino = class {
 };
 
 // Pentominoes
-let allPentominoes = [
+const allPentominoes = [
   [
+    // 0
     "F",
     "yellow",
     [
@@ -129,6 +145,7 @@ let allPentominoes = [
     ],
   ],
   [
+    // 1
     "I",
     "blue",
     [
@@ -140,6 +157,7 @@ let allPentominoes = [
     ],
   ],
   [
+    // 2
     "L",
     "orange",
     [
@@ -151,6 +169,7 @@ let allPentominoes = [
     ],
   ],
   [
+    // 3
     "N",
     "lime",
     [
@@ -162,6 +181,7 @@ let allPentominoes = [
     ],
   ],
   [
+    // 4
     "P",
     "pink",
     [
@@ -173,6 +193,7 @@ let allPentominoes = [
     ],
   ],
   [
+    // 5
     "T",
     "purple",
     [
@@ -184,6 +205,7 @@ let allPentominoes = [
     ],
   ],
   [
+    // 6
     "U",
     "cyan",
     [
@@ -195,6 +217,7 @@ let allPentominoes = [
     ],
   ],
   [
+    // 7
     "V",
     "magenta",
     [
@@ -206,6 +229,7 @@ let allPentominoes = [
     ],
   ],
   [
+    // 8
     "W",
     "green",
     [
@@ -217,6 +241,7 @@ let allPentominoes = [
     ],
   ],
   [
+    // 9
     "X",
     "red",
     [
@@ -228,6 +253,7 @@ let allPentominoes = [
     ],
   ],
   [
+    // 10
     "Y",
     "brown",
     [
@@ -239,6 +265,7 @@ let allPentominoes = [
     ],
   ],
   [
+    // 11
     "Z",
     "silver",
     [
@@ -249,4 +276,11 @@ let allPentominoes = [
       [0, 0, 0, 0, 0],
     ],
   ],
+];
+
+const buckets = [
+  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+  [1, 1],
+  [1, 1, 7],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 9],
 ];

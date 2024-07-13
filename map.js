@@ -3,10 +3,11 @@
 // Pentris map!
 let map = {
   screen: [], // 2D array of the map.
-  pentominoes: [], // List of all pentominoes in play.
+  activePentomino: null, // The pentomino currently being controlled.
   paused: true, // Whether the game is paused.
-  speed: 0.75, // Number of game steps per second.
+  speed: 3, // Number of game steps per second.
   pentBucket: [], // Remaining pentominoes in current 12-pentomino bucket.
+  upcomingPentominoes: [], // Next 3 pentominoes to be used.
   init: function (x, y) {
     // x = width in units, y = height in units
     for (let i = 0; i < y; i++) {
@@ -16,33 +17,45 @@ let map = {
       }
       this.screen.push(row);
     }
+
+    this.newPentomino();
   },
-  draw: function () {
-    clear(1); // Background canvas
-    clear(2); // Block canvas
+  drawSquare(x, y, index) {
+    ctx[2].fillStyle = allPentominoes[index - 1][1];
+    ctx[2].fillRect(x * unit, unit * 4 + y * unit, unit, unit);
   },
   refresh: function () {
     clear(2); // Block canvas
-    this.pentominoes.forEach((pentomino) => {
-      pentomino.draw();
-    });
+
+    for (let i = 0; i < this.screen.length; i++) {
+      for (let j = 0; j < this.screen[i].length; j++) {
+        if (this.screen[i][j]) {
+          this.drawSquare(j, i, this.screen[i][j]);
+        }
+      }
+    }
+
+    this.activePentomino.draw();
   },
   newFrame: function () {
     console.log("New map frame.");
+    clear(1);
 
-    let newPlaced = false;
-    this.pentominoes.forEach((pentomino) => {
-      newPlaced |= pentomino.newFrame();
-    });
+    this.activePentomino.newFrame();
 
-    if (newPlaced) {
-      let newPent = this.newPentomino();
-      newPent.draw();
+    if (this.activePentomino.placed) {
+      this.newPentomino();
     }
+
+    // this.refresh() is in animation loop
   },
   newPentomino: function () {
+    console.log(this.pentBucket.length);
+
     if (this.pentBucket.length === 0) {
-      this.pentBucket = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+      this.pentBucket = !developmentMode
+        ? structuredClone(buckets[0])
+        : structuredClone(buckets[0]);
     }
 
     let nextPent = this.pentBucket.splice(
@@ -50,18 +63,33 @@ let map = {
       1
     )[0];
 
-    let pentomino = new Pentomino(
+    console.log(nextPent);
+
+    delete this.activePentomino;
+
+    this.activePentomino = new Pentomino(
       allPentominoes[nextPent][0],
       allPentominoes[nextPent][1],
       allPentominoes[nextPent][2]
     );
+  },
+  checkBreak: function () {
+    let rows = 0;
 
-    this.pentominoes.push(pentomino);
+    for (let i = 0; i < this.screen.length; i++) {
+      if (this.screen[i].every((val) => val)) {
+        this.screen.splice(i, 1);
+        this.screen.unshift(new Array(this.screen[0].length).fill(0));
+        rows++;
+      }
+    }
 
-    return pentomino;
+    if (rows) {
+      score.add(rows);
+    }
   },
   startGame: function () {
-    this.draw();
+    this.refresh();
     this.paused = false;
     this.newPentomino();
 
@@ -70,21 +98,20 @@ let map = {
   move: function (direction, pressing) {
     if (!pressing) return;
 
-    let activePent = this.pentominoes[this.pentominoes.length - 1];
-
-    activePent.move(direction);
+    this.activePentomino.move(direction);
   },
 };
 
 // Score object
 let score = {
   score: 0,
-  rowScores: [1, 2, 4, 8, 16],
+  rowScores: [1, 2, 8, 32, 128],
   init: function () {
     this.score = 0;
   },
   add: function (rows) {
     this.score += this.rowScores[rows - 1];
+    document.querySelector("#score").innerText = this.score;
   },
 };
 
