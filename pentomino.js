@@ -15,7 +15,7 @@ let Pentomino = class {
     for (let y = 0; y < 5; y++) {
       for (let x = 0; x < 5; x++) {
         if (this.shape[y][x]) {
-          this.drawSquare(this.coor[0] + x, this.coor[1] + y, this.color);
+          this.drawSquare(this.coor[0] + x, this.coor[1] + y);
         }
       }
     }
@@ -39,9 +39,16 @@ let Pentomino = class {
     }
   }
 
-  drawSquare(x, y) {
-    ctx[2].fillStyle = this.color;
-    ctx[2].fillRect(x * unit, unit * 4 + y * unit, unit, unit);
+  drawSquare(x, y, tiny = false) {
+    let context = tiny ? 3 : 2;
+    ctx[context].fillStyle = this.color;
+
+    if (!tiny) {
+      // Normal draw on screen
+      ctx[context].fillRect(x * unit, unit * 4 + y * unit, unit, unit);
+    } else {
+      ctx[context].fillRect((x * unit) / 2, (y * unit) / 2, unit / 2, unit / 2);
+    }
   }
 
   place() {
@@ -68,6 +75,16 @@ let Pentomino = class {
     }
 
     return this.placed;
+  }
+
+  drawAsBucket(slot) {
+    for (let y = 0; y < 5; y++) {
+      for (let x = 0; x < 5; x++) {
+        if (this.shape[y][x]) {
+          this.drawSquare(x + width / 2 + slot * 4 + 7, y + 4, true);
+        }
+      }
+    }
   }
 
   move(direction) {

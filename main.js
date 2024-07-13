@@ -77,7 +77,7 @@ window.onload = function () {
     document.body.querySelector(":focus").blur();
 
   if (!firstOpen) {
-    startAnimating(60); // 60 fps
+    startAnimating(30); // 30 fps
   }
 
   ctx[0].drawImage(img[0], 0, 0, unit * width, unit * height);

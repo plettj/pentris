@@ -5,7 +5,7 @@ let map = {
   screen: [], // 2D array of the map.
   activePentomino: null, // The pentomino currently being controlled.
   paused: true, // Whether the game is paused.
-  speed: 3, // Number of game steps per second.
+  speed: 5, // Number of game steps per second.
   pentBucket: [], // Remaining pentominoes in current 12-pentomino bucket.
   upcomingPentominoes: [], // Next 3 pentominoes to be used.
   init: function (x, y) {
@@ -18,7 +18,13 @@ let map = {
       this.screen.push(row);
     }
 
-    this.newPentomino();
+    // Initialize the bucket with the next 3 pentominoes.
+    for (let i = 0; i < 3; i++) {
+      this.getNewPentomino(true);
+    }
+
+    delete this.activePentomino;
+    this.activePentomino = this.getNewPentomino();
   },
   drawSquare(x, y, index) {
     ctx[2].fillStyle = allPentominoes[index - 1][1];
@@ -38,20 +44,20 @@ let map = {
     this.activePentomino.draw();
   },
   newFrame: function () {
-    console.log("New map frame.");
-    clear(1);
-
     this.activePentomino.newFrame();
 
     if (this.activePentomino.placed) {
-      this.newPentomino();
+      delete this.activePentomino;
+      this.activePentomino = this.getNewPentomino();
     }
 
-    // this.refresh() is in animation loop
+    clear(3); // Bucket canvas
+    // Draw bucket pentominoes
+    for (let i = 0; i < this.upcomingPentominoes.length; i++) {
+      this.upcomingPentominoes[i].drawAsBucket(i);
+    }
   },
-  newPentomino: function () {
-    console.log(this.pentBucket.length);
-
+  getNewPentomino: function (noShift = false) {
     if (this.pentBucket.length === 0) {
       this.pentBucket = !developmentMode
         ? structuredClone(buckets[0])
@@ -63,13 +69,17 @@ let map = {
       1
     )[0];
 
-    delete this.activePentomino;
-
-    this.activePentomino = new Pentomino(
+    let nextPentObject = new Pentomino(
       allPentominoes[nextPent][0],
       allPentominoes[nextPent][1],
       allPentominoes[nextPent][2]
     );
+
+    this.upcomingPentominoes.push(nextPentObject);
+
+    return noShift
+      ? this.upcomingPentominoes[this.upcomingPentominoes.length - 1]
+      : this.upcomingPentominoes.shift();
   },
   checkBreak: function () {
     let rows = 0;
@@ -89,9 +99,6 @@ let map = {
   startGame: function () {
     this.refresh();
     this.paused = false;
-    this.newPentomino();
-
-    console.log("Starting game of Pentris!");
   },
   move: function (direction, pressing) {
     if (!pressing) return;
