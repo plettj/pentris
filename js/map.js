@@ -141,7 +141,7 @@ let map = {
 // Score object
 let score = {
   score: 0,
-  rowScores: [1, 2, 8, 32, 128],
+  rowScores: [1, 5, 10, 15, 30],
   progress: 0, // Progress in terms of time played (for game speed).
   level: 0, // Current level (for game speed)
   levelSpeeds: [
