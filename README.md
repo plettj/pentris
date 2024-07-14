@@ -30,3 +30,13 @@ My highscore is `0`, but folks have been grinding!
 - adam: `13` (`1.1`)
 - erosion: `8` (`1.2`)
 - oman276: `0` (`1.2`)
+
+## Contributing
+
+To contribute to Pentris, you'll need to do the following few steps.
+
+1. Fork the repository on GitHub.
+2. Create a new branch and make your changes.
+3. Open a pull request to the original repository.
+
+For more detailed instructions, please refer to our [CONTRIBUTING.md](CONTRIBUTING.md) file.
