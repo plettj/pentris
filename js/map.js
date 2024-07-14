@@ -78,6 +78,7 @@ let map = {
       delete this.activePentomino;
       this.activePentomino = this.getNewPentomino();
 
+      this.checkBreak();
       score.newPlaced();
       this.canHold = true;
     }
