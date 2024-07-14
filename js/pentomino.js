@@ -156,7 +156,7 @@ const allPentominoes = [
   [
     // 0
     "F",
-    "yellow",
+    "#8b21db",
     [
       [0, 0, 0, 0, 0],
       [0, 0, 1, 1, 0],
@@ -168,7 +168,7 @@ const allPentominoes = [
   [
     // 1
     "I",
-    "blue",
+    "#21ccdb",
     [
       [0, 0, 1, 0, 0],
       [0, 0, 1, 0, 0],
@@ -180,7 +180,7 @@ const allPentominoes = [
   [
     // 2
     "L",
-    "orange",
+    "#f48519",
     [
       [0, 0, 1, 0, 0],
       [0, 0, 1, 0, 0],
@@ -192,7 +192,7 @@ const allPentominoes = [
   [
     // 3
     "N",
-    "lime",
+    "#f40910",
     [
       [0, 0, 0, 0, 0],
       [0, 0, 0, 1, 0],
@@ -204,7 +204,7 @@ const allPentominoes = [
   [
     // 4
     "P",
-    "deepPink",
+    "#ff1493",
     [
       [0, 0, 0, 0, 0],
       [0, 0, 1, 1, 0],
@@ -216,7 +216,7 @@ const allPentominoes = [
   [
     // 5
     "T",
-    "purple",
+    "#83a7a9",
     [
       [0, 0, 0, 0, 0],
       [0, 1, 1, 1, 0],
@@ -228,7 +228,7 @@ const allPentominoes = [
   [
     // 6
     "U",
-    "cyan",
+    "#faea19",
     [
       [0, 0, 0, 0, 0],
       [0, 1, 0, 1, 0],
@@ -240,7 +240,7 @@ const allPentominoes = [
   [
     // 7
     "V",
-    "magenta",
+    "#d948f8",
     [
       [0, 0, 0, 0, 0],
       [0, 1, 0, 0, 0],
@@ -252,7 +252,7 @@ const allPentominoes = [
   [
     // 8
     "W",
-    "green",
+    "#24a549",
     [
       [0, 0, 0, 0, 0],
       [0, 0, 1, 1, 0],
@@ -264,7 +264,7 @@ const allPentominoes = [
   [
     // 9
     "X",
-    "red",
+    "#9c4011",
     [
       [0, 0, 0, 0, 0],
       [0, 0, 1, 0, 0],
@@ -276,7 +276,7 @@ const allPentominoes = [
   [
     // 10
     "Y",
-    "brown",
+    "#212adb",
     [
       [0, 0, 0, 0, 0],
       [0, 0, 1, 0, 0],
@@ -288,7 +288,7 @@ const allPentominoes = [
   [
     // 11
     "Z",
-    "silver",
+    "#29eb07",
     [
       [0, 0, 0, 0, 0],
       [0, 1, 1, 0, 0],
