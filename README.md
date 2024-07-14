@@ -21,13 +21,26 @@ Play `1.3` now at [pentris-1point3.surge.sh/](https://pentris-1point3.surge.sh/)
 
 ## High Scores
 
-My highscore is `0`, but folks have been grinding!
+### Version 1.3
 
-- loser314: `131` (`1.2`)
-- loser314: `113` (`1.3`)
-- adam: `13` (`1.1`)
-- erosion: `8` (`1.2`)
-- oman276: `0` (`1.2`)
+| Username | Score |
+| -------- | ----- |
+| loser314 | 113   |
+| CREATOR  | 62    |
+
+### Version 1.2
+
+| Username | Score |
+| -------- | ----- |
+| loser314 | 131   |
+| erosion  | 8     |
+| oman276  | 0     |
+
+### Version 1.1
+
+| Username | Score |
+| -------- | ----- |
+| adam     | 13    |
 
 ## Project Origins
 
