@@ -6,17 +6,19 @@ I wrote [v1.2](https://pentris-1point2.surge.sh/) from scratch in 3.5 hours beca
 
 ## Play Now
 
-Play now at [pentris-1point2.surge.sh/](https://pentris-1point2.surge.sh/)
+Play now at [pentris-1point3.surge.sh/](https://pentris-1point3.surge.sh/)
 
 #### Controls
 
 - **WASD** or **Arrow Keys**: Classic controller movement. Up is drop.
-- **Q** & **E** or **/** & **Shift**: Rotate the pentomino.
-- **Space**, **F**, or **R**: Reflect the pentomino.
+- **Q** & **E** or **/** & **Shift**: Rotate.
+- **Space**, **F**, or **R**: Reflect.
+- **Tab**, **CapsLock**, **Z**, or **X**: Hold for later.
 
 ## Previous Playable Versions
 
-- 1.1: [here](https://pentris-1point1.surge.sh/). No bucket yet.
+- 1.2: [here](https://pentris-1point2.surge.sh/). No hold bucket.
+- 1.1: [here](https://pentris-1point1.surge.sh/). No upcoming pieces display.
 - 1.0: [here](https://pentris-1point0.surge.sh/). No line breaks yet.
 
 ## High Scores
