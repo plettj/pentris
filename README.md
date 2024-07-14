@@ -26,6 +26,7 @@ Play now at [pentris-1point3.surge.sh/](https://pentris-1point3.surge.sh/)
 My highscore is `0`, but folks have been grinding!
 
 - loser314: `131` (`1.2`)
+- loser314: `113` (`1.3`)
 - adam: `13` (`1.1`)
 - erosion: `8` (`1.2`)
 - oman276: `0` (`1.2`)
