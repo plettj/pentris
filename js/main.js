@@ -145,7 +145,7 @@ document.addEventListener(
   "keydown",
   function (event) {
     let k = event.keyCode;
-    if (k == 9 || k == 38 || k == 40 || code == 20) {
+    if (k == 9 || k == 38 || k == 40 || k == 20) {
       event.preventDefault();
     } else if (
       k == 123 ||
