@@ -12,7 +12,11 @@ let Pentomino = class {
   }
 
   set() {
-    this.coor = [4, 0]; // [x, y] of the top-left corner of the pentomino's shape.
+    if (this.name === "I" || this.name === "N" || this.name === "Y") {
+      this.coor = [4, -5]; // [x, y] of the top-left corner of the pentomino's shape.
+    } else {
+      this.coor = [4, -4];
+    }
   }
 
   draw() {
@@ -49,7 +53,21 @@ let Pentomino = class {
 
     if (!tiny) {
       // Normal draw on screen
-      ctx[context].fillRect(x * unit, unit * 4 + y * unit, unit, unit);
+      ctx[context].fillRect(
+        x * unit,
+        unit * map.topOffset + y * unit,
+        unit,
+        unit
+      );
+      // Draw black outline
+      ctx[2].strokeStyle = "#000000";
+      ctx[2].lineWidth = 1;
+      ctx[2].strokeRect(
+        x * unit + 0.5,
+        (map.topOffset + y) * unit + 0.5,
+        unit,
+        unit
+      );
     } else {
       ctx[context].fillRect((x * unit) / 2, (y * unit) / 2, unit / 2, unit / 2);
     }
@@ -61,12 +79,14 @@ let Pentomino = class {
     for (let y = 0; y < 5; y++) {
       for (let x = 0; x < 5; x++) {
         if (this.shape[y][x]) {
+          if (this.coor[1] + y < 0) {
+            score.gameOver();
+            return;
+          }
           map.screen[this.coor[1] + y][this.coor[0] + x] = this.index + 1;
         }
       }
     }
-
-    map.checkBreak();
   }
 
   newFrame() {
@@ -138,9 +158,9 @@ let Pentomino = class {
           if (
             newX < 0 ||
             newX >= map.screen[0].length ||
-            newY < 0 ||
+            (this.placed && newY < 0) ||
             newY >= map.screen.length ||
-            map.screen[newY][newX]
+            (newY >= 0 && map.screen[newY][newX])
           ) {
             return true;
           }

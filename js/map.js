@@ -9,9 +9,16 @@ let map = {
   upcomingPentominoes: [], // Next 3 pentominoes to be used.
   holdPentomino: null, // The pentomino being held by the user.
   canHold: true, // Whether user can swap hold.
+  topOffset: 6, // Offset from the top of the screen.
   init: function (x, y) {
     // x = width in units, y = height in units
-    for (let i = 0; i < y; i++) {
+    this.screen = [];
+    this.upcomingPentominoes = [];
+    this.pentBucket = [];
+    this.holdPentomino = null;
+    this.activePentomino = null;
+
+    for (let i = 0; i < y - this.topOffset; i++) {
       let row = [];
       for (let j = 0; j < x; j++) {
         row.push(0);
@@ -19,12 +26,20 @@ let map = {
       this.screen.push(row);
     }
 
+    // Draw death line as a black line
+    ctx[0].strokeStyle = "#000000";
+    ctx[0].lineWidth = 1;
+    ctx[0].beginPath();
+    ctx[0].moveTo(0, unit * 6);
+    ctx[0].lineTo(unit * width, unit * 6);
+    ctx[0].stroke();
+    ctx[0].closePath();
+
     // Initialize the bucket with the next 3 pentominoes.
     for (let i = 0; i < 3; i++) {
       this.getNewPentomino(true);
     }
 
-    delete this.activePentomino;
     this.activePentomino = this.getNewPentomino();
 
     this.hold(true);
@@ -32,7 +47,16 @@ let map = {
   },
   drawSquare(x, y, index) {
     ctx[2].fillStyle = allPentominoes[index - 1][1];
-    ctx[2].fillRect(x * unit, unit * 4 + y * unit, unit, unit);
+    ctx[2].fillRect(x * unit, unit * this.topOffset + y * unit, unit, unit);
+    // Draw black outline
+    ctx[2].strokeStyle = "#000000";
+    ctx[2].lineWidth = 1;
+    ctx[2].strokeRect(
+      x * unit + 0.5,
+      unit * this.topOffset + y * unit + 0.5,
+      unit,
+      unit
+    );
   },
   animate: function () {
     clear(2); // Block canvas
@@ -132,9 +156,9 @@ let map = {
 
     this.drawMiniPentominoes();
   },
-  startGame: function () {
+  startGame: function (paused) {
     this.animate();
-    this.paused = false;
+    this.paused = paused;
   },
 };
 
@@ -151,6 +175,10 @@ let score = {
   totalPlaced: 0, // Total number of pentominoes placed.
   init: function () {
     this.score = 0;
+    this.speed = 1;
+    this.totalPlaced = 0;
+    document.querySelector("#score").innerText = this.score;
+    dom.setLevel();
   },
   add: function (rows) {
     this.score += this.rowScores[rows - 1];
@@ -167,5 +195,18 @@ let score = {
         this.speed = this.levelSpeeds[this.level];
       }
     }
+  },
+  startGame: function () {
+    this.init();
+    map.init(width, height);
+    map.startGame();
+  },
+  gameOver: function () {
+    map.paused = true;
+
+    setTimeout(() => {
+      map.paused = false;
+      score.startGame();
+    }, 5000);
   },
 };

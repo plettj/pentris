@@ -1,8 +1,8 @@
 // GLOBAL, INITIALIZATION, & EVENTS
 
 // GLOBAL VARIABLES
-let width = 13; // in units
-let height = 28;
+let width = 14; // in units
+let height = 30;
 let assetLocation = "assets";
 let unit = Math.floor(window.innerHeight / (height + 0.1) / 2) * 2;
 if (window.innerWidth < (width + 0.1) * unit)
@@ -82,10 +82,8 @@ window.onload = function () {
 
   ctx[0].drawImage(img[0], 0, 0, unit * width, unit * height);
 
-  map.init(width, height - 4);
   score.init();
-
-  map.startGame();
+  score.startGame();
 };
 
 // To run actual frame-by-frame animation
