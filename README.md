@@ -1,12 +1,10 @@
-# Pentris - v1.2
+# Pentris - v1.3
 
 Tetris, but with the pentominoes 😎
 
-I wrote [v1.2](https://pentris-1point2.surge.sh/) from scratch in 3.5 hours because it seemed fun. :)
-
 ## Play Now
 
-Play now at [pentris-1point3.surge.sh/](https://pentris-1point3.surge.sh/)
+Play `1.3` now at [pentris-1point3.surge.sh/](https://pentris-1point3.surge.sh/)
 
 #### Controls
 
@@ -30,6 +28,10 @@ My highscore is `0`, but folks have been grinding!
 - adam: `13` (`1.1`)
 - erosion: `8` (`1.2`)
 - oman276: `0` (`1.2`)
+
+## Project Origins
+
+I wrote [v1.2](https://pentris-1point2.surge.sh/) from scratch in 3.5 hours because it seemed fun. :)
 
 ## Contributing
 
