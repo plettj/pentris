@@ -25,3 +25,5 @@ My highscore is `0`, but folks have been grinding!
 
 - loser314: `131` (`1.2`)
 - adam: `13` (`1.1`)
+- erosion: `8` (`1.2`)
+- oman276: `0` (`1.2`)

@@ -7,6 +7,8 @@ let map = {
   paused: true, // Whether the game is paused.
   pentBucket: [], // Remaining pentominoes in current 12-pentomino bucket.
   upcomingPentominoes: [], // Next 3 pentominoes to be used.
+  holdPentomino: null, // The pentomino being held by the user.
+  canHold: true, // Whether user can swap hold.
   init: function (x, y) {
     // x = width in units, y = height in units
     for (let i = 0; i < y; i++) {
@@ -24,6 +26,9 @@ let map = {
 
     delete this.activePentomino;
     this.activePentomino = this.getNewPentomino();
+
+    this.hold(true);
+    this.drawMiniPentominoes();
   },
   drawSquare(x, y, index) {
     ctx[2].fillStyle = allPentominoes[index - 1][1];
@@ -50,13 +55,19 @@ let map = {
       this.activePentomino = this.getNewPentomino();
 
       score.newPlaced();
+      this.canHold = true;
     }
 
+    this.drawMiniPentominoes();
+  },
+  drawMiniPentominoes: function () {
     clear(3); // Bucket canvas
     // Draw bucket pentominoes
     for (let i = 0; i < this.upcomingPentominoes.length; i++) {
       this.upcomingPentominoes[i].drawAsBucket(i);
     }
+
+    this.holdPentomino.drawAsBucket(-3.5);
   },
   getNewPentomino: function (noShift = false) {
     if (this.pentBucket.length === 0) {
@@ -97,10 +108,29 @@ let map = {
       score.add(rows);
     }
   },
-  move: function (direction, pressing) {
+  move: function (action, pressing) {
     if (!pressing) return;
 
-    this.activePentomino.move(direction);
+    if (action == "hold") {
+      this.hold();
+    } else {
+      this.activePentomino.move(action);
+    }
+  },
+  hold: function (init = false) {
+    if (!this.canHold) return;
+
+    let newPent = this.holdPentomino;
+    if (!init) {
+      this.holdPentomino = this.activePentomino;
+      this.activePentomino = newPent;
+      this.canHold = false;
+    } else {
+      this.holdPentomino = this.getNewPentomino();
+    }
+    this.activePentomino.set();
+
+    this.drawMiniPentominoes();
   },
   startGame: function () {
     this.animate();

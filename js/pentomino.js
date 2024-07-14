@@ -7,8 +7,12 @@ let Pentomino = class {
     this.index = allPentominoes.findIndex((pent) => pent[0] === name); // index of the pentomino.
     this.color = color; // color of the pentomino.
     this.shape = shape; // 5x5 array of 0's and 1's representing a pentomino's shape.
-    this.coor = [4, 0]; // [x, y] of the top-left corner of the pentomino's shape.
     this.placed = false; // whether the pentomino has been placed.
+    this.set();
+  }
+
+  set() {
+    this.coor = [4, 0]; // [x, y] of the top-left corner of the pentomino's shape.
   }
 
   draw() {

@@ -136,6 +136,8 @@ function keyPressed(code, action) {
       map.move("rotate right", action); // F or Shift
     else if (code == 32 || code == 84 || code == 80)
       map.move("reflect", action); // Space or F or R
+    else if (code == 20 || code == 9 || code == 88 || code == 67)
+      map.move("hold", action); // Tab or CapsLock or Z or X
   }
 }
 
@@ -143,7 +145,7 @@ document.addEventListener(
   "keydown",
   function (event) {
     let k = event.keyCode;
-    if (k == 9 || k == 38 || k == 40) {
+    if (k == 9 || k == 38 || k == 40 || code == 20) {
       event.preventDefault();
     } else if (
       k == 123 ||
