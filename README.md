@@ -44,7 +44,7 @@ Play `1.3` now at [pentris-1point3.surge.sh/](https://pentris-1point3.surge.sh/)
 
 ## Project Origins
 
-I wrote [v1.2](https://pentris-1point2.surge.sh/) from scratch in 3.5 hours because it seemed fun. :)
+I wrote [v1.0](https://pentris-1point0.surge.sh/), [v1.1](https://pentris-1point1.surge.sh/), and [v1.2](https://pentris-1point2.surge.sh/) all from scratch in 3.5 hours because it seemed fun. :)
 
 ## Contributing
 
