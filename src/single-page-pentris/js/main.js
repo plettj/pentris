@@ -3,7 +3,7 @@
 // GLOBAL VARIABLES
 let width = 14; // in units
 let height = 30;
-let assetLocation = "assets";
+let assetLocation = "../game/assets";
 let unit = Math.floor(window.innerHeight / (height + 0.1) / 2) * 2;
 if (window.innerWidth < (width + 0.1) * unit)
   unit = Math.floor(window.innerWidth / (width + 0.1) / 4) * 4;
