@@ -25,7 +25,8 @@ Play `1.3` now at [pentris-1point3.surge.sh/](https://pentris-1point3.surge.sh/)
 
 | Username | Score |
 | -------- | ----- |
-| loser314 | 113   |
+| loser314 | 193   |
+| adam     | 99    |
 | CREATOR  | 62    |
 
 ### Version 1.2
