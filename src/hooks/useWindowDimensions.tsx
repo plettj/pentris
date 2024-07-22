@@ -40,6 +40,7 @@ export default function useWindowDimensions(
 }
 
 function getWindowDimensions() {
+  // FIXME: Internal server error; SSR <> CSR mismatch. How to fix: https://stackoverflow.com/a/63408216/8360465
   const { innerWidth: width, innerHeight: height } = window;
   return { width, height };
 }
