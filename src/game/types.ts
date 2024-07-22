@@ -1,3 +1,5 @@
+type Coor = [number, number];
+
 type PentName =
   | "F"
   | "I"
@@ -12,15 +14,10 @@ type PentName =
   | "Y"
   | "Z";
 
-type Grid = [
-  [0 | 1, 0 | 1, 0 | 1, 0 | 1, 0 | 1],
-  [0 | 1, 0 | 1, 0 | 1, 0 | 1, 0 | 1],
-  [0 | 1, 0 | 1, 0 | 1, 0 | 1, 0 | 1],
-  [0 | 1, 0 | 1, 0 | 1, 0 | 1, 0 | 1],
-  [0 | 1, 0 | 1, 0 | 1, 0 | 1, 0 | 1]
-];
+type Shape = Coor[];
 
 interface Pentomino {
   color: string;
-  grid: Grid;
+  shape: Shape;
+  center: Coor;
 }

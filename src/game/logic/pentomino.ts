@@ -2,11 +2,9 @@
  * Pentomino piece class.
  */
 class Pent {
-  readonly name: PentName;
-  readonly shape: Grid;
+  readonly self: Pentomino;
 
   constructor(name: PentName) {
-    this.name = name;
-    this.shape = pentominoes[name].grid;
+    this.self = pentominoes[name];
   }
 }
