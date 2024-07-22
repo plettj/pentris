@@ -14,10 +14,24 @@ type PentName =
   | "Y"
   | "Z";
 
-type Shape = Coor[];
+type Shape = { points: Coor[]; center: Coor };
 
 interface Pentomino {
   color: string;
   shape: Shape;
-  center: Coor;
+}
+
+type MoveAction =
+  | "left"
+  | "right"
+  | "down"
+  | "drop"
+  | "rotateCw"
+  | "rotateCcw"
+  | "reflect";
+
+type GameAction = MoveAction | "bank";
+
+interface ControlMapping {
+  [key: string]: MoveAction;
 }

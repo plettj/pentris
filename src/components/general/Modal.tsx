@@ -32,12 +32,12 @@ export default function Modal({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="max-w-[425px] rounded-lg">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
-        <DialogFooter className="flex flex-col w-full gap-2">
+        <DialogFooter className="flex flex-row justify-end w-full gap-2">
           <Button variant="outline" onClick={() => handleSubmit(false)}>
             Cancel
           </Button>

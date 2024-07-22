@@ -1,7 +1,7 @@
 "use client";
 
+import { board, graphics } from "@/game/objects";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
-import { graphics } from "game/graphics";
 import { handleKey } from "game/logic/controls";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Modal from "../general/Modal";
@@ -16,53 +16,27 @@ export default function Game() {
   const [open, setOpen] = useState(false);
   const [resizeDetails, setResizeDetails] = useState<{
     larger: boolean;
+    width: number;
+    height: number;
   } | null>(null);
 
-  const width = 250;
-  const height = 500;
+  // TODO: Move the calculation of width and height into a game state
+  //       logic object that handles all game state variables.
+  const width = 286; // 22 * 13
+  const height = 682; // 22 * (26 + 5)
 
-  const handleThresholdChange = useCallback((change: { larger: boolean }) => {
-    setResizeDetails(change);
-    setOpen(true);
-    graphics.pause(true);
-  }, []);
+  const handleThresholdChange = useCallback(
+    (change: { larger: boolean; width: number; height: number }) => {
+      setResizeDetails(change);
+      setOpen(true);
+      graphics.pause(true);
+    },
+    []
+  );
 
   useWindowDimensions(handleThresholdChange);
 
-  const handleSubmitAction = (success: boolean) => {
-    if (success) {
-      const canvases = [cStaticRef, cActionRef, cAnimationRef, cOverlayRef];
-
-      const contexts = canvases.map((canvasRef) => {
-        const canvas = canvasRef.current;
-        if (!canvas) {
-          return undefined;
-        }
-
-        const context = canvas.getContext("2d")!;
-
-        // Set up the canvas for high-DPI displays.
-        const { devicePixelRatio: ratio = 1 } = window;
-        canvas.width = width * ratio;
-        canvas.height = height * ratio;
-        context.scale(ratio, ratio);
-
-        return context;
-      });
-
-      if (!contexts.every((context) => context !== undefined)) {
-        console.error("Game context setup failed.");
-        return;
-      }
-
-      graphics.init(contexts as CanvasRenderingContext2D[]);
-      graphics.pause(false);
-    }
-
-    setOpen(false);
-  };
-
-  useEffect(() => {
+  const initializeCanvases = () => {
     const canvases = [cStaticRef, cActionRef, cAnimationRef, cOverlayRef];
 
     const contexts = canvases.map((canvasRef) => {
@@ -73,7 +47,7 @@ export default function Game() {
 
       const context = canvas.getContext("2d")!;
 
-      // Set up the canvas for high-DPI displays.
+      // Prevent anti-aliasing on high-DPI displays.
       const { devicePixelRatio: ratio = 1 } = window;
       canvas.width = width * ratio;
       canvas.height = height * ratio;
@@ -88,13 +62,21 @@ export default function Game() {
     }
 
     graphics.init(contexts as CanvasRenderingContext2D[]);
+    board.init(width / 13);
+  };
 
-    /**
-     * Global animation frame value.
-     */
-    let frame = 0;
+  const handleSubmitAction = (success: boolean) => {
+    if (success) {
+      initializeCanvases();
+    }
 
-    // Set up the animation loop with browser best-practices.
+    graphics.pause(false);
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    initializeCanvases();
+
     let fps = 60;
     let fpsInterval = 1000 / fps;
     let then = window.performance.now();
@@ -108,9 +90,8 @@ export default function Game() {
 
       if (elapsed > fpsInterval) {
         then = now - (elapsed % fpsInterval);
-        frame++;
 
-        graphics.render(frame);
+        graphics.render();
       }
     };
 
@@ -124,30 +105,29 @@ export default function Game() {
       window.removeEventListener("keyup", handleKey("up"));
       window.cancelAnimationFrame(animationFrameId);
     };
+    // Empty dependency array to run once on mount.
+    // All dependencies eslint finds are constants, so we can ignore them.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
-      <section
-        className={`relative bg-red-200 border border-white border-s-2 border-solid w-[${width}px] h-[${height}px]`}
-      >
+      <section className="relative border border-white w-[300px] h-[650px]">
         <Canvas ref={cStaticRef} width={width} height={height} />
         <Canvas ref={cActionRef} width={width} height={height} />
         <Canvas ref={cAnimationRef} width={width} height={height} />
         <Canvas ref={cOverlayRef} width={width} height={height} />
       </section>
-      {open && (
-        <Modal
-          title="Screen Resized"
-          description={`The screen has ${
-            resizeDetails?.larger ? "grown larger" : "shrunk smaller"
-          }. Would you like to reload the game to fit the screen?`}
-          action="Reload"
-          open={open}
-          setOpen={setOpen}
-          submitAction={handleSubmitAction}
-        />
-      )}
+      <Modal
+        title="Screen Resized"
+        description={`The screen has ${
+          resizeDetails?.larger ? "grown larger" : "shrunk smaller"
+        }. Would you like to update the game to fit the screen?`}
+        action="Update"
+        open={open}
+        setOpen={setOpen}
+        submitAction={handleSubmitAction}
+      />
     </>
   );
 }

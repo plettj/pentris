@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 
-const displaySizes = [
+export const displaySizes = [
   [640, 480],
   [1024, 768],
   [1280, 800],
@@ -8,14 +8,19 @@ const displaySizes = [
 ];
 
 export default function useWindowDimensions(
-  onThresholdChange: (change: { larger: boolean }) => void
+  onThresholdChange: (change: {
+    larger: boolean;
+    width: number;
+    height: number;
+  }) => void
 ) {
   const [windowDimensions, setWindowDimensions] = useState(
-    getWindowDimensions()
+    getInitialWindowDimensions()
   );
 
   const handleResize = useCallback(() => {
     const { width, height } = getWindowDimensions();
+
     const thresholdChange = calculateThresholdChange(
       width,
       height,
@@ -23,24 +28,31 @@ export default function useWindowDimensions(
     );
 
     if (thresholdChange) {
-      const larger =
-        width > windowDimensions.width || height > windowDimensions.height;
-      onThresholdChange({ larger });
+      const larger = height > windowDimensions.height;
+      onThresholdChange({ larger, width, height });
     }
 
     setWindowDimensions({ width, height });
   }, [windowDimensions, onThresholdChange]);
 
   useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }
   }, [handleResize]);
 
   return windowDimensions;
 }
 
+function getInitialWindowDimensions() {
+  if (typeof window !== "undefined") {
+    return getWindowDimensions();
+  }
+  return { width: 0, height: 0 }; // Default values for SSR
+}
+
 function getWindowDimensions() {
-  // FIXME: Internal server error; SSR <> CSR mismatch. How to fix: https://stackoverflow.com/a/63408216/8360465
   const { innerWidth: width, innerHeight: height } = window;
   return { width, height };
 }
@@ -50,15 +62,17 @@ function calculateThresholdChange(
   height: number,
   currentDimensions: { width: number; height: number }
 ) {
-  for (const [thresholdWidth, thresholdHeight] of displaySizes) {
-    const widthChange =
-      Math.abs(width - currentDimensions.width) > thresholdWidth;
-    const heightChange =
-      Math.abs(height - currentDimensions.height) > thresholdHeight;
+  const crossedThreshold = (
+    current: number,
+    newValue: number,
+    threshold: number
+  ) =>
+    (current < threshold && newValue >= threshold) ||
+    (current >= threshold && newValue < threshold);
 
-    if (widthChange || heightChange) {
-      return true;
-    }
-  }
-  return false;
+  return displaySizes.some(
+    ([thresholdWidth, thresholdHeight]) =>
+      crossedThreshold(currentDimensions.width, width, thresholdWidth) ||
+      crossedThreshold(currentDimensions.height, height, thresholdHeight)
+  );
 }
