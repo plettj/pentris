@@ -2,6 +2,7 @@ import TopLoader from "@/components/layouts/TopLoader";
 import { type Metadata } from "next";
 import { Silkscreen } from "next/font/google";
 import "./globals.css";
+import { PROD_HREF } from "@/lib/constants";
 
 // Potential Font Choices:
 // Silkscreen: https://fonts.google.com/specimen/Silkscreen
@@ -16,18 +17,18 @@ const fontSans = Silkscreen({
 
 // OPG compliant metadata (https://ogp.me/)
 export const metadata: Metadata = {
-  title: "Pentris - 1.3",
-  description: "Tetris with the Pentominoes",
+  title: "Pentris v1.3",
+  description: "Tetris, but with the Pentominoes",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://pentris.io/",
-    title: "Pentris - 1.3",
+    url: PROD_HREF,
+    title: "Pentris v1.3",
     siteName: "Pentris",
-    description: "Tetris with the Pentominoes",
+    description: "Tetris, but with the Pentominoes",
     images: [
       {
-        url: "https://pentris.io/src/images/favicon.png", // FIXME: Host a banner image publicly.
+        url: `${PROD_HREF}/src/images/public/favicon.png`, // FIXME: Host a banner image publicly.
         alt: "Pentris",
       },
     ],

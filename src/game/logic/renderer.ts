@@ -5,7 +5,7 @@ function drawCircle(
   frameCount: number
 ) {
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-  ctx.fillStyle = "#000000";
+  ctx.fillStyle = "#FFFFFF";
   ctx.beginPath();
   ctx.arc(x, y, 20 * Math.sin(frameCount * 0.05) ** 2, 0, 2 * Math.PI);
   ctx.fill();
@@ -13,6 +13,7 @@ function drawCircle(
 
 export class Renderer {
   initialized: boolean = false;
+  private paused: boolean = false;
   private contexts: CanvasRenderingContext2D[] = [];
 
   private static readonly GAME_STEP_SPEED = 45; // frames per game step
@@ -25,7 +26,12 @@ export class Renderer {
   }
 
   render(frame: number) {
-    drawCircle(this.contexts[2], 50, 100, frame);
-    drawCircle(this.contexts[3], 100, 100, frame / 2);
+    if (this.paused) return;
+    drawCircle(this.contexts[2], 50, 50, frame);
+    drawCircle(this.contexts[3], 150, 50, frame / 2);
+  }
+
+  pause(pause?: boolean) {
+    this.paused = pause !== undefined ? pause : !this.paused;
   }
 }

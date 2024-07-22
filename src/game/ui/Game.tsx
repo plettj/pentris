@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Canvas from "./Canvas";
-import { handleKey } from "../logic/controls";
 import { graphics } from "../graphics";
+import { handleKey } from "../logic/controls";
+import Canvas from "./Canvas";
 
 export default function Game() {
   const cStaticRef = useRef<HTMLCanvasElement | null>(null);
@@ -20,7 +20,7 @@ export default function Game() {
     const contexts = canvases.map((canvasRef) => {
       const canvas = canvasRef.current;
       if (!canvas) {
-        return;
+        return undefined;
       }
 
       const context = canvas.getContext("2d")!;
@@ -81,7 +81,9 @@ export default function Game() {
   }, []);
 
   return (
-    <section className={`relative border w-[${width}px] h-[${height}px]`}>
+    <section
+      className={`relative border border-white w-[${width}px] h-[${height}px]`}
+    >
       <Canvas ref={cStaticRef} width={width} height={height} />
       <Canvas ref={cActionRef} width={width} height={height} />
       <Canvas ref={cAnimationRef} width={width} height={height} />
