@@ -1,3 +1,3 @@
 export const handleKey = (type: "down" | "up") => (event: KeyboardEvent) => {
-  console.log(type, event.key);
+  console.log("keypress event:", type, event.key);
 };

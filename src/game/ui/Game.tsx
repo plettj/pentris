@@ -3,25 +3,22 @@
 import { useEffect, useRef } from "react";
 import Canvas from "./Canvas";
 import { handleKey } from "../logic/controls";
-import { Graphics } from "../logic/graphics";
+import { graphics } from "../graphics";
 
 export default function Game() {
-  const cStaticRef = useRef<HTMLCanvasElement | null>(null); // Static graphics canvas - Renders once.
-  const cActionRef = useRef<HTMLCanvasElement | null>(null); // Un-animated canvas - Renders on major game actions.
-  const cAnimationRef = useRef<HTMLCanvasElement | null>(null); // Animated canvas - Renders every frame.
-  const cOverlayRef = useRef<HTMLCanvasElement | null>(null); // Overlay canvas - Renders whenever you call it.
+  const cStaticRef = useRef<HTMLCanvasElement | null>(null);
+  const cActionRef = useRef<HTMLCanvasElement | null>(null);
+  const cAnimationRef = useRef<HTMLCanvasElement | null>(null);
+  const cOverlayRef = useRef<HTMLCanvasElement | null>(null);
 
   const width = 250;
   const height = 500;
 
-  // Initialize the game canvases when this component mounts.
-  // Helpful link: https://stackoverflow.com/questions/53120972/how-to-call-loading-function-with-react-useeffect-only-once
   useEffect(() => {
     const canvases = [cStaticRef, cActionRef, cAnimationRef, cOverlayRef];
 
     const contexts = canvases.map((canvasRef) => {
       const canvas = canvasRef.current;
-
       if (!canvas) {
         return;
       }
@@ -38,52 +35,43 @@ export default function Game() {
       return context;
     });
 
-    if (!contexts.every((context) => context != undefined)) {
+    if (!contexts.every((context) => context !== undefined)) {
       console.error("Game context setup failed.");
       return;
     }
 
-    // This will log twice in dev mode if you have `strict: true` in your ts config. That's fine.
-    // Helpful link: https://stackoverflow.com/questions/48846289/why-is-my-react-component-is-rendering-twice
-    console.log("Game context setup complete.");
+    graphics.init(contexts as CanvasRenderingContext2D[]);
 
-    // Hook up the keyboard event listeners.
-    window.addEventListener("keydown", handleKey("down"));
-    window.addEventListener("keyup", handleKey("up"));
-
-    // TODO: Move pretty much all of the below into the Graphics class.
-    // Initialize the game graphics engine.
-
-    // FIXME: Currently the graphics class can't render anything
-    //        because the contexts can't be referenced outside a react component (apparently...)
-    const graphics = new Graphics(contexts);
+    /**
+     * Global animation frame value.
+     */
+    let frame = 0;
 
     // Set up the animation loop with browser best-practices.
     // Helpful link: https://stackoverflow.com/questions/19764018/controlling-fps-with-requestanimationframe#comment38674664_19772220
-    let frameCount = 0;
-    let animationFrameId: number;
     let fps = 60;
     let fpsInterval = 1000 / fps;
     let then = window.performance.now();
     let now, elapsed;
 
     const animate = (newTime: number) => {
-      requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
 
       now = newTime;
       elapsed = now - then;
 
       if (elapsed > fpsInterval) {
         then = now - (elapsed % fpsInterval);
-        frameCount++;
+        frame++;
 
-        // Where it all starts.
-        graphics.render();
+        graphics.render(frame);
       }
     };
 
-    then = window.performance.now();
-    animate(then);
+    let animationFrameId = requestAnimationFrame(animate);
+
+    window.addEventListener("keydown", handleKey("down"));
+    window.addEventListener("keyup", handleKey("up"));
 
     return () => {
       window.removeEventListener("keydown", handleKey("down"));
@@ -93,7 +81,7 @@ export default function Game() {
   }, []);
 
   return (
-    <section className="relative border">
+    <section className={`relative border w-[${width}px] h-[${height}px]`}>
       <Canvas ref={cStaticRef} width={width} height={height} />
       <Canvas ref={cActionRef} width={width} height={height} />
       <Canvas ref={cAnimationRef} width={width} height={height} />
