@@ -112,6 +112,8 @@ class Board {
       this.grid[coor[1] + y][coor[0] + x] = 1;
     });
 
+    this.checkBreak();
+
     this.activePentomino = this.newPentomino();
   }
 
@@ -129,6 +131,22 @@ class Board {
 
       return this.grid[coor[1] + y][coor[0] + x] !== 0;
     });
+  }
+
+  checkBreak() {
+    let rows = 0;
+
+    for (let i = 0; i < this.grid.length; i++) {
+      if (this.grid[i].every((val) => val)) {
+        this.grid.splice(i, 1);
+        this.grid.unshift(new Array(this.grid[0].length).fill(0));
+        rows++;
+      }
+    }
+
+    if (rows) {
+      console.log(`Cleared ${rows} rows.`);
+    }
   }
 }
 
