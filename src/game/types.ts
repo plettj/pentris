@@ -32,6 +32,6 @@ type MoveAction =
 
 type GameAction = MoveAction | "bank";
 
-interface ControlMapping {
+interface ControlMappingType {
   [key: string]: MoveAction;
 }

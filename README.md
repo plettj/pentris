@@ -1,10 +1,10 @@
-# Pentris - v1.3
+# Pentris - v1.4
 
 Tetris, but with the pentominoes 😎
 
 ## Play Now
 
-Play `1.3` now at [pentris-1point3.surge.sh/](https://pentris-1point3.surge.sh/)
+Play `1.4` now at [pentris-1point3.surge.sh/](https://pentris-1point3.surge.sh/)
 
 #### Controls
 
@@ -15,6 +15,7 @@ Play `1.3` now at [pentris-1point3.surge.sh/](https://pentris-1point3.surge.sh/)
 
 ## Previous Playable Versions
 
+- 1.3: [here](https://pentris-1point3.surge.sh/). No sustainable code infra.
 - 1.2: [here](https://pentris-1point2.surge.sh/). No hold bucket.
 - 1.1: [here](https://pentris-1point1.surge.sh/). No upcoming pieces display.
 - 1.0: [here](https://pentris-1point0.surge.sh/). No line breaks yet.

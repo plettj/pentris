@@ -17,13 +17,13 @@ const fontSans = Silkscreen({
 
 // OPG compliant metadata (https://ogp.me/)
 export const metadata: Metadata = {
-  title: "Pentris v1.3",
+  title: "Pentris v1.4",
   description: "Tetris, but with the Pentominoes",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: PROD_HREF,
-    title: "Pentris v1.3",
+    title: "Pentris v1.4",
     siteName: "Pentris",
     description: "Tetris, but with the Pentominoes",
     images: [

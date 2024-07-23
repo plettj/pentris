@@ -47,12 +47,6 @@ export default function Game() {
 
       const context = canvas.getContext("2d")!;
 
-      // Prevent anti-aliasing on high-DPI displays.
-      const { devicePixelRatio: ratio = 1 } = window;
-      canvas.width = width * ratio;
-      canvas.height = height * ratio;
-      context.scale(ratio, ratio);
-
       return context;
     });
 
@@ -112,7 +106,7 @@ export default function Game() {
 
   return (
     <>
-      <section className="relative border border-white w-[300px] h-[650px]">
+      <section className="relative border-2 border-white w-[290px] h-[685.5px]">
         <Canvas ref={cStaticRef} width={width} height={height} />
         <Canvas ref={cActionRef} width={width} height={height} />
         <Canvas ref={cAnimationRef} width={width} height={height} />

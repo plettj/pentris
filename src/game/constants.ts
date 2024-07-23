@@ -1,6 +1,8 @@
+import ControlMapping from "./logic/controls";
+
 const pentominoes: Record<PentName, Pentomino> = {
   F: {
-    color: "#8b21db",
+    color: "#8745fd",
     /**
      *   0 1
      * 2 3
@@ -18,7 +20,7 @@ const pentominoes: Record<PentName, Pentomino> = {
     },
   },
   I: {
-    color: "#21ccdb",
+    color: "#28eafb",
     /**
      * 0
      * 1
@@ -38,7 +40,7 @@ const pentominoes: Record<PentName, Pentomino> = {
     },
   },
   L: {
-    color: "#f48519",
+    color: "#f89912",
     /**
      * 0
      * 1
@@ -57,25 +59,26 @@ const pentominoes: Record<PentName, Pentomino> = {
     },
   },
   N: {
-    color: "#f40910",
+    color: "#ff1e1e",
     /**
-     * 0 1
-     *   2
-     *   3 4
+     *   0
+     * 1 2
+     * 3
+     * 4
      */
     shape: {
       points: [
-        [0, 0],
         [1, 0],
+        [0, 1],
         [1, 1],
-        [1, 2],
-        [2, 2],
+        [0, 2],
+        [0, 3],
       ],
-      center: [1, 1],
+      center: [0.5, 1.5],
     },
   },
   P: {
-    color: "#ff1493",
+    color: "#ff1488",
     /**
      * 0 1
      * 2 3
@@ -93,7 +96,7 @@ const pentominoes: Record<PentName, Pentomino> = {
     },
   },
   T: {
-    color: "#83a7a9",
+    color: "#b8c9cb",
     /**
      * 0 1 2
      *   3
@@ -111,7 +114,7 @@ const pentominoes: Record<PentName, Pentomino> = {
     },
   },
   U: {
-    color: "#faea19",
+    color: "#ecff16",
     /**
      * 0   1
      * 2 3 4
@@ -128,7 +131,7 @@ const pentominoes: Record<PentName, Pentomino> = {
     },
   },
   V: {
-    color: "#d948f8",
+    color: "#e245fd",
     /**
      * 0
      * 1
@@ -146,7 +149,7 @@ const pentominoes: Record<PentName, Pentomino> = {
     },
   },
   W: {
-    color: "#24a549",
+    color: "#5ded8b",
     /**
      *   0 1
      * 2 3
@@ -164,7 +167,7 @@ const pentominoes: Record<PentName, Pentomino> = {
     },
   },
   X: {
-    color: "#9c4011",
+    color: "#db662b",
     /**
      *   0
      * 1 2 3
@@ -182,7 +185,7 @@ const pentominoes: Record<PentName, Pentomino> = {
     },
   },
   Y: {
-    color: "#212adb",
+    color: "#4569fd",
     /**
      *   0
      * 1 2
@@ -201,7 +204,7 @@ const pentominoes: Record<PentName, Pentomino> = {
     },
   },
   Z: {
-    color: "#29eb07",
+    color: "#33eb1c",
     /**
      * 0 1
      *   2
@@ -220,32 +223,29 @@ const pentominoes: Record<PentName, Pentomino> = {
   },
 };
 
-class ControlMapping {
-  private mapping: Map<string, GameAction>;
-
-  constructor(mapping: Record<GameAction, string[]>) {
-    this.mapping = new Map<string, GameAction>();
-    for (const [action, codes] of Object.entries(mapping)) {
-      codes.forEach((code) => {
-        this.mapping.set(code, action as GameAction);
-      });
-    }
-  }
-
-  getAction(code: string): GameAction | null {
-    return this.mapping.get(code) || null;
-  }
-}
+const bucketTwelve: PentName[] = [
+  "I",
+  "L",
+  "N",
+  "P",
+  "T",
+  "U",
+  "V",
+  "W",
+  "X",
+  "Y",
+  "Z",
+];
 
 const controlMapping = new ControlMapping({
   left: ["ArrowLeft", "KeyA"], // Left arrow, A
   right: ["ArrowRight", "KeyD"], // Right arrow, D
   down: ["ArrowDown", "KeyS"], // Down arrow, S
   drop: ["ArrowUp", "KeyW"], // Up arrow, W
-  rotateCw: ["KeyF", "ShiftRight"], // F, Shift
+  rotateCw: ["KeyE", "ShiftRight"], // E, Shift
   rotateCcw: ["KeyQ", "Slash"], // Q, /
   reflect: ["Space", "KeyT", "KeyP"], // Space, T, P
   bank: ["CapsLock", "Tab", "KeyX", "KeyC"], // CapsLock, Tab, X, C
 });
 
-export { pentominoes, controlMapping };
+export { pentominoes, controlMapping, bucketTwelve };
