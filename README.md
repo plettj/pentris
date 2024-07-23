@@ -4,7 +4,7 @@ Tetris, but with the pentominoes 😎
 
 ## Play Now
 
-Play `1.4` now at [pentris-1point3.surge.sh/](https://pentris-1point3.surge.sh/)
+Play `1.4` now at [plett.fun/pentris](https://plett.fun/pentris)
 
 #### Controls
 
