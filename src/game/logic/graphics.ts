@@ -1,11 +1,9 @@
-import { board } from "game/objects";
+import { board, score } from "game/objects";
 
 export default class Graphics {
   paused: boolean = false;
   contexts: CanvasRenderingContext2D[] = [];
   frame: number = 0;
-
-  dropSpeed: number = 25; // Frames fallen per unit.
 
   constructor() {}
 
@@ -18,6 +16,10 @@ export default class Graphics {
     this.frame++;
 
     board.render();
+
+    if (this.frame % (60 * score.levelLength) === 0) {
+      score.updateLevel();
+    }
   }
 
   clear(context: number) {

@@ -6,12 +6,14 @@ import { handleKey } from "game/logic/controls";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Modal from "../general/Modal";
 import Canvas from "./Canvas";
+import Score from "./Score";
 
 export default function Game() {
   const cStaticRef = useRef<HTMLCanvasElement | null>(null);
   const cActionRef = useRef<HTMLCanvasElement | null>(null);
   const cAnimationRef = useRef<HTMLCanvasElement | null>(null);
   const cOverlayRef = useRef<HTMLCanvasElement | null>(null);
+  const cExternalRef = useRef<HTMLCanvasElement | null>(null);
 
   const [open, setOpen] = useState(false);
   const [resizeDetails, setResizeDetails] = useState<{
@@ -37,7 +39,13 @@ export default function Game() {
   useWindowDimensions(handleThresholdChange);
 
   const initializeCanvases = () => {
-    const canvases = [cStaticRef, cActionRef, cAnimationRef, cOverlayRef];
+    const canvases = [
+      cStaticRef,
+      cActionRef,
+      cAnimationRef,
+      cOverlayRef,
+      cExternalRef,
+    ];
 
     const contexts = canvases.map((canvasRef) => {
       const canvas = canvasRef.current;
@@ -105,13 +113,17 @@ export default function Game() {
   }, []);
 
   return (
-    <>
+    <div className="relative">
       <section className="relative border-2 border-white w-[290px] h-[685.5px]">
         <Canvas ref={cStaticRef} width={width} height={height} />
         <Canvas ref={cActionRef} width={width} height={height} />
         <Canvas ref={cAnimationRef} width={width} height={height} />
         <Canvas ref={cOverlayRef} width={width} height={height} />
+        <div className="relative -ml-[145px]">
+          <Canvas ref={cExternalRef} width={width * 2} height={height} />
+        </div>
       </section>
+      <Score />
       <Modal
         title="Screen Resized"
         description={`The screen has ${
@@ -122,6 +134,6 @@ export default function Game() {
         setOpen={setOpen}
         submitAction={handleSubmitAction}
       />
-    </>
+    </div>
   );
 }

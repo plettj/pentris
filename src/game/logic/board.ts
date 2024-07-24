@@ -1,7 +1,7 @@
+import { graphics, score } from "game/objects";
 import { bucketTwelve } from "../constants";
 import { shuffle } from "../util";
 import Pent from "./pentomino";
-import { graphics } from "game/objects";
 
 class Board {
   /**
@@ -30,9 +30,8 @@ class Board {
 
   init(unit: number) {
     this.unit = unit;
-    this.activePentomino = new Pent("P");
 
-    // Draw top line as a FIXME: `white` line
+    // Draw top line as a white line
     const ctx = graphics.contexts[0];
     ctx.strokeStyle = "#FFF";
     ctx.lineWidth = 2;
@@ -67,7 +66,11 @@ class Board {
     }
 
     if (move === "bank") {
-      // TODO: Implement banking
+      if (!this.canBank) return;
+      const temp = this.activePentomino;
+      this.activePentomino = this.bankPentomino;
+      this.bankPentomino = temp;
+      this.canBank = false;
       return;
     }
 
@@ -79,6 +82,7 @@ class Board {
   draw() {
     let ctx = graphics.contexts[1];
 
+    // Draw main board screen.
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     for (let y = 0; y < this.size[1]; y++) {
       for (let x = 0; x < this.size[0]; x++) {
@@ -93,12 +97,26 @@ class Board {
         }
       }
     }
+
+    // Draw bank + upcoming pentominoes.
+    ctx = graphics.contexts[4];
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+    if (this.bankPentomino) {
+      this.bankPentomino.drawBank();
+    }
+
+    this.upcomingPentominoes.forEach((pent, i) => {
+      pent.drawUpcoming(i);
+    });
   }
 
   render() {
     if (this.activePentomino) {
       this.activePentomino.render();
     }
+
+    // TODO: Make this not happen on every single render!
     this.draw();
   }
 
@@ -114,7 +132,9 @@ class Board {
 
     this.checkBreak();
 
-    this.activePentomino = this.newPentomino();
+    this.canBank = true;
+    this.activePentomino = this.upcomingPentominoes.shift()!;
+    this.upcomingPentominoes.push(this.newPentomino());
   }
 
   isCollide(shape: Shape, coor: Coor): boolean {
@@ -144,9 +164,7 @@ class Board {
       }
     }
 
-    if (rows) {
-      console.log(`Cleared ${rows} rows.`);
-    }
+    score.updateScore(rows);
   }
 }
 

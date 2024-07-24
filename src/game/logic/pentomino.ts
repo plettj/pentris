@@ -1,4 +1,4 @@
-import { graphics, board } from "game/objects";
+import { board, graphics, score } from "game/objects";
 import { pentominoes } from "../constants";
 import { reflect, rotate } from "../util";
 
@@ -15,15 +15,13 @@ class Pent {
     this.set();
   }
 
-  getShape(): Shape {
-    let newPoints = this.self.shape.points.map((point) => {
-      let newPoint = rotate(
-        point,
-        this.self.shape.center,
-        this.orientation % 4
-      );
+  getShape(orientation?: number): Shape {
+    orientation = orientation ?? this.orientation;
 
-      if (this.orientation >= 4) {
+    let newPoints = this.self.shape.points.map((point) => {
+      let newPoint = rotate(point, this.self.shape.center, orientation % 4);
+
+      if (orientation >= 4) {
         newPoint = reflect(newPoint, this.self.shape.center);
       }
 
@@ -48,7 +46,7 @@ class Pent {
   render() {
     const frame = graphics.frame;
 
-    if (frame % graphics.dropSpeed === 0) {
+    if (frame % score.getSpeed() === 0) {
       if (this.canMove("down")) {
         this.move("down");
       } else {
@@ -59,6 +57,9 @@ class Pent {
 
     graphics.clear(2);
     this.draw(frame);
+
+    graphics.clear(3);
+    this.drawGhost();
   }
 
   draw(frame: number) {
@@ -76,8 +77,64 @@ class Pent {
           ? drawY * board.unit
           : Math.floor(
               drawY * board.unit +
-                ((frame % graphics.dropSpeed) / graphics.dropSpeed) * board.unit
+                ((frame % score.getSpeed()) / score.getSpeed()) * board.unit
             ),
+        board.unit,
+        board.unit
+      );
+    });
+  }
+
+  drawBank() {
+    const shape = this.getShape();
+    const ctx = graphics.contexts[4];
+
+    shape.points.forEach(([x, y]) => {
+      const drawX = 2 + x;
+      const drawY = -4 + y + board.topGap;
+      ctx.fillStyle = this.self.color;
+      ctx.fillRect(
+        drawX * board.unit,
+        drawY * board.unit,
+        board.unit,
+        board.unit
+      );
+    });
+  }
+
+  drawGhost() {
+    const shape = this.getShape();
+    const ctx = graphics.contexts[3];
+    const coor = this.coor.slice();
+
+    while (!board.isCollide(shape, [coor[0], coor[1] + 1])) {
+      coor[1]++;
+    }
+
+    shape.points.forEach(([x, y]) => {
+      const drawX = coor[0] + x;
+      const drawY = coor[1] + y + board.topGap;
+      ctx.fillStyle = "#222";
+      ctx.fillRect(
+        drawX * board.unit,
+        drawY * board.unit,
+        board.unit,
+        board.unit
+      );
+    });
+  }
+
+  drawUpcoming(spot: number) {
+    const shape = this.getShape();
+    const ctx = graphics.contexts[4];
+
+    shape.points.forEach(([x, y]) => {
+      const drawX = 21 + x;
+      const drawY = -4 + y + board.topGap + spot * 6;
+      ctx.fillStyle = this.self.color;
+      ctx.fillRect(
+        drawX * board.unit,
+        drawY * board.unit,
         board.unit,
         board.unit
       );
@@ -104,14 +161,32 @@ class Pent {
       case "drop":
         return true;
       case "rotateCw":
-        // TODO: Implement.
-        return true;
       case "rotateCcw":
-        // TODO: Implement.
-        return true;
       case "reflect":
-        // TODO: Implement.
-        return true;
+        return this.canModifyMove(move);
+    }
+  }
+
+  canModifyMove(move: ModifyAction): boolean {
+    switch (move) {
+      case "rotateCw":
+        if (!board.isCollide(this.getShape(this.rotate(true)), this.coor)) {
+          return true; // Simple case.
+        }
+
+        return false;
+      case "rotateCcw":
+        if (!board.isCollide(this.getShape(this.rotate(false)), this.coor)) {
+          return true; // Simple case.
+        }
+
+        return false;
+      case "reflect":
+        if (!board.isCollide(this.getShape(this.reflect()), this.coor)) {
+          return true; // Simple case.
+        }
+
+        return false;
     }
   }
 
@@ -134,24 +209,25 @@ class Pent {
         }
         break;
       case "rotateCw":
-        this.rotate(true);
+        this.orientation = this.rotate(true);
         break;
       case "rotateCcw":
-        this.rotate(false);
+        this.orientation = this.rotate(false);
         break;
       case "reflect":
-        this.reflect();
+        this.orientation = this.reflect();
         break;
     }
   }
 
   rotate(cw: boolean = true) {
-    this.orientation =
-      ((this.orientation + (cw ? 1 : 3)) % 4) + (this.orientation >= 4 ? 4 : 0);
+    return (
+      ((this.orientation + (cw ? 1 : 3)) % 4) + (this.orientation >= 4 ? 4 : 0)
+    );
   }
 
   reflect() {
-    this.orientation = (this.orientation + 4) % 8;
+    return (this.orientation + 4) % 8;
   }
 }
 

@@ -21,14 +21,9 @@ interface Pentomino {
   shape: Shape;
 }
 
-type MoveAction =
-  | "left"
-  | "right"
-  | "down"
-  | "drop"
-  | "rotateCw"
-  | "rotateCcw"
-  | "reflect";
+type ModifyAction = "rotateCw" | "rotateCcw" | "reflect";
+
+type MoveAction = ModifyAction | "left" | "right" | "down" | "drop";
 
 type GameAction = MoveAction | "bank";
 

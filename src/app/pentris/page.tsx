@@ -1,4 +1,5 @@
 import Game from "@/components/game/Game";
+import Score from "@/components/game/Score";
 
 export default async function Pentris() {
   return (
