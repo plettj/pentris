@@ -37,6 +37,7 @@ class Pent {
   }
 
   set() {
+    this.orientation = 0;
     this.coor = [
       6 - Math.floor(this.self.shape.center[0]),
       (this.self.shape.center[1] + 0.5) * -2,
@@ -114,7 +115,7 @@ class Pent {
     shape.points.forEach(([x, y]) => {
       const drawX = coor[0] + x;
       const drawY = coor[1] + y + board.topGap;
-      ctx.fillStyle = "#222";
+      ctx.fillStyle = "#3a3a3a";
       ctx.fillRect(
         drawX * board.unit,
         drawY * board.unit,

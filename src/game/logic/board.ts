@@ -67,9 +67,10 @@ class Board {
 
     if (move === "bank") {
       if (!this.canBank) return;
-      const temp = this.activePentomino;
+      const temp = this.activePentomino!;
       this.activePentomino = this.bankPentomino;
       this.bankPentomino = temp;
+      this.bankPentomino.set();
       this.canBank = false;
       return;
     }
