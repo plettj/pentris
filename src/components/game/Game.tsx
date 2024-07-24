@@ -12,7 +12,7 @@ export default function Game() {
   const cStaticRef = useRef<HTMLCanvasElement | null>(null);
   const cActionRef = useRef<HTMLCanvasElement | null>(null);
   const cAnimationRef = useRef<HTMLCanvasElement | null>(null);
-  const cOverlayRef = useRef<HTMLCanvasElement | null>(null);
+  const cGhostRef = useRef<HTMLCanvasElement | null>(null);
   const cExternalRef = useRef<HTMLCanvasElement | null>(null);
 
   const [open, setOpen] = useState(false);
@@ -43,7 +43,7 @@ export default function Game() {
       cStaticRef,
       cActionRef,
       cAnimationRef,
-      cOverlayRef,
+      cGhostRef,
       cExternalRef,
     ];
 
@@ -117,8 +117,8 @@ export default function Game() {
       <section className="relative border-2 border-white w-[290px] h-[685.5px]">
         <Canvas ref={cStaticRef} width={width} height={height} />
         <Canvas ref={cActionRef} width={width} height={height} />
+        <Canvas ref={cGhostRef} width={width} height={height} />
         <Canvas ref={cAnimationRef} width={width} height={height} />
-        <Canvas ref={cOverlayRef} width={width} height={height} />
         <div className="relative -ml-[145px]">
           <Canvas ref={cExternalRef} width={width * 2} height={height} />
         </div>
