@@ -21,7 +21,7 @@ export default function Score() {
         <p className="text-white text-lg">{currentScore}</p>
         <div className="w-14" />
         <p className="text-zinc-400 text-lg">Level:</p>
-        <p className="text-white text-lg">{currentLevel}</p>
+        <p className="text-white text-lg">{currentLevel + 1}</p>
       </div>
     </section>
   );

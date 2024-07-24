@@ -22,6 +22,11 @@ Play `1.4` now at [plett.fun/pentris](https://plett.fun/pentris)
 
 ## High Scores
 
+### Version 1.4
+
+| Username | Score |
+| -------- | ----- |
+
 ### Version 1.3
 
 | Username | Score |

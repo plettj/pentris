@@ -224,6 +224,7 @@ const pentominoes: Record<PentName, Pentomino> = {
 };
 
 const bucketTwelve: PentName[] = [
+  "F",
   "I",
   "L",
   "N",
