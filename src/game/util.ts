@@ -14,3 +14,32 @@ export function shuffle<T>(array: T[]): T[] {
 
   return array;
 }
+
+export function rotate(point: Coor, center: Coor, angle: number): Coor {
+  let newPoint = point;
+
+  for (let i = 0; i < angle; i++) {
+    newPoint = [
+      newPoint[1] - center[1] + center[0],
+      center[0] - newPoint[0] + center[1],
+    ];
+  }
+
+  // Points may end up as floats. Round only if so.
+  if (center[0] + (center[1] % 1) !== 0) {
+    newPoint = newPoint.map((v) => Math.floor(v)) as Coor;
+  }
+
+  return newPoint;
+}
+
+export function reflect(
+  point: Coor,
+  center: Coor,
+  yAxis: boolean = true
+): Coor {
+  return [
+    yAxis ? center[0] * 2 - point[0] : point[0],
+    yAxis ? point[1] : center[1] * 2 - point[1],
+  ];
+}

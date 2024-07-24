@@ -1,5 +1,6 @@
 import { graphics, board } from "game/objects";
 import { pentominoes } from "../constants";
+import { reflect, rotate } from "../util";
 
 class Pent {
   readonly name: PentName;
@@ -14,55 +15,24 @@ class Pent {
     this.set();
   }
 
-  getShape(action?: MoveAction): Shape {
-    let newOrientation = this.orientation;
+  getShape(): Shape {
+    let newPoints = this.self.shape.points.map((point) => {
+      let newPoint = rotate(
+        point,
+        this.self.shape.center,
+        this.orientation % 4
+      );
 
-    if (action === "rotateCw" || action === "rotateCcw") {
-      const cw = action === "rotateCw";
-      newOrientation =
-        ((this.orientation + (cw ? 1 : 3)) % 4) +
-        (this.orientation >= 4 ? 4 : 0);
-    } else if (action === "reflect") {
-      newOrientation = (this.orientation + 4) % 8;
-    }
-
-    const newCenter =
-      newOrientation < 4
-        ? this.self.shape.center
-        : ([this.self.shape.center[1], this.self.shape.center[0]] as Coor);
-
-    let offX = false;
-    let offY = false;
-
-    let newPoints = this.self.shape.points.map(([x, y]) => {
-      let newX = x;
-      let newY = y;
-
-      for (let i = 0; i < newOrientation % 4; i++) {
-        [newX, newY] = [newY, -newX];
+      if (this.orientation >= 4) {
+        newPoint = reflect(newPoint, this.self.shape.center);
       }
 
-      if (newOrientation >= 4) {
-        newX = -newX;
-      }
-
-      offX = offX || newX < 0;
-      offY = offY || newY < 0;
-
-      return [newX, newY] as Coor;
-    });
-
-    // Ensure the shape rotated around its center.
-    newPoints = newPoints.map(([x, y]) => {
-      return [
-        x + (offX ? newCenter[0] * 2 : 0),
-        y + (offY ? newCenter[1] * 2 : 0),
-      ] as Coor;
+      return newPoint;
     });
 
     const transformedShape = {
       points: newPoints,
-      center: newCenter,
+      center: this.self.shape.center,
     };
 
     return transformedShape;
@@ -134,12 +104,14 @@ class Pent {
       case "drop":
         return true;
       case "rotateCw":
+        // TODO: Implement.
+        return true;
       case "rotateCcw":
+        // TODO: Implement.
+        return true;
       case "reflect":
-        return !board.isCollide(this.getShape(move), [
-          this.coor[0],
-          this.coor[1],
-        ]);
+        // TODO: Implement.
+        return true;
     }
   }
 

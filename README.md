@@ -26,7 +26,7 @@ Play `1.4` now at [plett.fun/pentris](https://plett.fun/pentris)
 
 | Username | Score |
 | -------- | ----- |
-| loser314 | 193   |
+| loser314 | 281   |
 | adam     | 99    |
 | CREATOR  | 62    |
 
