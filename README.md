@@ -26,6 +26,7 @@ Play `1.4` now at [plett.fun/pentris](https://plett.fun/pentris)
 
 | Username | Score |
 | -------- | ----- |
+| loser314 | 1807  |
 
 ### Version 1.3
 
