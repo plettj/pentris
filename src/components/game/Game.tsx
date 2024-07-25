@@ -8,6 +8,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Modal from "../general/Modal";
 import Canvas from "./Canvas";
 import Score from "./Score";
+import { getUnitFromHeight } from "@/game/util";
 
 export default function Game() {
   const cStaticRef = useRef<HTMLCanvasElement | null>(null);
@@ -25,10 +26,10 @@ export default function Game() {
     height: number;
   } | null>(null);
 
-  // TODO: Move the calculation of width and height into a game state
-  //       logic object that handles all game state variables.
-  const width = 286; // 22 * 13
-  const height = 682; // 22 * (26 + 5)
+  const [unit, setUnit] = useState(getUnitFromHeight(724));
+
+  const width = unit * board.size[0];
+  const height = unit * (board.size[1] + board.topGap);
 
   const handleThresholdChange = useCallback(
     (change: { larger: boolean; width: number; height: number }) => {
@@ -41,7 +42,7 @@ export default function Game() {
 
   useWindowDimensions(handleThresholdChange);
 
-  const initializeCanvases = () => {
+  const initializeCanvases = (refreshing?: boolean) => {
     const canvases = [
       cStaticRef,
       cActionRef,
@@ -67,12 +68,20 @@ export default function Game() {
     }
 
     graphics.init(contexts as CanvasRenderingContext2D[]);
-    board.init(width / 13);
+
+    if (!refreshing) {
+      board.init(width / 13);
+    } else {
+      board.refreshSize(width / 13);
+    }
   };
 
   const handleSubmitAction = (success: boolean) => {
     if (success) {
-      initializeCanvases();
+      // Update the screen unit size.
+      setUnit(getUnitFromHeight(height));
+
+      initializeCanvases(true);
     }
 
     graphics.pause(false);
@@ -118,16 +127,18 @@ export default function Game() {
   return (
     <div className="relative">
       <section
-        className={`relative border-2 w-[290px] h-[685.5px]`}
+        className={`relative border-2`}
         style={{
           borderColor: theme.outline,
+          width: `${width + 3}px`,
+          height: `${height + 4}px`,
         }}
       >
         <Canvas ref={cStaticRef} width={width} height={height} />
         <Canvas ref={cActionRef} width={width} height={height} />
         <Canvas ref={cGhostRef} width={width} height={height} />
         <Canvas ref={cAnimationRef} width={width} height={height} />
-        <div className="relative -ml-[145px]">
+        <div className="relative" style={{ marginLeft: `-${width / 2}px` }}>
           <Canvas ref={cExternalRef} width={width * 2} height={height} />
         </div>
       </section>

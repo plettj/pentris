@@ -43,3 +43,9 @@ export function reflect(
     yAxis ? point[1] : center[1] * 2 - point[1],
   ];
 }
+
+export function getUnitFromHeight(height: number): number {
+  return Math.floor(
+    height / (26 /* board.size[1] */ + 5 /* board.topGap */ + 2)
+  );
+}

@@ -31,12 +31,18 @@ class Board {
   init(unit: number) {
     this.unit = unit;
 
+    this.upcomingPentominoes = [];
     for (let i = 0; i < 3; i++) {
       this.upcomingPentominoes.push(this.newPentomino());
     }
 
     this.bankPentomino = this.newPentomino();
     this.activePentomino = this.newPentomino();
+  }
+
+  refreshSize(unit: number) {
+    this.unit = unit;
+    this.draw();
   }
 
   newPentomino(): Pent {

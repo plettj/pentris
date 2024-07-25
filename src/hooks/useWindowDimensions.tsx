@@ -21,19 +21,29 @@ export default function useWindowDimensions(
   const handleResize = useCallback(() => {
     const { width, height } = getWindowDimensions();
 
-    const thresholdChange = calculateThresholdChange(
-      width,
-      height,
-      windowDimensions
-    );
+    // FIXME: Leftover from when window dimensions were particularly dynamic.
 
-    if (thresholdChange) {
-      const larger = height > windowDimensions.height;
-      onThresholdChange({ larger, width, height });
+    // const thresholdChange = calculateThresholdChange(
+    //   width,
+    //   height,
+    //   windowDimensions
+    // );
+
+    // if (thresholdChange) {
+    //   const larger = height > windowDimensions.height;
+    //   onThresholdChange({ larger, width, height });
+    // }
+
+    if (height !== windowDimensions.height) {
+      onThresholdChange({
+        larger: height > windowDimensions.height,
+        width,
+        height,
+      });
     }
 
     setWindowDimensions({ width, height });
-  }, [windowDimensions, onThresholdChange]);
+  }, [onThresholdChange, windowDimensions.height]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -45,7 +55,7 @@ export default function useWindowDimensions(
   return windowDimensions;
 }
 
-function getInitialWindowDimensions() {
+export function getInitialWindowDimensions() {
   if (typeof window !== "undefined") {
     return getWindowDimensions();
   }
