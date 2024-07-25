@@ -1,9 +1,9 @@
+import PentrisProviders from "@/components/layouts/PentrisProviders";
 import TopLoader from "@/components/layouts/TopLoader";
+import { PROD_HREF, PROD_IMAGES_HREF } from "@/lib/constants";
 import { type Metadata } from "next";
 import { Silkscreen } from "next/font/google";
 import "./globals.css";
-import { PROD_HREF } from "@/lib/constants";
-import PentrisProviders from "@/components/layouts/PentrisProviders";
 
 // Potential Font Choices:
 // Silkscreen: https://fonts.google.com/specimen/Silkscreen
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     description: "Tetris, but with the Pentominoes",
     images: [
       {
-        url: `${PROD_HREF}/src/images/public/favicon.png`, // FIXME: Host a banner image publicly.
+        url: `${PROD_IMAGES_HREF}/preview.png`,
         alt: "Pentris",
       },
     ],

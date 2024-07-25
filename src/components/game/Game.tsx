@@ -26,7 +26,7 @@ export default function Game() {
     height: number;
   } | null>(null);
 
-  const [unit, setUnit] = useState(getUnitFromHeight(724));
+  const [unit, setUnit] = useState(getUnitFromHeight(740));
 
   const width = unit * board.size[0];
   const height = unit * (board.size[1] + board.topGap);

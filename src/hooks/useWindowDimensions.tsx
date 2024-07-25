@@ -21,29 +21,28 @@ export default function useWindowDimensions(
   const handleResize = useCallback(() => {
     const { width, height } = getWindowDimensions();
 
-    // FIXME: Leftover from when window dimensions were particularly dynamic.
+    const thresholdChange = calculateThresholdChange(
+      width,
+      height,
+      windowDimensions
+    );
 
-    // const thresholdChange = calculateThresholdChange(
-    //   width,
-    //   height,
-    //   windowDimensions
-    // );
-
-    // if (thresholdChange) {
-    //   const larger = height > windowDimensions.height;
-    //   onThresholdChange({ larger, width, height });
-    // }
-
-    if (height !== windowDimensions.height) {
-      onThresholdChange({
-        larger: height > windowDimensions.height,
-        width,
-        height,
-      });
+    if (thresholdChange) {
+      const larger = height > windowDimensions.height;
+      onThresholdChange({ larger, width, height });
     }
 
+    // FIXME: This is what I actually want.
+    // if (height !== windowDimensions.height) {
+    //   onThresholdChange({
+    //     larger: height > windowDimensions.height,
+    //     width,
+    //     height,
+    //   });
+    // }
+
     setWindowDimensions({ width, height });
-  }, [onThresholdChange, windowDimensions.height]);
+  }, [onThresholdChange, windowDimensions]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
