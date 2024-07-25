@@ -1,4 +1,4 @@
-import { board, graphics, score } from "game/objects";
+import { board, graphics, score, theme } from "game/objects";
 import { pentominoes } from "../constants";
 import { reflect, rotate } from "../util";
 
@@ -112,10 +112,11 @@ class Pent {
       coor[1]++;
     }
 
+    // This will become more dynamic with the introduction of custom pieces.
+    ctx.fillStyle = theme.getTheme().pieces.ghost;
     shape.points.forEach(([x, y]) => {
       const drawX = coor[0] + x;
       const drawY = coor[1] + y + board.topGap;
-      ctx.fillStyle = "#3a3a3a";
       ctx.fillRect(
         drawX * board.unit,
         drawY * board.unit,

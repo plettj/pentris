@@ -1,10 +1,29 @@
-import Game from "@/components/game/Game";
-import Score from "@/components/game/Score";
+"use client";
 
-export default async function Pentris() {
+import Game from "@/components/game/Game";
+import ThemeButton from "@/components/general/ThemeButton";
+import { useTheme } from "@/context/ThemeContext";
+
+export default function Pentris() {
+  const { theme } = useTheme();
+
   return (
-    <main className="size-full flex justify-center items-center bg-black text-white">
-      <Game />
-    </main>
+    <>
+      <div className="relative">
+        <div className="absolute top-6 left-4">
+          <ThemeButton />
+        </div>
+      </div>
+      <main
+        className={`size-full flex justify-center items-center`}
+        style={{
+          // Inline because of tailwind :/ https://stackoverflow.com/a/71068925/8360465
+          backgroundColor: theme.background,
+          color: theme.outline,
+        }}
+      >
+        <Game />
+      </main>
+    </>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { useTheme } from "@/context/ThemeContext";
 import { board, graphics } from "@/game/objects";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 import { handleKey } from "game/logic/controls";
@@ -14,6 +15,8 @@ export default function Game() {
   const cAnimationRef = useRef<HTMLCanvasElement | null>(null);
   const cGhostRef = useRef<HTMLCanvasElement | null>(null);
   const cExternalRef = useRef<HTMLCanvasElement | null>(null);
+
+  const { theme } = useTheme();
 
   const [open, setOpen] = useState(false);
   const [resizeDetails, setResizeDetails] = useState<{
@@ -114,7 +117,12 @@ export default function Game() {
 
   return (
     <div className="relative">
-      <section className="relative border-2 border-white w-[290px] h-[685.5px]">
+      <section
+        className={`relative border-2 w-[290px] h-[685.5px]`}
+        style={{
+          borderColor: theme.outline,
+        }}
+      >
         <Canvas ref={cStaticRef} width={width} height={height} />
         <Canvas ref={cActionRef} width={width} height={height} />
         <Canvas ref={cGhostRef} width={width} height={height} />

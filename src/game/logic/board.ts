@@ -1,4 +1,4 @@
-import { graphics, score } from "game/objects";
+import { graphics, score, theme } from "game/objects";
 import { bucketTwelve } from "../constants";
 import { shuffle } from "../util";
 import Pent from "./pentomino";
@@ -31,16 +31,6 @@ class Board {
   init(unit: number) {
     this.unit = unit;
 
-    // Draw top line as a white line
-    const ctx = graphics.contexts[0];
-    ctx.strokeStyle = "#FFF";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(0, unit * this.topGap);
-    ctx.lineTo(unit * this.size[0], unit * this.topGap);
-    ctx.stroke();
-    ctx.closePath();
-
     for (let i = 0; i < 3; i++) {
       this.upcomingPentominoes.push(this.newPentomino());
     }
@@ -59,8 +49,6 @@ class Board {
   }
 
   move(move: GameAction, down: boolean = true) {
-    console.log(move);
-
     if (!down) {
       return;
     }
@@ -81,14 +69,25 @@ class Board {
   }
 
   draw() {
-    let ctx = graphics.contexts[1];
+    // Draw top line of the board.
+    let ctx = graphics.contexts[0];
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    ctx.strokeStyle = theme.getTheme().outline;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(0, this.unit * this.topGap);
+    ctx.lineTo(this.unit * this.size[0], this.unit * this.topGap);
+    ctx.stroke();
+    ctx.closePath();
 
     // Draw main board screen.
+    ctx = graphics.contexts[1];
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    // This will be much more dynamic once piece themes are implemented.
+    ctx.fillStyle = theme.getTheme().pieces.placed;
     for (let y = 0; y < this.size[1]; y++) {
       for (let x = 0; x < this.size[0]; x++) {
         if (this.grid[y][x]) {
-          ctx.fillStyle = "#FFF";
           ctx.fillRect(
             x * this.unit,
             (y + this.topGap) * this.unit,

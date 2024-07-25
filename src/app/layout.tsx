@@ -3,6 +3,7 @@ import { type Metadata } from "next";
 import { Silkscreen } from "next/font/google";
 import "./globals.css";
 import { PROD_HREF } from "@/lib/constants";
+import PentrisProviders from "@/components/layouts/PentrisProviders";
 
 // Potential Font Choices:
 // Silkscreen: https://fonts.google.com/specimen/Silkscreen
@@ -44,7 +45,7 @@ export default async function RootLayout({
     <html lang="en" className={fontSans.variable} suppressHydrationWarning>
       <body className="flex flex-col h-screen overflow-hidden bg-background font-sans antialiased">
         <TopLoader />
-        {children}
+        <PentrisProviders>{children}</PentrisProviders>
       </body>
     </html>
   );

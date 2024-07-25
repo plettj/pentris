@@ -96,7 +96,7 @@ const pentominoes: Record<PentName, Pentomino> = {
     },
   },
   T: {
-    color: "#b8c9cb",
+    color: "#a8b9bb",
     /**
      * 0 1 2
      *   3
@@ -249,4 +249,4 @@ const controlMapping = new ControlMapping({
   bank: ["CapsLock", "Tab", "KeyX", "KeyC"], // CapsLock, Tab, X, C
 });
 
-export { pentominoes, controlMapping, bucketTwelve };
+export { bucketTwelve, controlMapping, pentominoes };

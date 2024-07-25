@@ -27,6 +27,15 @@ type MoveAction = ModifyAction | "left" | "right" | "down" | "drop";
 
 type GameAction = MoveAction | "bank";
 
+interface ThemeType {
+  background: string;
+  outline: string;
+  pieces: {
+    placed: string;
+    ghost: string;
+  };
+}
+
 interface ControlMappingType {
   [key: string]: MoveAction;
 }
