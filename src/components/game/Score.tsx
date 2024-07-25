@@ -7,7 +7,7 @@ import { useCallback, useState } from "react";
 export default function Score() {
   const { theme } = useTheme();
   const [currentScore, setCurrentScore] = useState(0);
-  const [currentLevel, setCurrentLevel] = useState(1);
+  const [currentLevel, setCurrentLevel] = useState(0);
 
   const handleScore = useCallback(() => {
     setCurrentScore(score.score);

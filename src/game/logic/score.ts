@@ -7,7 +7,7 @@ export default class Score {
     5,
   ];
 
-  levelLength: number = 60;
+  levelLength: number = 5;
   level = 0;
 
   private onChange: () => void = () => {};
