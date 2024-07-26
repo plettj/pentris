@@ -2,7 +2,6 @@ import PentrisProviders from "@/components/layouts/PentrisProviders";
 import Pentris from "@/components/pentris/Pentris";
 import { BASE_URL, PENTRIS_IMAGES_HREF } from "@/lib/constants";
 import { type Metadata } from "next";
-import "./globals.css";
 
 // OPG compliant metadata (https://ogp.me/)
 export const metadata: Metadata = {
