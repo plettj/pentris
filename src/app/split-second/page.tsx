@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function SplitSecond() {
+export default function SplitSecondPage() {
   return (
     <div style={{ height: "100vh", width: "100vw" }}>
       <iframe
