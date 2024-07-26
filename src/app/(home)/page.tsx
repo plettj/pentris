@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { PENTRIS_HREF } from "@/lib/constants";
+import { PENTRIS_HREF, SPLIT_SECOND_HREF } from "@/lib/constants";
 import Link from "next/link";
 
 export default async function Home() {
@@ -10,6 +10,9 @@ export default async function Home() {
       <h2>Games</h2>
       <Button asChild className="w-64 my-2">
         <Link href={PENTRIS_HREF}>Pentris</Link>
+      </Button>
+      <Button asChild className="w-64 my-2">
+        <Link href={SPLIT_SECOND_HREF}>Split Second</Link>
       </Button>
     </main>
   );

@@ -1,6 +1,6 @@
 import PentrisProviders from "@/components/layouts/PentrisProviders";
 import TopLoader from "@/components/layouts/TopLoader";
-import { PROD_HREF, PROD_IMAGES_HREF } from "@/lib/constants";
+import { BASE_URL, PENTRIS_IMAGES_HREF } from "@/lib/constants";
 import { type Metadata } from "next";
 import { Silkscreen } from "next/font/google";
 import "./globals.css";
@@ -23,13 +23,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: PROD_HREF,
+    url: BASE_URL,
     title: "Pentris v1.4",
     siteName: "Pentris",
     description: "Tetris, but with the Pentominoes",
     images: [
       {
-        url: `${PROD_IMAGES_HREF}/preview.png`,
+        url: `${BASE_URL}${PENTRIS_IMAGES_HREF}/preview.png`,
         alt: "Pentris",
       },
     ],
