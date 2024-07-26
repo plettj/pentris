@@ -143,20 +143,24 @@ class Board {
     this.upcomingPentominoes.push(this.newPentomino());
   }
 
-  isCollide(shape: Shape, coor: Coor): boolean {
-    return shape.points.some(([x, y]) => {
+  isCollide(shape: Shape, coor: Coor, wall: boolean = false): number {
+    let wallCollisions = 0;
+    let mainCollisions = shape.points.reduce((acc, [x, y]) => {
       if (
         coor[0] + x < 0 ||
         coor[0] + x >= this.size[0] ||
         coor[1] + y >= this.size[1]
       ) {
-        return true;
+        wallCollisions++;
+        return acc + 1;
       } else if (coor[1] + y < 0) {
-        return false;
+        return acc;
       }
 
-      return this.grid[coor[1] + y][coor[0] + x] !== 0;
-    });
+      return this.grid[coor[1] + y][coor[0] + x] !== 0 ? acc + 1 : acc;
+    }, 0);
+
+    return wall ? wallCollisions : mainCollisions;
   }
 
   checkBreak() {
