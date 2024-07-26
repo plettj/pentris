@@ -239,14 +239,14 @@ const bucketTwelve: PentName[] = [
 ];
 
 const controlMapping = new ControlMapping({
-  left: ["ArrowLeft", "KeyA"], // Left arrow, A
-  right: ["ArrowRight", "KeyD"], // Right arrow, D
-  down: ["ArrowDown", "KeyS"], // Down arrow, S
-  drop: ["ArrowUp", "KeyW"], // Up arrow, W
-  rotateCw: ["KeyE", "ShiftRight"], // E, Shift
-  rotateCcw: ["KeyQ", "Slash"], // Q, /
-  reflect: ["Space", "KeyT", "KeyP"], // Space, T, P
-  bank: ["CapsLock", "Tab", "KeyX", "KeyC"], // CapsLock, Tab, X, C
+  left: ["ArrowLeft"],
+  right: ["ArrowRight"],
+  down: ["ArrowDown"],
+  drop: ["ArrowUp"],
+  rotateCw: ["KeyA"],
+  rotateCcw: ["KeyD"],
+  reflect: ["Space", "KeyW"],
+  bank: ["KeyS"],
 });
 
 export { bucketTwelve, controlMapping, pentominoes };

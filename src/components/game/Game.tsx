@@ -142,7 +142,7 @@ export default function Game() {
           <Canvas ref={cExternalRef} width={width * 2} height={height} />
         </div>
       </section>
-      <Score />
+      <Score width={width} />
       <Modal
         title="Screen Resized"
         description={`The screen has ${
