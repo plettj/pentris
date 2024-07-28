@@ -28,6 +28,7 @@ Play `1.4` now at [plett.fun/pentris](https://plett.fun/pentris)
 | -------- | ----- |
 | loser314 | 1807  |
 | CREATOR  | 444   |
+| erosion  | 30    |
 
 ### Version 1.3
 
