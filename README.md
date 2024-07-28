@@ -15,10 +15,10 @@ Play `1.4` now at [plett.fun/pentris](https://plett.fun/pentris)
 
 ## Previous Playable Versions
 
-- 1.3: [here](https://pentris-1point3.surge.sh/). No sustainable code infra.
-- 1.2: [here](https://pentris-1point2.surge.sh/). No hold bucket.
-- 1.1: [here](https://pentris-1point1.surge.sh/). No upcoming pieces display.
-- 1.0: [here](https://pentris-1point0.surge.sh/). No line breaks yet.
+- 1.3: [here](https://pentris-1point3.surge.sh/). No sustainable code infra. ([code](https://github.com/plettj/pentris/tree/4a8eda8137e8ec06056809e99d8489f3997a19ce))
+- 1.2: [here](https://pentris-1point2.surge.sh/). No hold bucket. ([code](https://github.com/plettj/pentris/tree/46b75d539ebfb336e849dfd46e61e3b5fcfbaa8f))
+- 1.1: [here](https://pentris-1point1.surge.sh/). No upcoming pieces display. ([code](https://github.com/plettj/pentris/tree/e4f7545feb8526465906bddb37eae40118bd4753))
+- 1.0: [here](https://pentris-1point0.surge.sh/). No line breaks yet. ([code](https://github.com/plettj/pentris/tree/9c35bc2137fa77395a947c0a7201c567b385bc48))
 
 ## High Scores
 
