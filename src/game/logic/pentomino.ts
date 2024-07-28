@@ -9,6 +9,8 @@ class Pent {
   orientation: number = 0;
   coor!: Coor;
 
+  isSettling: boolean = false;
+
   constructor(name: PentName) {
     this.name = name;
     this.self = pentominoes[name];
@@ -46,13 +48,11 @@ class Pent {
 
   render() {
     const frame = graphics.frame;
+    this.isSettling = !this.canMove("down");
 
     if (frame % score.getSpeed() === 0) {
-      if (this.canMove("down")) {
+      if (!this.isSettling) {
         this.move("down");
-      } else {
-        board.place();
-        return;
       }
     }
 
@@ -66,7 +66,6 @@ class Pent {
   draw(frame: number) {
     const shape = this.getShape();
     const ctx = graphics.contexts[2];
-    const stable = !this.canMove("down");
 
     shape.points.forEach(([x, y]) => {
       const drawX = this.coor[0] + x;
@@ -74,7 +73,7 @@ class Pent {
       ctx.fillStyle = this.self.color;
       ctx.fillRect(
         drawX * board.unit,
-        stable
+        this.isSettling
           ? drawY * board.unit
           : Math.floor(
               drawY * board.unit +
@@ -251,6 +250,10 @@ class Pent {
 
   move(move: MoveAction) {
     if (!this.canMove(move)) return;
+
+    if (this.isSettling) {
+      board.resetSettle();
+    }
 
     switch (move) {
       case "left":

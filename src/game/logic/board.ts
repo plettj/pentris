@@ -19,6 +19,11 @@ class Board {
 
   canBank: boolean = true;
 
+  settleTimer: number = 0;
+  settleCount: number = 0;
+  private settleTimerLimit: number = 35;
+  private settleCountLimit: number = 2;
+
   private bucket: Pent[] = [];
 
   constructor() {
@@ -119,11 +124,32 @@ class Board {
 
   render() {
     if (this.activePentomino) {
+      if (this.activePentomino.isSettling) {
+        this.settleTimer++;
+        if (this.settleTimer > this.settleTimerLimit) {
+          this.place();
+          this.settleTimer = 0;
+        }
+      } else {
+        this.settleTimer = 0;
+      }
       this.activePentomino.render();
     }
 
     // TODO: Make this not happen on every single render!
     this.draw();
+  }
+
+  /**
+   * Resets the settle timer. To be used by the active pentomino
+   * when it moves while settling.
+   */
+  resetSettle() {
+    if (this.settleCount < this.settleCountLimit) {
+      this.settleTimer = 0;
+    }
+
+    this.settleCount++;
   }
 
   place() {
@@ -139,6 +165,8 @@ class Board {
     this.checkBreak();
 
     this.canBank = true;
+    this.settleTimer = 0;
+    this.settleCount = 0;
     this.activePentomino = this.upcomingPentominoes.shift()!;
     this.upcomingPentominoes.push(this.newPentomino());
   }
