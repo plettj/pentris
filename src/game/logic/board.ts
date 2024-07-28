@@ -1,4 +1,4 @@
-import { graphics, theme } from "game/objects";
+import { graphics, score, theme } from "game/objects";
 import { bucketTwelve } from "../constants";
 import { easeOutQuad, moveIsTranslate, shuffle } from "../util";
 import Pent from "./pentomino";
@@ -271,7 +271,7 @@ class Board {
     });
 
     this.breaksAnimating = this.checkBreak();
-    score!.updateScore(this.breaksAnimating.length);
+    score.updateScore(this.breaksAnimating.length);
 
     if (this.breaksAnimating.length > 0) {
       this.canBank = false;
