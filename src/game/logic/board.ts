@@ -266,9 +266,21 @@ class Board {
     const shape = this.activePentomino.getShape();
     const coor = this.activePentomino.coor;
 
+    let lostGame = false;
     shape.points.forEach(([x, y]) => {
+      if (coor[1] + y < 0) {
+        lostGame = true;
+        return;
+      }
       this.grid[coor[1] + y][coor[0] + x] = 1;
     });
+
+    if (lostGame) {
+      console.log("Game Over!");
+      this.activePentomino = null;
+      score.saveHighScore();
+      return;
+    }
 
     this.breaksAnimating = this.checkBreak();
     score.updateScore(this.breaksAnimating.length);

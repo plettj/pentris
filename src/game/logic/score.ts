@@ -1,5 +1,7 @@
 export default class Score {
   score: number = 0;
+  highScore: number = 0;
+  userId: string = "";
 
   private rowScores: number[] = [0, 1, 5, 10, 15, 30];
   private levelSpeeds: number[] = [
@@ -11,12 +13,15 @@ export default class Score {
   level = 0;
 
   private onChange: () => void = () => {};
+  private onHighScoreChange: () => void = () => {};
 
   constructor() {}
 
-  init() {
+  init(highScore: number, userId: string) {
     this.score = 0;
     this.level = 0;
+    this.highScore = highScore;
+    this.userId = userId;
   }
 
   getSpeed() {
@@ -41,5 +46,20 @@ export default class Score {
 
   setOnChange(callback: () => void) {
     this.onChange = callback;
+  }
+
+  setOnHighScoreChange(callback: () => void) {
+    this.onHighScoreChange = callback;
+  }
+
+  saveHighScore() {
+    const newHighScore = !this.highScore || this.score > this.highScore;
+
+    if (!newHighScore) {
+      return;
+    }
+
+    // Send off the high score!
+    this.onHighScoreChange();
   }
 }
