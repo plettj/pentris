@@ -23,7 +23,9 @@ interface Pentomino {
 
 type ModifyAction = "rotateCw" | "rotateCcw" | "reflect";
 
-type MoveAction = ModifyAction | "left" | "right" | "down" | "drop";
+type TranslateAction = "left" | "right" | "down";
+
+type MoveAction = ModifyAction | TranslateAction | "drop";
 
 type GameAction = MoveAction | "bank";
 

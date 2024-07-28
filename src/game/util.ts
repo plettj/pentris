@@ -49,3 +49,7 @@ export function getUnitFromHeight(height: number): number {
     height / (26 /* board.size[1] */ + 5 /* board.topGap */ + 2)
   );
 }
+
+export function moveIsTranslate(move: GameAction): boolean {
+  return move === "left" || move === "right" || move === "down";
+}

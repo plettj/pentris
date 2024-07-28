@@ -1,29 +1,38 @@
 import { graphics, score, theme } from "game/objects";
 import { bucketTwelve } from "../constants";
-import { shuffle } from "../util";
+import { moveIsTranslate, shuffle } from "../util";
 import Pent from "./pentomino";
 
 class Board {
+  // Board Display
   /**
    * The game board state. Anything besides 0 is a filled cell,
    * and the number represents the color and shape of the cell.
    */
   grid: number[][];
-  topGap: number = 5;
   unit: number = 22;
   size: Coor = [13, 26];
+  readonly topGap: number = 5;
 
+  // Pentominoes
   activePentomino: Pent | null = null;
   bankPentomino: Pent | null = null;
   upcomingPentominoes: Pent[] = [];
 
-  canBank: boolean = true;
-
+  // Dynamic Settling
   settleTimer: number = 0;
   settleCount: number = 0;
-  private settleTimerLimit: number = 35;
-  private settleCountLimit: number = 2;
+  readonly settleTimerLimit: number = 35;
+  readonly settleCountLimit: number = 2;
 
+  // Controls
+  keys: boolean[] = [false, false, false]; // [left, right, down]
+  slideTimer: number = 0;
+  slideFirst: boolean = true;
+  readonly slideSpeed: number = 4;
+
+  // Banking
+  canBank: boolean = true;
   private bucket: Pent[] = [];
 
   constructor() {
@@ -59,7 +68,62 @@ class Board {
     return this.bucket.shift()!;
   }
 
+  /**
+   * Keypress utility for smooth translation controls.
+   */
+  handleKeys() {
+    const key = this.keys.indexOf(true);
+
+    if (key === -1) return;
+
+    if (this.slideTimer < this.slideSpeed * (this.slideFirst ? 2.5 : 1)) {
+      this.slideTimer++;
+      return;
+    } else {
+      this.slideTimer = 0;
+      this.slideFirst = false;
+      this.activePentomino!.move(this.getMoveFromKey(key));
+    }
+  }
+
+  getKeyFromMove(move: TranslateAction): number {
+    switch (move) {
+      case "left":
+        return 0;
+      case "right":
+        return 1;
+      case "down":
+        return 2;
+    }
+  }
+
+  getMoveFromKey(key: number): TranslateAction {
+    switch (key) {
+      case 0:
+        return "left";
+      case 1:
+        return "right";
+      case 2:
+      default:
+        return "down";
+    }
+  }
+
   move(move: GameAction, down: boolean = true) {
+    if (moveIsTranslate(move)) {
+      const key = this.getKeyFromMove(move as TranslateAction);
+      const currentlyPressed = this.keys[key];
+
+      if (currentlyPressed && down) return;
+
+      this.keys[key] = down;
+
+      if (!down && currentlyPressed) {
+        this.slideTimer = 0;
+        this.slideFirst = true;
+      }
+    }
+
     if (!down) {
       return;
     }
@@ -133,6 +197,9 @@ class Board {
       } else {
         this.settleTimer = 0;
       }
+
+      this.handleKeys();
+
       this.activePentomino.render();
     }
 
