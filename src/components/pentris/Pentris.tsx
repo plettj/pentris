@@ -5,6 +5,7 @@ import ThemeButton from "@/components/general/ThemeButton";
 import { useTheme } from "@/context/ThemeContext";
 import { PENTRIS_IMAGES_HREF } from "@/lib/constants";
 import Image from "next/image";
+import { ErrorBoundary } from "react-error-boundary";
 import Leaderboard from "../game/Leaderboard";
 
 export default function Pentris() {
@@ -39,7 +40,13 @@ export default function Pentris() {
         <Game />
       </main>
       <div className="absolute flex flex-col top-6 right-4 gap-4">
-        <Leaderboard />
+        <ErrorBoundary
+          fallback={
+            <p style={{ color: theme.pieces.ghost }}>Leaderboard error.</p>
+          }
+        >
+          <Leaderboard />
+        </ErrorBoundary>
       </div>
     </>
   );
