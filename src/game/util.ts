@@ -53,3 +53,7 @@ export function getUnitFromHeight(height: number): number {
 export function moveIsTranslate(move: GameAction): boolean {
   return move === "left" || move === "right" || move === "down";
 }
+
+export function easeOutQuad(r: number): number {
+  return 1 - (1 - r) * (1 - r);
+}

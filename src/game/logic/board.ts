@@ -1,6 +1,6 @@
-import { graphics, score, theme } from "game/objects";
+import { graphics, theme } from "game/objects";
 import { bucketTwelve } from "../constants";
-import { moveIsTranslate, shuffle } from "../util";
+import { easeOutQuad, moveIsTranslate, shuffle } from "../util";
 import Pent from "./pentomino";
 
 class Board {
@@ -13,6 +13,10 @@ class Board {
   unit: number = 22;
   size: Coor = [13, 26];
   readonly topGap: number = 5;
+
+  breaksAnimating: number[] = [];
+  breaksTimer: number = 0;
+  readonly breaksTimerLimit: number = 25;
 
   // Pentominoes
   activePentomino: Pent | null = null;
@@ -124,13 +128,13 @@ class Board {
       }
     }
 
-    if (!down) {
+    if (!down || !this.activePentomino) {
       return;
     }
 
     if (move === "bank") {
       if (!this.canBank) return;
-      const temp = this.activePentomino!;
+      const temp = this.activePentomino;
       this.activePentomino = this.bankPentomino;
       this.bankPentomino = temp;
       this.bankPentomino.set();
@@ -138,15 +142,13 @@ class Board {
       return;
     }
 
-    if (!this.activePentomino) return;
-
     this.activePentomino.move(move);
   }
 
   draw() {
     // Draw top line of the board.
     let ctx = graphics.contexts[0];
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    graphics.clear(0);
     ctx.strokeStyle = theme.getTheme().outline;
     ctx.lineWidth = 2;
     ctx.beginPath();
@@ -157,12 +159,29 @@ class Board {
 
     // Draw main board screen.
     ctx = graphics.contexts[1];
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    graphics.clear(1);
     // This will be much more dynamic once piece themes are implemented.
     ctx.fillStyle = theme.getTheme().pieces.placed;
+
+    const aCtx = graphics.contexts[3];
+    if (this.breaksAnimating.length > 0) {
+      graphics.clear(3);
+      const progress = easeOutQuad(
+        (this.breaksTimerLimit - this.breaksTimer) / this.breaksTimerLimit
+      );
+      aCtx.globalAlpha = progress;
+      aCtx.fillStyle = theme.getTheme().pieces.placed;
+    }
     for (let y = 0; y < this.size[1]; y++) {
       for (let x = 0; x < this.size[0]; x++) {
-        if (this.grid[y][x]) {
+        if (this.breaksAnimating.includes(y)) {
+          aCtx.fillRect(
+            x * this.unit,
+            (y + this.topGap) * this.unit,
+            this.unit,
+            this.unit
+          );
+        } else if (this.grid[y][x]) {
           ctx.fillRect(
             x * this.unit,
             (y + this.topGap) * this.unit,
@@ -175,7 +194,7 @@ class Board {
 
     // Draw bank + upcoming pentominoes.
     ctx = graphics.contexts[4];
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    graphics.clear(4);
 
     if (this.bankPentomino) {
       this.bankPentomino.drawBank();
@@ -187,7 +206,30 @@ class Board {
   }
 
   render() {
+    if (this.breaksAnimating.length > 0) {
+      this.breaksTimer++;
+
+      if (this.breaksTimer < this.breaksTimerLimit) {
+        this.draw();
+        return;
+      }
+
+      graphics.contexts[3].globalAlpha = 1;
+
+      this.breaksAnimating.forEach((row) => {
+        this.grid.splice(row, 1);
+        this.grid.unshift(new Array(this.size[0]).fill(0));
+      });
+
+      this.breaksAnimating = [];
+      this.breaksTimer = 0;
+      this.enterNewPentomino();
+    }
+
     if (this.activePentomino) {
+      this.handleKeys();
+      this.activePentomino.render();
+
       if (this.activePentomino.isSettling) {
         this.settleTimer++;
         if (
@@ -200,10 +242,6 @@ class Board {
       } else {
         this.settleTimer = 0;
       }
-
-      this.handleKeys();
-
-      this.activePentomino.render();
     }
 
     // TODO: Make this not happen on every single render!
@@ -232,8 +270,20 @@ class Board {
       this.grid[coor[1] + y][coor[0] + x] = 1;
     });
 
-    this.checkBreak();
+    this.breaksAnimating = this.checkBreak();
+    score!.updateScore(this.breaksAnimating.length);
 
+    if (this.breaksAnimating.length > 0) {
+      this.canBank = false;
+      this.activePentomino = null;
+      graphics.clear(2);
+      return;
+    }
+
+    this.enterNewPentomino();
+  }
+
+  enterNewPentomino() {
     this.canBank = true;
     this.settleTimer = 0;
     this.settleCount = 0;
@@ -261,18 +311,28 @@ class Board {
     return wall ? wallCollisions : mainCollisions;
   }
 
-  checkBreak() {
-    let rows = 0;
+  checkBreak(points: Coor[] = []): number[] {
+    let rows = [];
 
     for (let i = 0; i < this.grid.length; i++) {
-      if (this.grid[i].every((val) => val)) {
-        this.grid.splice(i, 1);
-        this.grid.unshift(new Array(this.grid[0].length).fill(0));
-        rows++;
+      let gap = false;
+
+      for (let j = 0; j < this.grid[i].length; j++) {
+        if (
+          this.grid[i][j] === 0 &&
+          !points.some((p) => p[0] === j && p[1] === i)
+        ) {
+          gap = true;
+          break;
+        }
+      }
+
+      if (!gap) {
+        rows.push(i);
       }
     }
 
-    score.updateScore(rows);
+    return rows;
   }
 }
 

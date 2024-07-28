@@ -38,6 +38,13 @@ class Pent {
     return transformedShape;
   }
 
+  getBoardPoints(): Coor[] {
+    return this.getShape().points.map(([x, y]) => [
+      this.coor[0] + x,
+      this.coor[1] + y,
+    ]);
+  }
+
   set() {
     this.orientation = 0;
     this.coor = [
@@ -300,6 +307,9 @@ class Pent {
           this.coor[1]++;
         }
         this.isSettling = true;
+        if (board.checkBreak(this.getBoardPoints()).length > 0) {
+          board.place();
+        }
         break;
       case "rotateCw":
         this.orientation = this.rotate(true);
