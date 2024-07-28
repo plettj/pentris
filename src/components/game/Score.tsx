@@ -30,7 +30,7 @@ export default function Score({ width }: { width: number }) {
           Level:
         </p>
         <p className="text-lg" style={{ color: theme.outline }}>
-          {currentLevel}
+          {currentLevel + 1}
         </p>
       </div>
     </section>
