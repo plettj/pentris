@@ -22,7 +22,7 @@ class Board {
   // Dynamic Settling
   settleTimer: number = 0;
   settleCount: number = 0;
-  readonly settleTimerLimit: number = 35;
+  readonly settleTimerLimit: number = 25;
   readonly settleCountLimit: number = 2;
 
   // Controls
@@ -190,7 +190,10 @@ class Board {
     if (this.activePentomino) {
       if (this.activePentomino.isSettling) {
         this.settleTimer++;
-        if (this.settleTimer > this.settleTimerLimit) {
+        if (
+          this.settleTimer > this.settleTimerLimit ||
+          this.activePentomino.isStuck()
+        ) {
           this.place();
           this.settleTimer = 0;
         }

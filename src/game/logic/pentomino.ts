@@ -48,7 +48,6 @@ class Pent {
 
   render() {
     const frame = graphics.frame;
-    this.isSettling = !this.canMove("down");
 
     if (frame % score.getSpeed() === 0) {
       if (!this.isSettling) {
@@ -70,15 +69,21 @@ class Pent {
     shape.points.forEach(([x, y]) => {
       const drawX = this.coor[0] + x;
       const drawY = this.coor[1] + y + board.topGap;
+      const pixelY = Math.floor(
+        drawY * board.unit +
+          ((frame % score.getSpeed()) / score.getSpeed() - 0.5) * board.unit
+      );
+
+      if (!this.canMove("down") && pixelY > drawY * board.unit) {
+        this.isSettling = true;
+      } else if (this.canMove("down")) {
+        this.isSettling = false;
+      }
+
       ctx.fillStyle = this.self.color;
       ctx.fillRect(
         drawX * board.unit,
-        this.isSettling
-          ? drawY * board.unit
-          : Math.floor(
-              drawY * board.unit +
-                ((frame % score.getSpeed()) / score.getSpeed()) * board.unit
-            ),
+        this.isSettling ? drawY * board.unit : pixelY,
         board.unit,
         board.unit
       );
@@ -142,6 +147,28 @@ class Pent {
     });
   }
 
+  isStuck() {
+    const currCoor = this.coor.slice() as Coor;
+
+    const moves: MoveAction[] = ["left", "right", "down"];
+    if (this.name !== "X") {
+      moves.push("rotateCw");
+      moves.push("rotateCcw");
+    }
+    if (this.name !== "I") {
+      moves.push("reflect");
+    }
+
+    for (let i = 0; i < moves.length; i++) {
+      if (this.canMove(moves[i])) {
+        this.coor = currCoor.slice() as Coor;
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   canMove(move: MoveAction): boolean {
     switch (move) {
       case "left":
@@ -168,6 +195,9 @@ class Pent {
     }
   }
 
+  /**
+   * Will modify the coordinates if it's necessary to bump the piece.
+   */
   canModifyMove(move: ModifyAction): boolean {
     let newShape;
     switch (move) {
@@ -269,6 +299,7 @@ class Pent {
         while (this.canMove("down")) {
           this.coor[1]++;
         }
+        this.isSettling = true;
         break;
       case "rotateCw":
         this.orientation = this.rotate(true);
