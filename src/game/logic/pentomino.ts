@@ -307,9 +307,6 @@ class Pent {
           this.coor[1]++;
         }
         this.isSettling = true;
-        if (board.checkBreak(this.getBoardPoints()).length > 0) {
-          board.place();
-        }
         break;
       case "rotateCw":
         this.orientation = this.rotate(true);

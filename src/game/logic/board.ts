@@ -232,10 +232,7 @@ class Board {
 
       if (this.activePentomino.isSettling) {
         this.settleTimer++;
-        if (
-          this.settleTimer > this.settleTimerLimit ||
-          this.activePentomino.isStuck()
-        ) {
+        if (this.settleTimer > this.settleTimerLimit) {
           this.place();
           this.settleTimer = 0;
         }
