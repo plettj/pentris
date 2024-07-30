@@ -1,5 +1,6 @@
 "use server";
 
+import { sanitizeUsername } from "@/game/util";
 import { prisma } from "@/lib/prisma";
 import { GameMode, ScoreList, SetScoreSchema } from "./schema";
 
@@ -27,9 +28,11 @@ export async function putHighScore({
   value,
   mode,
 }: SetScoreSchema) {
+  const sanitizedUsername = sanitizeUsername(username);
+
   await prisma.highScore.upsert({
     where: { id },
-    update: { value, username },
-    create: { id, userId, username, value, mode },
+    update: { value, username: sanitizedUsername },
+    create: { id, userId, username: sanitizedUsername, value, mode },
   });
 }

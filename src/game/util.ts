@@ -57,3 +57,26 @@ export function moveIsTranslate(move: GameAction): boolean {
 export function easeOutQuad(r: number): number {
   return 1 - (1 - r) * (1 - r);
 }
+
+const profanity: [string, string][] = [
+  ["shit", "unicorn"],
+  ["piss", "frog"],
+  ["fuck", "pop tart"],
+  ["nigger", "noodle"],
+  ["faggot", "marmot"],
+  ["cunt", "sparkle"],
+  ["cocksucker", "pony"],
+  ["motherfucker", "platypus"],
+  ["tits", "butterfly"],
+];
+
+export function sanitizeUsername(username: string): string {
+  for (const [badWord, replacement] of profanity) {
+    const regex = new RegExp(badWord, "gi");
+    username = username.replace(regex, replacement);
+  }
+
+  let sanitized = username.trim().slice(0, 15);
+
+  return sanitized;
+}
