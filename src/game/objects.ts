@@ -20,22 +20,21 @@ const createThemeSingleton = () => {
 };
 
 declare global {
+  // `var` instead of `let` intentionally. https://stackoverflow.com/a/69429093/8360465
   var graphics: Graphics | undefined;
   var board: Board | undefined;
   var score: Score | undefined;
   var theme: Theme | undefined;
 }
 
-const graphics = global.graphics ?? createGraphicsSingleton();
-const board = global.board ?? createBoardSingleton();
-const score = global.score ?? createScoreSingleton();
-const theme = global.theme ?? createThemeSingleton();
+if (!globalThis.graphics) globalThis.graphics = createGraphicsSingleton();
+if (!globalThis.board) globalThis.board = createBoardSingleton();
+if (!globalThis.score) globalThis.score = createScoreSingleton();
+if (!globalThis.theme) globalThis.theme = createThemeSingleton();
 
-if (process.env.NODE_ENV !== "production") {
-  global.graphics = graphics;
-  global.board = board;
-  global.score = score;
-  global.theme = theme;
-}
+const graphics = globalThis.graphics as Graphics;
+const board = globalThis.board as Board;
+const score = globalThis.score as Score;
+const theme = globalThis.theme as Theme;
 
 export { board, graphics, score, theme };
