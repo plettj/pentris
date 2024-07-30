@@ -28,7 +28,17 @@ export default function Leaderboard() {
       ) : (
         data.map((score, index) => (
           <div className="grid grid-cols-2 gap-2" key={index}>
-            <div className="text-left" style={{ color: theme.pieces.ghost }}>
+            <div
+              className="text-left"
+              style={{
+                color:
+                  score.username === "Anonymous"
+                    ? theme.pieces.ghost
+                    : theme.pieces.placed,
+                fontWeight:
+                  score.username === "Anonymous" ? "normal" : "lighter",
+              }}
+            >
               {score.username}
             </div>
             <div className="text-right" style={{ color: theme.outline }}>

@@ -15,6 +15,9 @@ interface ModalProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   submitAction: (success: boolean) => void;
+  textInput?: boolean;
+  inputValue?: string;
+  setInputValue?: (value: string) => void;
 }
 
 export default function Modal({
@@ -24,6 +27,9 @@ export default function Modal({
   open,
   setOpen,
   submitAction,
+  textInput,
+  inputValue,
+  setInputValue,
 }: ModalProps) {
   const handleSubmit = (success: boolean) => {
     submitAction(success);
@@ -37,6 +43,14 @@ export default function Modal({
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
+        {textInput && (
+          <input
+            type="text"
+            className="w-full p-2 mt-2 border border-gray-200 rounded-lg"
+            value={inputValue}
+            onChange={(e) => setInputValue?.(e.target.value)}
+          />
+        )}
         <DialogFooter className="flex flex-row justify-end w-full gap-2">
           <Button variant="outline" onClick={() => handleSubmit(false)}>
             Cancel

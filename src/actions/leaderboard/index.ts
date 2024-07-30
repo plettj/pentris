@@ -29,7 +29,7 @@ export async function putHighScore({
 }: SetScoreSchema) {
   await prisma.highScore.upsert({
     where: { id },
-    update: { value },
+    update: { value, username },
     create: { id, userId, username, value, mode },
   });
 }

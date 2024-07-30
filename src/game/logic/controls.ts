@@ -1,5 +1,5 @@
+import { board, graphics } from "game/objects";
 import { controlMapping } from "../constants";
-import { board } from "game/objects";
 
 export default class ControlMapping {
   private mapping: Map<string, GameAction>;
@@ -19,6 +19,8 @@ export default class ControlMapping {
 }
 
 export const handleKey = (type: "down" | "up") => (event: KeyboardEvent) => {
+  if (graphics.paused) return;
+
   const action: GameAction | null = controlMapping.getAction(event.code);
 
   if (action === null) {

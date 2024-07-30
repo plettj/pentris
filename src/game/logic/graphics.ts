@@ -1,7 +1,7 @@
 import { board, score } from "game/objects";
 
 export default class Graphics {
-  paused: boolean = false;
+  paused: boolean = true;
   contexts: CanvasRenderingContext2D[] = [];
   frame: number = 0;
 
@@ -9,6 +9,8 @@ export default class Graphics {
 
   init(contexts: CanvasRenderingContext2D[]) {
     this.contexts = contexts;
+    // Preliminary render to draw background graphics.
+    board.render();
   }
 
   render() {
