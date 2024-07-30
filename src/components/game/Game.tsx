@@ -2,13 +2,13 @@
 
 import { useTheme } from "@/context/ThemeContext";
 import { board, graphics } from "@/game/objects";
+import { getUnitFromHeight } from "@/game/util";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 import { handleKey } from "game/logic/controls";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Modal from "../general/Modal";
 import Canvas from "./Canvas";
 import Score from "./Score";
-import { getUnitFromHeight } from "@/game/util";
 
 export default function Game() {
   const cStaticRef = useRef<HTMLCanvasElement | null>(null);
@@ -31,11 +31,20 @@ export default function Game() {
   const width = unit * board.size[0];
   const height = unit * (board.size[1] + board.topGap);
 
+  const safeGraphicsPause = (pause: boolean) => {
+    var intr = setInterval(function () {
+      if (graphics) {
+        graphics.pause(pause);
+        clearInterval(intr);
+      }
+    }, 200);
+  };
+
   const handleThresholdChange = useCallback(
     (change: { larger: boolean; width: number; height: number }) => {
       setResizeDetails(change);
       setOpen(true);
-      graphics.pause(true);
+      safeGraphicsPause(true);
     },
     []
   );
@@ -67,7 +76,7 @@ export default function Game() {
       return;
     }
 
-    graphics.init(contexts as CanvasRenderingContext2D[]);
+    graphics?.init(contexts as CanvasRenderingContext2D[]);
 
     if (!refreshing) {
       board.init(width / 13);
@@ -84,7 +93,7 @@ export default function Game() {
       initializeCanvases(true);
     }
 
-    graphics.pause(false);
+    safeGraphicsPause(false);
     setOpen(false);
   };
 
@@ -105,7 +114,7 @@ export default function Game() {
       if (elapsed > fpsInterval) {
         then = now - (elapsed % fpsInterval);
 
-        graphics.render();
+        graphics?.render();
       }
     };
 
