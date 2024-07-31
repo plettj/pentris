@@ -5,8 +5,7 @@ export default class Score {
 
   private rowScores: number[] = [0, 1, 5, 10, 15, 30];
   private levelSpeeds: number[] = [
-    50, 45, 40, 36, 32, 28, 25, 22, 19, 17, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6,
-    5,
+    50, 44, 38, 33, 28, 24, 21, 18, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5,
   ];
 
   levelLength: number = 60;

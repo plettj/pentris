@@ -33,7 +33,7 @@ class Board {
   keys: boolean[] = [false, false, false]; // [left, right, down]
   slideTimer: number = 0;
   slideFirst: boolean = true;
-  readonly slideSpeed: number = 4;
+  readonly slideSpeed: number = 3;
 
   // Banking
   canBank: boolean = true;
@@ -80,7 +80,7 @@ class Board {
 
     if (key === -1) return;
 
-    if (this.slideTimer < this.slideSpeed * (this.slideFirst ? 2.5 : 1)) {
+    if (this.slideTimer < this.slideSpeed * (this.slideFirst ? 3 : 1)) {
       this.slideTimer++;
       return;
     } else {
@@ -274,6 +274,7 @@ class Board {
 
     if (lostGame) {
       console.log("Game Over!");
+      graphics.pause(true);
       this.activePentomino = null;
       score.saveHighScore();
       return;
