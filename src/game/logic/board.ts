@@ -1,6 +1,6 @@
-import { graphics, score, theme } from "game/objects";
 import { bucketTwelve } from "../constants";
 import { easeOutQuad, moveIsTranslate, shuffle } from "../util";
+import Manager from "./manager";
 import Pent from "./pentomino";
 
 class Board {
@@ -147,9 +147,9 @@ class Board {
 
   draw() {
     // Draw top line of the board.
-    let ctx = graphics.contexts[0];
-    graphics.clear(0);
-    ctx.strokeStyle = theme.getTheme().outline;
+    let ctx = Manager.graphics.contexts[0];
+    Manager.graphics.clear(0);
+    ctx.strokeStyle = Manager.theme.getTheme().outline;
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(0, this.unit * this.topGap);
@@ -158,19 +158,19 @@ class Board {
     ctx.closePath();
 
     // Draw main board screen.
-    ctx = graphics.contexts[1];
-    graphics.clear(1);
+    ctx = Manager.graphics.contexts[1];
+    Manager.graphics.clear(1);
     // This will be much more dynamic once piece themes are implemented.
-    ctx.fillStyle = theme.getTheme().pieces.placed;
+    ctx.fillStyle = Manager.theme.getTheme().pieces.placed;
 
-    const aCtx = graphics.contexts[3];
+    const aCtx = Manager.graphics.contexts[3];
     if (this.breaksAnimating.length > 0) {
-      graphics.clear(3);
+      Manager.graphics.clear(3);
       const progress = easeOutQuad(
         (this.breaksTimerLimit - this.breaksTimer) / this.breaksTimerLimit
       );
       aCtx.globalAlpha = progress;
-      aCtx.fillStyle = theme.getTheme().pieces.placed;
+      aCtx.fillStyle = Manager.theme.getTheme().pieces.placed;
     }
     for (let y = 0; y < this.size[1]; y++) {
       for (let x = 0; x < this.size[0]; x++) {
@@ -193,8 +193,8 @@ class Board {
     }
 
     // Draw bank + upcoming pentominoes.
-    ctx = graphics.contexts[4];
-    graphics.clear(4);
+    ctx = Manager.graphics.contexts[4];
+    Manager.graphics.clear(4);
 
     if (this.bankPentomino) {
       this.bankPentomino.drawBank();
@@ -214,7 +214,7 @@ class Board {
         return;
       }
 
-      graphics.contexts[3].globalAlpha = 1;
+      Manager.graphics.contexts[3].globalAlpha = 1;
 
       this.breaksAnimating.forEach((row) => {
         this.grid.splice(row, 1);
@@ -274,19 +274,19 @@ class Board {
 
     if (lostGame) {
       console.log("Game Over!");
-      graphics.pause(true);
+      Manager.graphics.pause(true);
       this.activePentomino = null;
-      score.saveHighScore();
+      Manager.score.saveHighScore();
       return;
     }
 
     this.breaksAnimating = this.checkBreak();
-    score.updateScore(this.breaksAnimating.length);
+    Manager.score.updateScore(this.breaksAnimating.length);
 
     if (this.breaksAnimating.length > 0) {
       this.canBank = false;
       this.activePentomino = null;
-      graphics.clear(2);
+      Manager.graphics.clear(2);
       return;
     }
 
