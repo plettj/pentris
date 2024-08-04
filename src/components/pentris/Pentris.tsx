@@ -7,6 +7,7 @@ import { PENTRIS_IMAGES_HREF } from "@/lib/constants";
 import Image from "next/image";
 import { ErrorBoundary } from "react-error-boundary";
 import Leaderboard from "../game/Leaderboard";
+import Time from "../game/Time";
 
 export default function Pentris() {
   const { themeName, theme } = useTheme();
@@ -27,6 +28,7 @@ export default function Pentris() {
             height={160}
             className="w-64 h-auto"
           />
+          <Time />
         </div>
       </div>
       <main

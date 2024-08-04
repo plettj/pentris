@@ -7,6 +7,7 @@ export default class Score {
   private levelSpeeds: number[] = [
     50, 44, 38, 33, 28, 24, 21, 18, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5,
   ];
+  private startTimestamp: number = Date.now();
 
   levelLength: number = 60;
   level = 0;
@@ -21,6 +22,7 @@ export default class Score {
     this.level = 0;
     this.highScore = highScore;
     this.userId = userId;
+    this.startTimestamp = Date.now();
   }
 
   getSpeed() {
@@ -29,6 +31,10 @@ export default class Score {
         ? this.levelSpeeds.length - 1
         : this.level
     ];
+  }
+
+  getSeconds() {
+    return Math.floor(Math.abs(Date.now() - this.startTimestamp) / 1000);
   }
 
   updateScore(rows: number) {

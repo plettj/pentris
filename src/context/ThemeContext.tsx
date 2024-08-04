@@ -1,14 +1,13 @@
 "use client";
 
+import { theme } from "game/objects";
 import {
   createContext,
+  ReactNode,
+  useCallback,
   useContext,
   useState,
-  useCallback,
-  ReactNode,
-  useEffect,
 } from "react";
-import { theme } from "game/objects";
 
 type ThemeContextType = {
   themeName: string;
@@ -43,8 +42,10 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
 export const useTheme = () => {
   const context = useContext(ThemeContext);
+
   if (!context) {
-    throw new Error("useTheme must be used within a ThemeProvider");
+    throw new Error("useTheme must be used within a ThemeProvider.");
   }
+
   return context;
 };
