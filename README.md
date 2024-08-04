@@ -1,10 +1,10 @@
-# Pentris - v1.4
+# Pentris - v1.5
 
 Tetris, but with the pentominoes 😎
 
 ## Play Now
 
-Play `1.4` now at [plett.fun/pentris](https://plett.fun/pentris)
+Play `1.5` now at [plett.fun/pentris](https://plett.fun/pentris)
 
 #### Controls
 
@@ -15,6 +15,7 @@ Play `1.4` now at [plett.fun/pentris](https://plett.fun/pentris)
 
 ## Previous Playable Versions
 
+- 1.4: [not accessible](https://plett.fun/pentris). No start/end screens or dynamic leaderboard. ([code](https://github.com/plettj/pentris/tree/1f4b41f266b359fbdcad6732712769aa9d65d39e))
 - 1.3: [here](https://pentris-1point3.surge.sh/). No sustainable code infra. ([code](https://github.com/plettj/pentris/tree/4a8eda8137e8ec06056809e99d8489f3997a19ce))
 - 1.2: [here](https://pentris-1point2.surge.sh/). No hold bucket. ([code](https://github.com/plettj/pentris/tree/46b75d539ebfb336e849dfd46e61e3b5fcfbaa8f))
 - 1.1: [here](https://pentris-1point1.surge.sh/). No upcoming pieces display. ([code](https://github.com/plettj/pentris/tree/e4f7545feb8526465906bddb37eae40118bd4753))
@@ -22,13 +23,9 @@ Play `1.4` now at [plett.fun/pentris](https://plett.fun/pentris)
 
 ## High Scores
 
-### Version 1.4
+### Version >=1.4
 
-| Username | Score |
-| -------- | ----- |
-| loser314 | 1807  |
-| CREATOR  | 554   |
-| erosion  | 30    |
+Dynamic leaderboard introduced!
 
 ### Version 1.3
 

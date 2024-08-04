@@ -6,13 +6,13 @@ import { type Metadata } from "next";
 
 // OPG compliant metadata (https://ogp.me/)
 export const metadata: Metadata = {
-  title: "Pentris v1.4",
+  title: "Pentris v1.5",
   description: "Tetris, but with the Pentominoes",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: BASE_URL,
-    title: "Pentris v1.4",
+    title: "Pentris v1.5",
     siteName: "Pentris",
     description: "Tetris, but with the Pentominoes",
     images: [
