@@ -1,7 +1,7 @@
 "use client";
 
 import { useTheme } from "@/context/ThemeContext";
-import Manager from "@/game/logic/manager";
+import { board, graphics } from "@/game/objects";
 import { getUnitFromHeight } from "@/game/util";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 import { handleKey } from "game/logic/controls";
@@ -28,13 +28,13 @@ export default function Game() {
 
   const [unit, setUnit] = useState(getUnitFromHeight(740));
 
-  const width = unit * Manager.board.size[0];
-  const height = unit * (Manager.board.size[1] + Manager.board.topGap);
+  const width = unit * board.size[0];
+  const height = unit * (board.size[1] + board.topGap);
 
   const safeGraphicsPause = (pause: boolean) => {
     var intr = setInterval(function () {
-      if (Manager.graphics) {
-        Manager.graphics.pause(pause);
+      if (graphics) {
+        graphics.pause(pause);
         clearInterval(intr);
       }
     }, 200);
@@ -76,12 +76,12 @@ export default function Game() {
       return;
     }
 
-    Manager.graphics?.init(contexts as CanvasRenderingContext2D[]);
+    graphics?.init(contexts as CanvasRenderingContext2D[]);
 
     if (!refreshing) {
-      Manager.board.init(width / 13);
+      board.init(width / 13);
     } else {
-      Manager.board.refreshSize(width / 13);
+      board.refreshSize(width / 13);
     }
   };
 
@@ -114,7 +114,7 @@ export default function Game() {
       if (elapsed > fpsInterval) {
         then = now - (elapsed % fpsInterval);
 
-        Manager.graphics?.render();
+        graphics?.render();
       }
     };
 

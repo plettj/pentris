@@ -1,6 +1,6 @@
+import { board, graphics, score, theme } from "game/objects";
 import { pentominoes } from "../constants";
 import { reflect, rotate } from "../util";
-import Manager from "./manager";
 
 class Pent {
   readonly name: PentName;
@@ -54,36 +54,34 @@ class Pent {
   }
 
   render() {
-    const frame = Manager.graphics.frame;
+    const frame = graphics.frame;
 
-    if (frame % Manager.score.getSpeed() === 0) {
+    if (frame % score.getSpeed() === 0) {
       if (!this.isSettling) {
         this.move("down");
       }
     }
 
-    Manager.graphics.clear(2);
+    graphics.clear(2);
     this.draw(frame);
 
-    Manager.graphics.clear(3);
+    graphics.clear(3);
     this.drawGhost();
   }
 
   draw(frame: number) {
     const shape = this.getShape();
-    const ctx = Manager.graphics.contexts[2];
+    const ctx = graphics.contexts[2];
 
     shape.points.forEach(([x, y]) => {
       const drawX = this.coor[0] + x;
-      const drawY = this.coor[1] + y + Manager.board.topGap;
+      const drawY = this.coor[1] + y + board.topGap;
       const pixelY = Math.floor(
-        drawY * Manager.board.unit +
-          ((frame % Manager.score.getSpeed()) / Manager.score.getSpeed() -
-            0.5) *
-            Manager.board.unit
+        drawY * board.unit +
+          ((frame % score.getSpeed()) / score.getSpeed() - 0.5) * board.unit
       );
 
-      if (!this.canMove("down") && pixelY > drawY * Manager.board.unit) {
+      if (!this.canMove("down") && pixelY > drawY * board.unit) {
         this.isSettling = true;
       } else if (this.canMove("down")) {
         this.isSettling = false;
@@ -91,67 +89,67 @@ class Pent {
 
       ctx.fillStyle = this.self.color;
       ctx.fillRect(
-        drawX * Manager.board.unit,
-        this.isSettling ? drawY * Manager.board.unit : pixelY,
-        Manager.board.unit,
-        Manager.board.unit
+        drawX * board.unit,
+        this.isSettling ? drawY * board.unit : pixelY,
+        board.unit,
+        board.unit
       );
     });
   }
 
   drawBank() {
     const shape = this.getShape();
-    const ctx = Manager.graphics.contexts[4];
+    const ctx = graphics.contexts[4];
 
     shape.points.forEach(([x, y]) => {
       const drawX = 2 + x;
-      const drawY = -4 + y + Manager.board.topGap;
+      const drawY = -4 + y + board.topGap;
       ctx.fillStyle = this.self.color;
       ctx.fillRect(
-        drawX * Manager.board.unit,
-        drawY * Manager.board.unit,
-        Manager.board.unit,
-        Manager.board.unit
+        drawX * board.unit,
+        drawY * board.unit,
+        board.unit,
+        board.unit
       );
     });
   }
 
   drawGhost() {
     const shape = this.getShape();
-    const ctx = Manager.graphics.contexts[3];
+    const ctx = graphics.contexts[3];
     const coor = this.coor.slice();
 
-    while (!Manager.board.isCollide(shape, [coor[0], coor[1] + 1])) {
+    while (!board.isCollide(shape, [coor[0], coor[1] + 1])) {
       coor[1]++;
     }
 
     // This will become more dynamic with the introduction of custom pieces.
-    ctx.fillStyle = Manager.theme.getTheme().pieces.ghost;
+    ctx.fillStyle = theme.getTheme().pieces.ghost;
     shape.points.forEach(([x, y]) => {
       const drawX = coor[0] + x;
-      const drawY = coor[1] + y + Manager.board.topGap;
+      const drawY = coor[1] + y + board.topGap;
       ctx.fillRect(
-        drawX * Manager.board.unit,
-        drawY * Manager.board.unit,
-        Manager.board.unit,
-        Manager.board.unit
+        drawX * board.unit,
+        drawY * board.unit,
+        board.unit,
+        board.unit
       );
     });
   }
 
   drawUpcoming(spot: number) {
     const shape = this.getShape();
-    const ctx = Manager.graphics.contexts[4];
+    const ctx = graphics.contexts[4];
 
     shape.points.forEach(([x, y]) => {
       const drawX = 21 + x;
-      const drawY = -4 + y + Manager.board.topGap + spot * 6;
+      const drawY = -4 + y + board.topGap + spot * 6;
       ctx.fillStyle = this.self.color;
       ctx.fillRect(
-        drawX * Manager.board.unit,
-        drawY * Manager.board.unit,
-        Manager.board.unit,
-        Manager.board.unit
+        drawX * board.unit,
+        drawY * board.unit,
+        board.unit,
+        board.unit
       );
     });
   }
@@ -181,17 +179,17 @@ class Pent {
   canMove(move: MoveAction): boolean {
     switch (move) {
       case "left":
-        return !Manager.board.isCollide(this.getShape(), [
+        return !board.isCollide(this.getShape(), [
           this.coor[0] - 1,
           this.coor[1],
         ]);
       case "right":
-        return !Manager.board.isCollide(this.getShape(), [
+        return !board.isCollide(this.getShape(), [
           this.coor[0] + 1,
           this.coor[1],
         ]);
       case "down":
-        return !Manager.board.isCollide(this.getShape(), [
+        return !board.isCollide(this.getShape(), [
           this.coor[0],
           this.coor[1] + 1,
         ]);
@@ -221,74 +219,62 @@ class Pent {
         break;
     }
 
-    if (!Manager.board.isCollide(newShape, this.coor)) {
+    if (!board.isCollide(newShape, this.coor)) {
       return true; // Simple case.
     }
 
     // CASE 1: Check for wall kicks.
-    if (Manager.board.isCollide(newShape, this.coor, true)) {
-      if (
-        !Manager.board.isCollide(newShape, [this.coor[0] - 1, this.coor[1]])
-      ) {
+    if (board.isCollide(newShape, this.coor, true)) {
+      if (!board.isCollide(newShape, [this.coor[0] - 1, this.coor[1]])) {
         this.coor[0]--;
         return true;
       }
-      if (
-        !Manager.board.isCollide(newShape, [this.coor[0] + 1, this.coor[1]])
-      ) {
+      if (!board.isCollide(newShape, [this.coor[0] + 1, this.coor[1]])) {
         this.coor[0]++;
         return true;
       }
       // CASE 2: Check for double wall kicks.
-      if (
-        !Manager.board.isCollide(newShape, [this.coor[0] - 2, this.coor[1]])
-      ) {
+      if (!board.isCollide(newShape, [this.coor[0] - 2, this.coor[1]])) {
         this.coor[0] -= 2;
         return true;
       }
-      if (
-        !Manager.board.isCollide(newShape, [this.coor[0] + 2, this.coor[1]])
-      ) {
+      if (!board.isCollide(newShape, [this.coor[0] + 2, this.coor[1]])) {
         this.coor[0] += 2;
         return true;
       }
     }
     // CASE 3: Check for horizontal pushes.
-    if (!Manager.board.isCollide(newShape, [this.coor[0] - 1, this.coor[1]])) {
+    if (!board.isCollide(newShape, [this.coor[0] - 1, this.coor[1]])) {
       this.coor[0]--;
       return true;
     }
-    if (!Manager.board.isCollide(newShape, [this.coor[0] + 1, this.coor[1]])) {
+    if (!board.isCollide(newShape, [this.coor[0] + 1, this.coor[1]])) {
       this.coor[0]++;
       return true;
     }
     // CASE 4: Check for downward push.
-    if (!Manager.board.isCollide(newShape, [this.coor[0], this.coor[1] + 1])) {
+    if (!board.isCollide(newShape, [this.coor[0], this.coor[1] + 1])) {
       this.coor[1]++;
       return true;
     }
     // CASE 5: Check for diagonal downward pushes.
-    if (
-      !Manager.board.isCollide(newShape, [this.coor[0] - 1, this.coor[1] + 1])
-    ) {
+    if (!board.isCollide(newShape, [this.coor[0] - 1, this.coor[1] + 1])) {
       this.coor[0]--;
       this.coor[1]++;
       return true;
     }
-    if (
-      !Manager.board.isCollide(newShape, [this.coor[0] + 1, this.coor[1] + 1])
-    ) {
+    if (!board.isCollide(newShape, [this.coor[0] + 1, this.coor[1] + 1])) {
       this.coor[0]++;
       this.coor[1]++;
       return true;
     }
     // CASE 6: Check for double downward push.
-    if (!Manager.board.isCollide(newShape, [this.coor[0], this.coor[1] + 2])) {
+    if (!board.isCollide(newShape, [this.coor[0], this.coor[1] + 2])) {
       this.coor[1] += 2;
       return true;
     }
     // CASE 7: Check for upward push.
-    if (!Manager.board.isCollide(newShape, [this.coor[0], this.coor[1] - 1])) {
+    if (!board.isCollide(newShape, [this.coor[0], this.coor[1] - 1])) {
       this.coor[1]--;
       // TODO: Adjust fall timer based on being pushed up.
       return true;
@@ -303,7 +289,7 @@ class Pent {
     if (!this.canMove(move)) return;
 
     if (this.isSettling) {
-      Manager.board.resetSettle();
+      board.resetSettle();
     }
 
     switch (move) {

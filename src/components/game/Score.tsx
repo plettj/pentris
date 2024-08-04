@@ -2,8 +2,8 @@
 
 import { putHighScore } from "@/actions/leaderboard";
 import { useTheme } from "@/context/ThemeContext";
-import Manager from "@/game/logic/manager";
 import { useQueryClient } from "@tanstack/react-query";
+import { score } from "game/objects";
 import { useCallback, useEffect, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import { v4 as uuid } from "uuid";
@@ -21,40 +21,40 @@ export default function Score({ width }: { width: number }) {
   const [tempUsername, setTempUsername] = useState(username);
 
   const handleScore = useCallback(() => {
-    setCurrentScore(Manager.score.score);
-    setCurrentLevel(Manager.score.level);
+    setCurrentScore(score.score);
+    setCurrentLevel(score.level);
   }, []);
 
-  Manager.score.setOnChange(handleScore);
+  score.setOnChange(handleScore);
 
   const handleHighScore = useCallback(async () => {
-    setHighScore(Manager.score.score.toString());
-    console.log("New high score:", Manager.score.score);
+    setHighScore(score.score.toString());
+    console.log("New high score:", score.score);
     await putHighScore({
       id: userId,
       userId: userId,
       username: username === "" ? "Anonymous" : username,
-      value: Manager.score.score,
+      value: score.score,
       mode: "normal",
     });
     queryClient.invalidateQueries({ queryKey: ["leaderboard"] });
   }, [setHighScore, userId, username, queryClient]);
 
-  Manager.score.setOnHighScoreChange(handleHighScore);
+  score.setOnHighScoreChange(handleHighScore);
 
   useEffect(() => {
     if (userId === "") {
       setUserId(uuid());
     }
 
-    Manager.score.init(parseInt(highScore), userId);
+    score.init(parseInt(highScore), userId);
   }, [highScore, userId, setUserId]);
 
   useEffect(() => {
     if (username === "") {
       setUsernameModalOpen(true);
     } else {
-      Manager.graphics?.pause(false);
+      graphics?.pause(false);
     }
   }, [username, setUsernameModalOpen]);
 
@@ -63,7 +63,7 @@ export default function Score({ width }: { width: number }) {
       setUsername(tempUsername);
     }
 
-    Manager.graphics?.pause(false);
+    graphics?.pause(false);
   };
 
   return (

@@ -1,4 +1,4 @@
-import Manager from "./manager";
+import { board, score } from "game/objects";
 
 export default class Graphics {
   paused: boolean = true;
@@ -10,17 +10,17 @@ export default class Graphics {
   init(contexts: CanvasRenderingContext2D[]) {
     this.contexts = contexts;
     // Preliminary render to draw background graphics.
-    Manager.board.render();
+    board.render();
   }
 
   render() {
     if (this.paused) return;
     this.frame++;
 
-    Manager.board.render();
+    board.render();
 
-    if (this.frame % (60 * Manager.score.levelLength) === 0) {
-      Manager.score.updateLevel();
+    if (this.frame % (60 * score.levelLength) === 0) {
+      score.updateLevel();
     }
   }
 

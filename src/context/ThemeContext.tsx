@@ -1,13 +1,14 @@
 "use client";
 
-import Manager from "@/game/logic/manager";
 import {
   createContext,
-  ReactNode,
-  useCallback,
   useContext,
   useState,
+  useCallback,
+  ReactNode,
+  useEffect,
 } from "react";
+import { theme } from "game/objects";
 
 type ThemeContextType = {
   themeName: string;
@@ -18,19 +19,17 @@ type ThemeContextType = {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [themeName, setThemeName] = useState<string>(Manager.theme.theme);
-  const [currentTheme, setCurrentTheme] = useState<ThemeType>(
-    Manager.theme.getTheme()
-  );
+  const [themeName, setThemeName] = useState<string>(theme.theme);
+  const [currentTheme, setCurrentTheme] = useState<ThemeType>(theme.getTheme());
 
   const handleChangeTheme = useCallback((themeName: string) => {
     setThemeName(themeName);
-    Manager.theme.setTheme(themeName);
-    setCurrentTheme(Manager.theme.getTheme());
+    theme.setTheme(themeName);
+    setCurrentTheme(theme.getTheme());
   }, []);
 
-  Manager.theme.setOnChange(() => {
-    handleChangeTheme(Manager.theme.theme);
+  theme.setOnChange(() => {
+    handleChangeTheme(theme.theme);
   });
 
   return (

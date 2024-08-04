@@ -1,11 +1,19 @@
 import Board from "./board";
 import Graphics from "./graphics";
-import Score from "./score";
-import Theme from "./theme";
+import ControlMapping from "./controls";
+import { controlMapping } from "../constants";
 
+// TODO: Make the Manager the main class,
+//       that initializes and manages the game.
 export default class Manager {
-  static graphics = new Graphics();
-  static board = new Board();
-  static score = new Score();
-  static theme = new Theme();
+  paused: boolean = false;
+  graphics: Graphics;
+  board: Board;
+  controls: ControlMapping;
+
+  constructor() {
+    this.graphics = new Graphics();
+    this.board = new Board();
+    this.controls = controlMapping;
+  }
 }
