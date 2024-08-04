@@ -13,7 +13,7 @@ export default function Pentris() {
   const { themeName, theme } = useTheme();
 
   return (
-    <>
+    <div className="h-full hidden lg:inline-block">
       <div className="relative">
         <div className="absolute flex flex-col top-6 left-4 gap-4">
           <ThemeButton />
@@ -50,6 +50,6 @@ export default function Pentris() {
           <Leaderboard />
         </ErrorBoundary>
       </div>
-    </>
+    </div>
   );
 }

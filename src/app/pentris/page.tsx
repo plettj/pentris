@@ -1,5 +1,6 @@
 import PentrisProviders from "@/components/layouts/PentrisProviders";
 import Pentris from "@/components/pentris/Pentris";
+import PentrisMobile from "@/components/pentris/PentrisMobile";
 import { BASE_URL, PENTRIS_IMAGES_HREF } from "@/lib/constants";
 import { type Metadata } from "next";
 
@@ -26,6 +27,7 @@ export const metadata: Metadata = {
 export default async function PentrisPage() {
   return (
     <PentrisProviders>
+      <PentrisMobile />
       <Pentris />
     </PentrisProviders>
   );
