@@ -3,10 +3,8 @@
 import { useTheme } from "@/context/ThemeContext";
 import { board, graphics } from "@/game/objects";
 import { getUnitFromHeight } from "@/game/util";
-import useWindowDimensions from "@/hooks/useWindowDimensions";
 import { handleKey } from "game/logic/controls";
-import { useCallback, useEffect, useRef, useState } from "react";
-import Modal from "../general/Modal";
+import { useEffect, useRef } from "react";
 import Canvas from "./Canvas";
 import Score from "./Score";
 
@@ -19,37 +17,9 @@ export default function Game() {
 
   const { theme } = useTheme();
 
-  const [open, setOpen] = useState(false);
-  const [resizeDetails, setResizeDetails] = useState<{
-    larger: boolean;
-    width: number;
-    height: number;
-  } | null>(null);
-
-  const [unit, setUnit] = useState(getUnitFromHeight(740));
-
+  const unit = getUnitFromHeight(740);
   const width = unit * board.size[0];
   const height = unit * (board.size[1] + board.topGap);
-
-  const safeGraphicsPause = (pause: boolean) => {
-    var intr = setInterval(function () {
-      if (graphics) {
-        graphics.pause(pause);
-        clearInterval(intr);
-      }
-    }, 200);
-  };
-
-  const handleThresholdChange = useCallback(
-    (change: { larger: boolean; width: number; height: number }) => {
-      setResizeDetails(change);
-      setOpen(true);
-      safeGraphicsPause(true);
-    },
-    []
-  );
-
-  useWindowDimensions(handleThresholdChange);
 
   const initializeCanvases = (refreshing?: boolean) => {
     const canvases = [
@@ -83,18 +53,6 @@ export default function Game() {
     } else {
       board.refreshSize(width / 13);
     }
-  };
-
-  const handleSubmitAction = (success: boolean) => {
-    if (success) {
-      // Update the screen unit size.
-      setUnit(getUnitFromHeight(height));
-
-      initializeCanvases(true);
-    }
-
-    safeGraphicsPause(false);
-    setOpen(false);
   };
 
   useEffect(() => {
@@ -152,16 +110,6 @@ export default function Game() {
         </div>
       </section>
       <Score width={width} />
-      <Modal
-        title="Screen Resized"
-        description={`The screen has ${
-          resizeDetails?.larger ? "grown larger" : "shrunk smaller"
-        }. Would you like to update the game to fit the screen?`}
-        action="Update"
-        open={open}
-        setOpen={setOpen}
-        submitAction={handleSubmitAction}
-      />
     </div>
   );
 }
