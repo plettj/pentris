@@ -6,6 +6,7 @@ import { useTheme } from "@/context/ThemeContext";
 import { PENTRIS_IMAGES_HREF } from "@/lib/constants";
 import Image from "next/image";
 import { ErrorBoundary } from "react-error-boundary";
+import GameSelect from "../game/GameSelect";
 import Leaderboard from "../game/Leaderboard";
 import Time from "../game/Time";
 
@@ -50,6 +51,7 @@ export default function Pentris() {
           <Leaderboard />
         </ErrorBoundary>
       </div>
+      <GameSelect />
     </div>
   );
 }

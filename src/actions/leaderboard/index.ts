@@ -7,9 +7,11 @@ import { GameMode, ScoreList, SetScoreSchema } from "./schema";
 export async function fetchHighScores(mode: GameMode) {
   const scores = await prisma.highScore.findMany({
     where: {
+      value: { gte: 100 },
       mode,
     },
     select: {
+      userId: true,
       username: true,
       value: true,
     },
@@ -18,7 +20,7 @@ export async function fetchHighScores(mode: GameMode) {
     },
   });
 
-  return scores as ScoreList;
+  return scores.slice(0, 100) as ScoreList;
 }
 
 export async function putHighScore({

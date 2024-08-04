@@ -8,11 +8,13 @@ export default function Time() {
   const { theme } = useTheme();
 
   const [isClient, setIsClient] = useState(false); // To prevent server<>client errors
-  const [time, setTime] = useState(Date.now());
+  const [time, setTime] = useState(score?.getSeconds() ?? 0);
 
   useEffect(() => {
     setIsClient(true);
-    const interval = setInterval(() => setTime(Date.now()), 1000);
+    const interval = setInterval(() => {
+      setTime(score?.getSeconds() ?? 0);
+    }, 1000);
     return () => {
       clearInterval(interval);
     };
@@ -20,10 +22,7 @@ export default function Time() {
 
   return (
     <p style={{ color: theme.pieces.ghost }}>
-      Time:{" "}
-      <span style={{ color: theme.outline }}>
-        {isClient ? score?.getSeconds() ?? 0 : 0}
-      </span>
+      Time: <span style={{ color: theme.outline }}>{isClient ? time : 0}</span>
     </p>
   );
 }

@@ -68,7 +68,7 @@ const profanity: [string, string][] = [
   ["cocksucker", "pony"],
   ["motherfucker", "platypus"],
   ["tits", "butterfly"],
-  // ["penis", "pentris"], // Dylan Cudmore requests me to remove this filter.
+  ["penis", "pentris"],
 ];
 
 export function sanitizeUsername(username: string): string {

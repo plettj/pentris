@@ -102,7 +102,7 @@ class Pent {
     const ctx = graphics.contexts[4];
 
     shape.points.forEach(([x, y]) => {
-      const drawX = 1.5 + x;
+      const drawX = 2.5 - this.getShape().center[0] + x;
       const drawY = -4 + y + board.topGap;
       ctx.fillStyle = this.self.color;
       ctx.fillRect(
@@ -142,7 +142,7 @@ class Pent {
     const ctx = graphics.contexts[4];
 
     shape.points.forEach(([x, y]) => {
-      const drawX = 21 + x;
+      const drawX = 22 - this.getShape().center[0] + x;
       const drawY = -4 + y + board.topGap + spot * 6;
       ctx.fillStyle = this.self.color;
       ctx.fillRect(

@@ -7,13 +7,14 @@ export default class Score {
   private levelSpeeds: number[] = [
     50, 44, 38, 33, 28, 24, 21, 18, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5,
   ];
-  private startTimestamp: number = Date.now();
+  private startTime: number = 0;
 
   levelLength: number = 60;
   level = 0;
 
   private onChange: () => void = () => {};
   private onHighScoreChange: () => void = () => {};
+  private onGameOver: () => void = () => {};
 
   constructor() {}
 
@@ -22,7 +23,16 @@ export default class Score {
     this.level = 0;
     this.highScore = highScore;
     this.userId = userId;
-    this.startTimestamp = Date.now();
+  }
+
+  start() {
+    this.startTime = Date.now();
+  }
+
+  reset() {
+    this.score = 0;
+    this.level = 0;
+    this.onChange();
   }
 
   getSpeed() {
@@ -34,7 +44,8 @@ export default class Score {
   }
 
   getSeconds() {
-    return Math.floor(Math.abs(Date.now() - this.startTimestamp) / 1000);
+    const seconds = Math.floor(Math.abs(Date.now() - this.startTime) / 1000);
+    return this.startTime === 0 ? 0 : seconds;
   }
 
   updateScore(rows: number) {
@@ -55,6 +66,17 @@ export default class Score {
 
   setOnHighScoreChange(callback: () => void) {
     this.onHighScoreChange = callback;
+  }
+
+  setOnGameOver(callback: () => void) {
+    this.onGameOver = callback;
+  }
+
+  gameOver() {
+    this.saveHighScore();
+    setTimeout(() => {
+      this.onGameOver();
+    }, 3000);
   }
 
   saveHighScore() {

@@ -60,6 +60,22 @@ class Board {
     this.activePentomino = this.newPentomino();
   }
 
+  reset() {
+    this.grid = Array.from(
+      { length: this.size[1] },
+      () => Array(this.size[0]).fill(0) as number[]
+    );
+
+    this.upcomingPentominoes = [];
+
+    for (let i = 0; i < 3; i++) {
+      this.upcomingPentominoes.push(this.newPentomino());
+    }
+
+    this.bankPentomino = this.newPentomino();
+    this.activePentomino = this.newPentomino();
+  }
+
   drawBackground() {
     // Draw top line of the board.
     let ctx = graphics.contexts[0];
@@ -293,10 +309,9 @@ class Board {
     });
 
     if (lostGame) {
-      console.log("Game Over!");
       graphics.pause(true);
       this.activePentomino = null;
-      score.saveHighScore();
+      score.gameOver();
       return;
     }
 

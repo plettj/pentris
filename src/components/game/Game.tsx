@@ -58,33 +58,13 @@ export default function Game() {
   useEffect(() => {
     initializeCanvases();
 
-    let fps = 60;
-    let fpsInterval = 1000 / fps;
-    let then = window.performance.now();
-    let now, elapsed;
-
-    const animate = (newTime: number) => {
-      animationFrameId = requestAnimationFrame(animate);
-
-      now = newTime;
-      elapsed = now - then;
-
-      if (elapsed > fpsInterval) {
-        then = now - (elapsed % fpsInterval);
-
-        graphics?.render();
-      }
-    };
-
-    let animationFrameId = requestAnimationFrame(animate);
-
     window.addEventListener("keydown", handleKey("down"));
     window.addEventListener("keyup", handleKey("up"));
 
     return () => {
       window.removeEventListener("keydown", handleKey("down"));
       window.removeEventListener("keyup", handleKey("up"));
-      window.cancelAnimationFrame(animationFrameId);
+      window.cancelAnimationFrame(graphics.animationFrameId);
     };
     // Empty dependency array to run once on mount.
     // All dependencies eslint finds are constants, so we can ignore them.
@@ -94,7 +74,7 @@ export default function Game() {
   return (
     <div className="relative">
       <section
-        className={`relative border-2 pb-1`}
+        className={`relative border-x-2 pb-1`}
         style={{
           borderColor: theme.outline,
           width: `${width + 3}px`,
@@ -108,7 +88,7 @@ export default function Game() {
         <div
           className="relative border-2"
           style={{
-            marginLeft: `-${width / 2}px`,
+            marginLeft: `-${width / 2 - 2}px`,
             marginTop: "-2px",
             borderColor: theme.outline,
             width: `${width * 2}px`,
