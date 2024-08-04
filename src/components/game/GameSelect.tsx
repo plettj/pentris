@@ -22,7 +22,7 @@ export default function GameSelect() {
 
   const handleGameOver = () => {
     setIsMenu(true);
-    setFinalScores([score.level, score.score]);
+    setFinalScores([score.level + 1, score.score]);
     score.reset();
     graphics.pause(true);
     board.reset();
