@@ -32,6 +32,7 @@ type GameAction = MoveAction | "bank";
 interface ThemeType {
   background: string;
   outline: string;
+  grid: string;
   pieces: {
     placed: string;
     ghost: string;

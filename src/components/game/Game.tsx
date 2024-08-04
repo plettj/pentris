@@ -94,7 +94,7 @@ export default function Game() {
   return (
     <div className="relative">
       <section
-        className={`relative border-2`}
+        className={`relative border-2 pb-1`}
         style={{
           borderColor: theme.outline,
           width: `${width + 3}px`,
@@ -105,7 +105,16 @@ export default function Game() {
         <Canvas ref={cActionRef} width={width} height={height} />
         <Canvas ref={cGhostRef} width={width} height={height} />
         <Canvas ref={cAnimationRef} width={width} height={height} />
-        <div className="relative" style={{ marginLeft: `-${width / 2}px` }}>
+        <div
+          className="relative border-2"
+          style={{
+            marginLeft: `-${width / 2}px`,
+            marginTop: "-2px",
+            borderColor: theme.outline,
+            width: `${width * 2}px`,
+            height: `${height + 4}px`,
+          }}
+        >
           <Canvas ref={cExternalRef} width={width * 2} height={height} />
         </div>
       </section>

@@ -49,6 +49,8 @@ class Board {
   init(unit: number) {
     this.unit = unit;
 
+    this.drawBackground();
+
     this.upcomingPentominoes = [];
     for (let i = 0; i < 3; i++) {
       this.upcomingPentominoes.push(this.newPentomino());
@@ -56,6 +58,35 @@ class Board {
 
     this.bankPentomino = this.newPentomino();
     this.activePentomino = this.newPentomino();
+  }
+
+  drawBackground() {
+    // Draw top line of the board.
+    let ctx = graphics.contexts[0];
+    ctx.strokeStyle = theme.getTheme().outline;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(0, this.unit * this.topGap - 1);
+    ctx.lineTo(this.unit * this.size[0], this.unit * this.topGap - 1);
+    ctx.stroke();
+    ctx.closePath();
+
+    // Draw faint grid checkerboard.
+    ctx = graphics.contexts[0];
+    ctx.fillStyle = theme.getTheme().grid;
+    console.log("drawing background");
+    for (let y = 0; y < this.size[1]; y++) {
+      for (let x = 0; x < this.size[0]; x++) {
+        if ((x + y) % 2 === 0) {
+          ctx.fillRect(
+            x * this.unit,
+            (y + this.topGap) * this.unit,
+            this.unit,
+            this.unit
+          );
+        }
+      }
+    }
   }
 
   refreshSize(unit: number) {
@@ -146,19 +177,8 @@ class Board {
   }
 
   draw() {
-    // Draw top line of the board.
-    let ctx = graphics.contexts[0];
-    graphics.clear(0);
-    ctx.strokeStyle = theme.getTheme().outline;
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(0, this.unit * this.topGap);
-    ctx.lineTo(this.unit * this.size[0], this.unit * this.topGap);
-    ctx.stroke();
-    ctx.closePath();
-
     // Draw main board screen.
-    ctx = graphics.contexts[1];
+    let ctx = graphics.contexts[1];
     graphics.clear(1);
     // This will be much more dynamic once piece themes are implemented.
     ctx.fillStyle = theme.getTheme().pieces.placed;
