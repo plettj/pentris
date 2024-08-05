@@ -77,7 +77,7 @@ export default function Game() {
         className={`relative border-x-2 pb-1`}
         style={{
           borderColor: theme.outline,
-          width: `${width + 3}px`,
+          width: `${width + 4}px`,
           height: `${height + 4}px`,
         }}
       >
