@@ -12,9 +12,10 @@ export default function Players() {
     queryFn: () => getTotalPlayers(),
   });
 
-  if (error) throw new Error("Leaderboard fetching error:", error);
+  // if (error) throw new Error("Leaderboard fetching error:", error);
 
-  const noData = isPending || isFetching || data === undefined;
+  const noData = isPending || isFetching || error || data === undefined;
+
   return (
     <p style={{ color: theme.pieces.ghost }}>
       {noData ? (

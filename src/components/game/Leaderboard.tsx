@@ -19,9 +19,9 @@ export default function Leaderboard() {
     queryFn: () => fetchHighScores("normal"),
   });
 
-  if (error) throw new Error("Leaderboard fetching error:", error);
+  // if (error) throw new Error("Leaderboard fetching error:", error);
 
-  const noData = isPending || isFetching || data.length === 0;
+  const noData = isPending || isFetching || error || data.length === 0;
 
   if (!noData) {
     data.forEach((score) => {
@@ -38,12 +38,12 @@ export default function Leaderboard() {
 
   return (
     <section
-      className="flex flex-col w-full gap-3 py-2 text-center overflow-hidden"
+      className="flex flex-col w-full h-full gap-3 py-2 text-center overflow-hidden"
       style={{ color: theme.outline }}
     >
       <h2 className="text-2xl">Leaderboard</h2>
       <hr className="border my-1" style={{ borderColor: theme.outline }} />
-      <section className="overflow-y-auto max-h-full">
+      <section className="max-h-80 overflow-y-auto hover:scrollbar-thumb-zinc-700 scrollbar-thumb-zinc-800 scrollbar-track-zinc-950">
         {noData ? (
           <div style={{ color: theme.pieces.ghost }}>
             Loading high scores...
