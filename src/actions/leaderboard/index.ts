@@ -5,26 +5,26 @@ import { prisma } from "@/lib/prisma";
 import { GameData, GameMode, ScoreList, SetScoreSchema } from "./schema";
 
 async function validateGame(data: GameData) {
-  if (
-    data.level < 0 ||
-    data.score < 0 ||
-    data.lines < 0 ||
-    data.totalTime < 0
-  ) {
-    return false;
-  }
-  if (Math.abs(data.totalTime / 60 - data.level) > 2) {
-    return false;
-  }
-  if (data.lines > 10 && data.lines < data.level) {
-    return false;
-  }
-  if (
-    (30 * Math.floor(Math.sqrt(data.level) + 1) * data.lines) / 5 >
-    data.score
-  ) {
-    return false;
-  }
+  // if (
+  //   data.level < 0 ||
+  //   data.score < 0 ||
+  //   data.lines < 0 ||
+  //   data.totalTime < 0
+  // ) {
+  //   return false;
+  // }
+  // if (Math.abs(data.totalTime / 60 - data.level) > 2) {
+  //   return false;
+  // }
+  // if (data.lines > 10 && data.lines < data.level) {
+  //   return false;
+  // }
+  // if (
+  //   (30 * Math.floor(Math.sqrt(data.level) + 1) * data.lines) / 5 >
+  //   data.score
+  // ) {
+  //   return false;
+  // }
 
   return true;
 }
