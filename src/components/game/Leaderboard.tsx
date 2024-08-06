@@ -43,16 +43,22 @@ export default function Leaderboard() {
     >
       <h2 className="text-2xl">Leaderboard</h2>
       <hr className="border my-1" style={{ borderColor: theme.outline }} />
-      <section className="max-h-80 overflow-y-auto hover:scrollbar-thumb-zinc-700 scrollbar-thumb-zinc-800 scrollbar-track-zinc-950">
+      <section className="max-h-80 overflow-y-auto scrollbar pr-1">
         {noData ? (
           <div style={{ color: theme.pieces.ghost }}>
             Loading high scores...
           </div>
         ) : (
           data.map((score, index) => (
-            <div className="grid grid-cols-2 gap-1" key={index}>
+            <div className="grid grid-cols-8 gap-1" key={index}>
+              <p
+                className="text-left col-span-1"
+                style={{ color: theme.pieces.ghost }}
+              >
+                {index + 1}.
+              </p>
               <div
-                className="text-left"
+                className="text-left col-span-5"
                 style={{
                   color:
                     score.username === "Anonymous"
@@ -64,7 +70,10 @@ export default function Leaderboard() {
               >
                 {score.username}
               </div>
-              <div className="text-right" style={{ color: theme.outline }}>
+              <div
+                className="text-right col-span-2"
+                style={{ color: theme.outline }}
+              >
                 {score.value}
               </div>
             </div>

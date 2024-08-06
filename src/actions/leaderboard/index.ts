@@ -5,7 +5,7 @@ import { sanitizeUsername } from "@/game/util";
 import { prisma } from "@/lib/prisma";
 import { GameData, GameMode, ScoreList, SetScoreSchema } from "./schema";
 
-function validateGame(data: GameData): boolean {
+async function validateGame(data: GameData) {
   if (
     data.level < 0 ||
     data.score < 0 ||
@@ -60,7 +60,9 @@ export async function putHighScore({
 }: SetScoreSchema) {
   const sanitizedUsername = sanitizeUsername(username);
 
-  if (!validateGame(gameData)) {
+  const legalGame = await validateGame(gameData);
+
+  if (!legalGame) {
     return;
   }
 
