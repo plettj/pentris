@@ -1,15 +1,16 @@
+import { levelLength, levelSpeeds, rowScores } from "../constants";
+
 export default class Score {
   score: number = 0;
+  lines: number = 0;
   highScore: number = 0;
   userId: string = "";
 
-  private rowScores: number[] = [0, 1, 5, 10, 15, 30];
-  private levelSpeeds: number[] = [
-    50, 44, 38, 33, 28, 24, 21, 18, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5,
-  ];
+  private rowScores: number[] = rowScores;
+  private levelSpeeds: number[] = levelSpeeds;
   private startTime: number = 0;
 
-  levelLength: number = 60;
+  levelLength: number = levelLength;
   level = 0;
 
   private onChange: () => void = () => {};
@@ -21,6 +22,7 @@ export default class Score {
   init(highScore: number, userId: string) {
     this.score = 0;
     this.level = 0;
+    this.lines = 0;
     this.highScore = highScore;
     this.userId = userId;
   }
@@ -32,6 +34,7 @@ export default class Score {
   reset() {
     this.score = 0;
     this.level = 0;
+    this.lines = 0;
     this.onChange();
   }
 
@@ -51,6 +54,7 @@ export default class Score {
   updateScore(rows: number) {
     if (rows < 1) return;
 
+    this.lines += rows;
     this.score += this.rowScores[rows] * Math.floor(Math.sqrt(this.level) + 1);
     this.onChange();
   }
@@ -88,5 +92,9 @@ export default class Score {
 
     // Send off the high score!
     this.onHighScoreChange();
+  }
+
+  static getPoints(rows: number, level: number) {
+    return rowScores[rows] * Math.floor(Math.sqrt(level) + 1);
   }
 }

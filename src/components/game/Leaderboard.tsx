@@ -12,7 +12,7 @@ export default function Leaderboard() {
 
   const [userId] = useLocalStorage("userId", "");
   const [username] = useLocalStorage("username", "");
-  const [highScore, setHighScore] = useLocalStorage("highScore", "");
+  const [highScore] = useLocalStorage("highScore", "");
 
   const { isPending, error, data, isFetching } = useQuery({
     queryKey: ["leaderboard"],

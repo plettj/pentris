@@ -36,6 +36,12 @@ export default function Score({ width }: { width: number }) {
       username: username === "" ? "Anonymous" : username,
       value: score.score,
       mode: "normal",
+      gameData: {
+        level: score.level,
+        score: score.score,
+        lines: score.lines,
+        totalTime: score.getSeconds(),
+      },
     });
     queryClient.invalidateQueries({ queryKey: ["leaderboard"] });
   }, [setHighScore, userId, username, queryClient]);

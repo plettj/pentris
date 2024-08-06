@@ -238,6 +238,14 @@ const bucketTwelve: PentName[] = [
   "Z",
 ];
 
+const rowScores = [0, 1, 5, 10, 15, 30];
+
+const levelSpeeds = [
+  50, 44, 38, 33, 28, 24, 21, 18, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5,
+];
+
+const levelLength = 60;
+
 const controlMapping = new ControlMapping({
   left: ["ArrowLeft"],
   right: ["ArrowRight"],
@@ -249,4 +257,11 @@ const controlMapping = new ControlMapping({
   bank: ["KeyS"],
 });
 
-export { bucketTwelve, controlMapping, pentominoes };
+export {
+  bucketTwelve,
+  controlMapping,
+  levelLength,
+  levelSpeeds,
+  pentominoes,
+  rowScores,
+};

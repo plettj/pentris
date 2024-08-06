@@ -6,6 +6,7 @@ import { board, graphics, score } from "game/objects";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
+import Players from "./Players";
 
 export default function GameSelect() {
   const { theme } = useTheme();
@@ -74,6 +75,9 @@ export default function GameSelect() {
         >
           <Link href={HOME_HREF}>Home</Link>
         </Button>
+        <div className="absolute top-4 right-4">
+          <Players />
+        </div>
         {finalScores.length > 0 ? (
           <>
             <h2 className="text-xl mb-4">Game Over</h2>
