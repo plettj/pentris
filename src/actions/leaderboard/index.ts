@@ -1,6 +1,5 @@
 "use server";
 
-import Score from "@/game/logic/score";
 import { sanitizeUsername } from "@/game/util";
 import { prisma } from "@/lib/prisma";
 import { GameData, GameMode, ScoreList, SetScoreSchema } from "./schema";
@@ -20,9 +19,9 @@ async function validateGame(data: GameData) {
   if (data.lines > 10 && data.lines < data.level) {
     return false;
   }
-  if ((Score.getPoints(5, data.level) * data.lines) / 5 > data.score) {
-    return false;
-  }
+  // if ((Score.getPoints(5, data.level) * data.lines) / 5 > data.score) {
+  //   return false;
+  // }
 
   return true;
 }
