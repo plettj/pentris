@@ -93,8 +93,4 @@ export default class Score {
     // Send off the high score!
     this.onHighScoreChange();
   }
-
-  static getPoints(rows: number, level: number) {
-    return rowScores[rows] * Math.floor(Math.sqrt(level) + 1);
-  }
 }

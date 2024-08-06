@@ -19,9 +19,12 @@ async function validateGame(data: GameData) {
   if (data.lines > 10 && data.lines < data.level) {
     return false;
   }
-  // if ((Score.getPoints(5, data.level) * data.lines) / 5 > data.score) {
-  //   return false;
-  // }
+  if (
+    (30 * Math.floor(Math.sqrt(data.level) + 1) * data.lines) / 5 >
+    data.score
+  ) {
+    return false;
+  }
 
   return true;
 }
