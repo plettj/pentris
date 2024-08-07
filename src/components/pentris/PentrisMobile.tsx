@@ -4,6 +4,7 @@ import { useTheme } from "@/context/ThemeContext";
 import { HOME_HREF } from "@/lib/constants";
 import Link from "next/link";
 import Leaderboard from "../game/Leaderboard";
+import Players from "../game/Players";
 import { Button } from "../ui/button";
 
 export default function PentrisMobile() {
@@ -14,10 +15,11 @@ export default function PentrisMobile() {
       style={{ backgroundColor: theme.background, color: theme.outline }}
     >
       <h1 className="text-3xl">Pentris</h1>
-      <p>Pentris requires a larger screen to play.</p>
+      <p>Requires a larger screen to play</p>
       <Button className="my-6 text-black" variant="outline" asChild>
         <Link href={HOME_HREF}>Back to Home</Link>
       </Button>
+      <Players />
       <div className="max-w-96">
         <Leaderboard />
       </div>
