@@ -244,6 +244,24 @@ const levelSpeeds = [
   50, 44, 38, 33, 28, 24, 21, 18, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5,
 ];
 
+const kickTable: Coor[] = [
+  [0, 0],
+  [0, 1],
+  [-1, 0],
+  [1, 0],
+  [-1, 1],
+  [1, 1],
+  [0, 2],
+  [-2, 0],
+  [2, 0],
+  [0, -1],
+  [-1, 2],
+  [1, 2],
+  [-1, -1],
+  [1, -1],
+  [0, -2],
+];
+
 const levelLength = 60;
 
 const controlMapping = new ControlMapping({
@@ -260,6 +278,7 @@ const controlMapping = new ControlMapping({
 export {
   bucketTwelve,
   controlMapping,
+  kickTable,
   levelLength,
   levelSpeeds,
   pentominoes,

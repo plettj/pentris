@@ -1,5 +1,5 @@
 import { board, graphics, score, theme } from "game/objects";
-import { pentominoes } from "../constants";
+import { kickTable, pentominoes } from "../constants";
 import { reflect, rotate } from "../util";
 
 class Pent {
@@ -219,69 +219,21 @@ class Pent {
         break;
     }
 
-    if (!board.isCollide(newShape, this.coor)) {
-      return true; // Simple case.
+    const kickPreference = move === "rotateCw" ? 1 : -1;
+
+    for (const coor of kickTable) {
+      if (
+        !board.isCollide(newShape, [
+          this.coor[0] + coor[0] * kickPreference,
+          this.coor[1] + coor[1],
+        ])
+      ) {
+        this.coor[0] += coor[0] * kickPreference;
+        this.coor[1] += coor[1];
+        return true;
+      }
     }
 
-    // CASE 1: Check for wall kicks.
-    if (board.isCollide(newShape, this.coor, true)) {
-      if (!board.isCollide(newShape, [this.coor[0] - 1, this.coor[1]])) {
-        this.coor[0]--;
-        return true;
-      }
-      if (!board.isCollide(newShape, [this.coor[0] + 1, this.coor[1]])) {
-        this.coor[0]++;
-        return true;
-      }
-      // CASE 2: Check for double wall kicks.
-      if (!board.isCollide(newShape, [this.coor[0] - 2, this.coor[1]])) {
-        this.coor[0] -= 2;
-        return true;
-      }
-      if (!board.isCollide(newShape, [this.coor[0] + 2, this.coor[1]])) {
-        this.coor[0] += 2;
-        return true;
-      }
-    }
-    // CASE 3: Check for horizontal pushes.
-    if (!board.isCollide(newShape, [this.coor[0] - 1, this.coor[1]])) {
-      this.coor[0]--;
-      return true;
-    }
-    if (!board.isCollide(newShape, [this.coor[0] + 1, this.coor[1]])) {
-      this.coor[0]++;
-      return true;
-    }
-    // CASE 4: Check for downward push.
-    if (!board.isCollide(newShape, [this.coor[0], this.coor[1] + 1])) {
-      this.coor[1]++;
-      return true;
-    }
-    // CASE 5: Check for diagonal downward pushes.
-    if (!board.isCollide(newShape, [this.coor[0] - 1, this.coor[1] + 1])) {
-      this.coor[0]--;
-      this.coor[1]++;
-      return true;
-    }
-    if (!board.isCollide(newShape, [this.coor[0] + 1, this.coor[1] + 1])) {
-      this.coor[0]++;
-      this.coor[1]++;
-      return true;
-    }
-    // CASE 6: Check for double downward push.
-    if (!board.isCollide(newShape, [this.coor[0], this.coor[1] + 2])) {
-      this.coor[1] += 2;
-      return true;
-    }
-    // CASE 7: Check for upward push.
-    if (!board.isCollide(newShape, [this.coor[0], this.coor[1] - 1])) {
-      this.coor[1]--;
-      // TODO: Adjust fall timer based on being pushed up.
-      return true;
-    }
-    // TODO: Add T-Spin detection.
-
-    // CASE 8: No valid moves.
     return false;
   }
 
