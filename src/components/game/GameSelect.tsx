@@ -1,7 +1,11 @@
 import { useTheme } from "@/context/ThemeContext";
-import { HOME_HREF } from "@/lib/constants";
+import { HOME_HREF, PENTRIS_SETTINGS_HREF } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import { DiscordLogoIcon, GitHubLogoIcon } from "@radix-ui/react-icons";
+import {
+  DiscordLogoIcon,
+  GearIcon,
+  GitHubLogoIcon,
+} from "@radix-ui/react-icons";
 import { board, graphics, score } from "game/objects";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -25,8 +29,8 @@ export default function GameSelect() {
   };
 
   const handleGameOver = () => {
-    setIsMenu(true);
     setFinalScores([score.level + 1, score.score]);
+    setIsMenu(true);
     score.reset();
     graphics.pause(true);
     board.reset();
@@ -47,6 +51,16 @@ export default function GameSelect() {
           className="absolute left-2 top-4 hover:bg-transparent hover:text-inherit"
           style={{ color: theme.outline }}
         >
+          <Link href={PENTRIS_SETTINGS_HREF} className="flex items-center">
+            <GearIcon className="size-5 mr-2" />
+            Settings
+          </Link>
+        </Button>
+        <Button
+          variant="ghost"
+          className="absolute left-2 top-14 hover:bg-transparent hover:text-inherit"
+          style={{ color: theme.outline }}
+        >
           <Link
             href="https://github.com/plettj/pentris"
             className="flex items-center"
@@ -57,7 +71,7 @@ export default function GameSelect() {
         </Button>
         <Button
           variant="ghost"
-          className="absolute left-2 top-14 hover:bg-transparent hover:text-inherit"
+          className="absolute left-2 top-24 hover:bg-transparent hover:text-inherit"
           style={{ color: theme.outline }}
         >
           <Link
@@ -80,7 +94,7 @@ export default function GameSelect() {
         </div>
         {finalScores.length > 0 ? (
           <>
-            <h2 className="text-xl mb-4">Game Over</h2>
+            <h1 className="text-xl mb-4">Game Over</h1>
             <p style={{ color: theme.pieces.ghost }}>
               Level:{" "}
               <span style={{ color: theme.outline }}>{finalScores[0]}</span>
@@ -91,7 +105,7 @@ export default function GameSelect() {
             </p>
           </>
         ) : (
-          <h2 className="text-2xl mb-6">Pentris</h2>
+          <h1 className="text-2xl mb-6">Pentris</h1>
         )}
         <Button className="text-black" variant="outline" onClick={handleSubmit}>
           {finalScores.length > 0 ? "Play Again" : "Start Game"}

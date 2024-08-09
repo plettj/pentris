@@ -1,4 +1,4 @@
-export type GameMode = "normal";
+export type GameMode = "legacy" | "normal";
 
 export type ScoreList = { userId: string; username: string; value: number }[];
 

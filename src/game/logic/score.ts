@@ -1,3 +1,4 @@
+import { GameMode } from "@/actions/leaderboard/schema";
 import { levelLength, levelSpeeds, rowScores } from "../constants";
 
 export default class Score {
@@ -5,6 +6,7 @@ export default class Score {
   lines: number = 0;
   highScore: number = 0;
   userId: string = "";
+  mode: GameMode = "normal";
 
   private rowScores: number[] = rowScores;
   private levelSpeeds: number[] = levelSpeeds;
@@ -55,7 +57,8 @@ export default class Score {
     if (rows < 1) return;
 
     this.lines += rows;
-    this.score += this.rowScores[rows] * Math.floor(Math.sqrt(this.level) + 1);
+    this.score +=
+      this.rowScores[rows] * Math.floor(Math.pow(this.level, 0.72) + 1);
     this.onChange();
   }
 
@@ -77,6 +80,7 @@ export default class Score {
   }
 
   gameOver() {
+    this.onChange();
     this.saveHighScore();
     setTimeout(() => {
       this.onGameOver();
@@ -90,7 +94,6 @@ export default class Score {
       return;
     }
 
-    // Send off the high score!
     this.onHighScoreChange();
   }
 }

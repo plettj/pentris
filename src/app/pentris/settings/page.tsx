@@ -1,12 +1,11 @@
-import Pentris from "@/components/pentris/Pentris";
-import PentrisMobile from "@/components/pentris/PentrisMobile";
+import PentrisSettings from "@/components/pentris/PentrisSettings";
 import { BASE_URL, PENTRIS_IMAGES_HREF } from "@/lib/constants";
 import { type Metadata } from "next";
 
 // OPG compliant metadata (https://ogp.me/)
 export const metadata: Metadata = {
-  title: "Pentris v1.5",
-  description: "Tetris, but with the Pentominoes",
+  title: "Pentris Settings",
+  description: "Customize keybinds",
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -23,11 +22,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function PentrisPage() {
-  return (
-    <>
-      <PentrisMobile />
-      <Pentris />
-    </>
-  );
+export default async function PentrisSettingsPage() {
+  return <PentrisSettings />;
 }

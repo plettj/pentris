@@ -28,14 +28,12 @@ export default function Score({ width }: { width: number }) {
   score.setOnChange(handleScore);
 
   const handleHighScore = useCallback(async () => {
-    setHighScore(score.score.toString());
-    console.log("New high score:", score.score);
-    await putHighScore({
+    const successful: boolean = await putHighScore({
       id: userId,
       userId: userId,
       username: username === "" ? "Anonymous" : username,
       value: score.score,
-      mode: "normal",
+      mode: score.mode,
       gameData: {
         level: score.level,
         score: score.score,
@@ -43,7 +41,15 @@ export default function Score({ width }: { width: number }) {
         totalTime: score.getSeconds(),
       },
     });
-    queryClient.invalidateQueries({ queryKey: ["leaderboard"] });
+
+    if (successful) {
+      setHighScore(score.score.toString());
+      queryClient.invalidateQueries({ queryKey: ["leaderboard"] });
+    } else {
+      console.error(
+        "Your high score indicated invalid play, and was not saved."
+      );
+    }
   }, [setHighScore, userId, username, queryClient]);
 
   score.setOnHighScoreChange(handleHighScore);
