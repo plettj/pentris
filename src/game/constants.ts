@@ -268,9 +268,9 @@ const defaultKeybinds: Record<GameAction, string[]> = {
   right: ["ArrowRight"],
   down: ["ArrowDown"],
   drop: ["ArrowUp"],
-  rotateCw: ["KeyA"],
-  rotateCcw: ["KeyD"],
-  reflect: ["Space", "KeyS"],
+  rotateCw: ["KeyD"],
+  rotateCcw: ["KeyA"],
+  reflect: ["Space"],
   bank: ["KeyW"],
 };
 

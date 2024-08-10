@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: BASE_URL,
-    title: "Pentris v1.5",
+    title: "Pentris v2.0",
     siteName: "Pentris",
     description: "Tetris, but with the Pentominoes",
     images: [
