@@ -5,6 +5,7 @@ import { PENTRIS_HREF } from "@/lib/constants";
 import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import Keybinds from "./Keybinds";
 
 export default function PentrisSettings() {
   const { theme } = useTheme();
@@ -14,10 +15,10 @@ export default function PentrisSettings() {
       className="relative w-screen h-screen flex flex-col justify-center items-center"
       style={{ backgroundColor: theme.background, color: theme.outline }}
     >
-      <h1 className="text-2xl">Pentris Settings</h1>
-      <hr className="h-4" />
-      <p>Customize keybinds!</p>
-      <p>Coming soon...</p>
+      <section className="w-96 flex flex-col justify-center items-center">
+        <h1 className="text-2xl mb-6">Keybinds</h1>
+        <Keybinds />
+      </section>
       <Button
         variant="ghost"
         className="absolute left-2 top-4 hover:bg-transparent hover:text-inherit"

@@ -245,6 +245,8 @@ const levelSpeeds = [
   3, 3, 2,
 ];
 
+const levelLength = 60;
+
 const kickTable: Coor[] = [
   [0, 0],
   [0, 1],
@@ -263,25 +265,23 @@ const kickTable: Coor[] = [
   [0, -2],
 ];
 
-const levelLength = 60;
-
-const controlMapping = new ControlMapping({
+const newbieControlMapping = new ControlMapping({
   left: ["ArrowLeft"],
   right: ["ArrowRight"],
   down: ["ArrowDown"],
   drop: ["ArrowUp"],
   rotateCw: ["KeyA"],
   rotateCcw: ["KeyD"],
-  reflect: ["Space", "KeyW"],
-  bank: ["KeyS"],
+  reflect: ["Space", "KeyS"],
+  bank: ["KeyW"],
 });
 
 export {
   bucketTwelve,
-  controlMapping,
   kickTable,
   levelLength,
   levelSpeeds,
+  newbieControlMapping,
   pentominoes,
   rowScores,
 };

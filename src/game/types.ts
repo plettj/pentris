@@ -39,6 +39,8 @@ interface ThemeType {
   };
 }
 
+type Keybinds = Map<string, GameAction>;
+
 interface ControlMappingType {
   [key: string]: MoveAction;
 }
