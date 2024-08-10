@@ -14,25 +14,25 @@ async function validateGame(data: GameData) {
     console.warn("Player submitted explicitly invalid game data.");
     return false;
   }
-  if (
-    data.level < data.startLevel ||
-    (Math.floor(data.lines / 10) > data.startLevel &&
-      Math.floor(data.lines / 10) !== data.level)
-  ) {
-    console.warn(
-      "Player cleared the wrong amount of lines for their level achieved."
-    );
-    return false;
-  }
-  if (
-    (25 * Math.floor(Math.sqrt(data.level + 1)) * data.lines) / 5 <
-    data.score
-  ) {
-    console.warn(
-      "Player's score is impossibly large given their lines cleared."
-    );
-    return false;
-  }
+  // if (
+  //   data.level < data.startLevel ||
+  //   (Math.floor(data.lines / 10) > data.startLevel &&
+  //     Math.floor(data.lines / 10) !== data.level)
+  // ) {
+  //   console.warn(
+  //     "Player cleared the wrong amount of lines for their level achieved."
+  //   );
+  //   return false;
+  // }
+  // if (
+  //   (25 * Math.floor(Math.sqrt(data.level + 1)) * data.lines) / 5 <
+  //   data.score
+  // ) {
+  //   console.warn(
+  //     "Player's score is impossibly large given their lines cleared."
+  //   );
+  //   return false;
+  // }
 
   return true;
 }
