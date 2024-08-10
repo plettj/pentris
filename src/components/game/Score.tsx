@@ -12,7 +12,7 @@ import Modal from "../general/Modal";
 export default function Score({ width }: { width: number }) {
   const queryClient = useQueryClient();
   const { theme } = useTheme();
-  const [highScore, setHighScore] = useLocalStorage("highScore", "");
+  const [highScore, setHighScore] = useLocalStorage("highScore-classic", "");
   const [userId, setUserId] = useLocalStorage("userId", "");
   const [username, setUsername] = useLocalStorage("username", "");
   const [usernameModalOpen, setUsernameModalOpen] = useState(false);

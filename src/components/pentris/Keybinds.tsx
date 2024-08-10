@@ -67,13 +67,12 @@ export default function Keybinds() {
     if (oldAction) {
       newKeybinds.delete(code);
     }
-    // Remove all other keybinds for the current action
     Array.from(newKeybinds.entries())
       .filter(([_, value]) => value === currentAction)
       .forEach(([key, _]) => newKeybinds.delete(key));
     newKeybinds.set(code, currentAction!);
     setKeybinds(newKeybinds);
-    setStoredKeybinds(JSON.stringify(Array.from(newKeybinds.entries()))); // Save the updated keybinds to localStorage
+    setStoredKeybinds(JSON.stringify(Array.from(newKeybinds.entries())));
   };
 
   return (

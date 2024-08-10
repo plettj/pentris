@@ -9,7 +9,7 @@ import Players from "./Players";
 export default function IndividualStandings() {
   const { theme } = useTheme();
   const [userId] = useLocalStorage("userId", "");
-  const [highScore] = useLocalStorage("highScore", "");
+  const [highScore] = useLocalStorage("highScore-classic", "");
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["leaderboard"],
