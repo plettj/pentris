@@ -1,7 +1,6 @@
-import { board, graphics } from "game/objects";
-import { newbieControlMapping } from "../constants";
+import { board, controls, graphics } from "game/objects";
 
-export default class ControlMapping {
+export default class Controls {
   private mapping: Keybinds;
 
   constructor(mapping: Record<GameAction, string[]>) {
@@ -20,12 +19,16 @@ export default class ControlMapping {
   getMapping(): Keybinds {
     return this.mapping;
   }
+
+  setMapping(mapping: Keybinds) {
+    this.mapping = mapping;
+  }
 }
 
 export const handleKey = (type: "down" | "up") => (event: KeyboardEvent) => {
-  if (graphics.paused) return;
+  if (graphics.paused || !controls) return;
 
-  const action: GameAction | null = newbieControlMapping.getAction(event.code);
+  const action: GameAction | null = controls.getAction(event.code);
 
   if (action === null) {
     return;

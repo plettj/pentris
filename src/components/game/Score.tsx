@@ -35,6 +35,7 @@ export default function Score({ width }: { width: number }) {
       value: score.score,
       mode: score.mode,
       gameData: {
+        startLevel: score.startLevel,
         level: score.level,
         score: score.score,
         lines: score.lines,

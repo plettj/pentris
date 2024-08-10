@@ -1,24 +1,53 @@
 import { useTheme } from "@/context/ThemeContext";
-import { newbieControlMapping } from "@/game/constants";
+import { controls } from "game/objects";
 import { useEffect, useState } from "react";
+import { useLocalStorage } from "usehooks-ts";
 import { Button } from "../ui/button";
 import KeybindOverlay from "./KeybindOverlay";
 
+type Keybinds = Map<string, GameAction>;
+
 export default function Keybinds() {
-  const { theme } = useTheme();
+  const { themeName, theme } = useTheme();
+  const [storedKeybinds, setStoredKeybinds] = useLocalStorage<string>(
+    "keybinds",
+    JSON.stringify(Array.from(controls?.getMapping()))
+  );
   const [keybinds, setKeybinds] = useState<Keybinds>(new Map());
   const [showOverlay, setShowOverlay] = useState<boolean>(false);
   const [currentAction, setCurrentAction] = useState<GameAction | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    if (isMounted) {
+      try {
+        const parsedKeybinds: Keybinds = new Map(JSON.parse(storedKeybinds));
+        controls.setMapping(parsedKeybinds);
+        setKeybinds(parsedKeybinds);
+      } catch (error) {
+        console.error("Failed to parse stored keybinds:", error);
+        const defaultKeybinds = new Map(controls?.getMapping());
+        setKeybinds(defaultKeybinds);
+        setStoredKeybinds(
+          JSON.stringify(Array.from(defaultKeybinds.entries()))
+        );
+      }
+    }
+  }, [isMounted, storedKeybinds, setStoredKeybinds]);
 
   function getKeybindsFromAction(action: GameAction): string[] {
+    if (!keybinds) {
+      return [];
+    }
     return Array.from(keybinds.entries())
       .filter(([_, value]) => value === action)
       .map(([key, _]) => key);
   }
 
-  useEffect(() => {
-    setKeybinds(newbieControlMapping.getMapping());
-  }, []);
+  if (!isMounted) {
+    return null;
+  }
 
   const handleButtonClick = (action: GameAction) => {
     setShowOverlay(true);
@@ -44,6 +73,7 @@ export default function Keybinds() {
       .forEach(([key, _]) => newKeybinds.delete(key));
     newKeybinds.set(code, currentAction!);
     setKeybinds(newKeybinds);
+    setStoredKeybinds(JSON.stringify(Array.from(newKeybinds.entries()))); // Save the updated keybinds to localStorage
   };
 
   return (
@@ -55,7 +85,7 @@ export default function Keybinds() {
             className="text-base"
             size="sm"
             style={{
-              color: theme.outline,
+              color: themeName === "light" ? "#fff" : theme.outline,
               backgroundColor:
                 keyToDisplayText(getKeybindsFromAction(action)[0]) === "---"
                   ? "#7d1c13"

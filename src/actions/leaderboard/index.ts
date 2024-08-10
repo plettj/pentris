@@ -14,16 +14,18 @@ async function validateGame(data: GameData) {
     console.warn("Player submitted explicitly invalid game data.");
     return false;
   }
-  if (Math.floor(Math.abs(data.totalTime / 60 - data.level)) > data.level) {
-    console.warn("Player either cheated past levels or paused the game.");
-    return false;
-  }
-  if (data.lines < data.level - 10) {
-    console.warn("Player didn't clear enough lines for their level achieved.");
+  if (
+    data.level < data.startLevel ||
+    (Math.floor(data.lines / 10) > data.startLevel &&
+      Math.floor(data.lines / 10) !== data.level)
+  ) {
+    console.warn(
+      "Player cleared the wrong amount of lines for their level achieved."
+    );
     return false;
   }
   if (
-    (25 * Math.floor(Math.pow(data.level, 0.72) + 1) * data.lines) / 5 <
+    (25 * Math.floor(Math.sqrt(data.level + 1)) * data.lines) / 5 <
     data.score
   ) {
     console.warn(
@@ -51,7 +53,7 @@ export async function fetchHighScores(mode: GameMode) {
     },
   });
 
-  return scores.slice(0, 100) as ScoreList;
+  return scores as ScoreList;
 }
 
 export async function getTotalPlayers() {

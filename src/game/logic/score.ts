@@ -6,13 +6,14 @@ export default class Score {
   lines: number = 0;
   highScore: number = 0;
   userId: string = "";
-  mode: GameMode = "normal";
+  mode: GameMode = "classic";
 
   private rowScores: number[] = rowScores;
   private levelSpeeds: number[] = levelSpeeds;
   private startTime: number = 0;
 
   levelLength: number = levelLength;
+  startLevel = 0;
   level = 0;
 
   private onChange: () => void = () => {};
@@ -23,7 +24,7 @@ export default class Score {
 
   init(highScore: number, userId: string) {
     this.score = 0;
-    this.level = 0;
+    this.level = this.startLevel;
     this.lines = 0;
     this.highScore = highScore;
     this.userId = userId;
@@ -35,7 +36,7 @@ export default class Score {
 
   reset() {
     this.score = 0;
-    this.level = 0;
+    this.level = this.startLevel;
     this.lines = 0;
     this.onChange();
   }
@@ -57,8 +58,10 @@ export default class Score {
     if (rows < 1) return;
 
     this.lines += rows;
-    this.score +=
-      this.rowScores[rows] * Math.floor(Math.pow(this.level, 0.72) + 1);
+    if (this.lines >= (this.level + 1) * 10) {
+      this.updateLevel();
+    }
+    this.score += this.rowScores[rows] * Math.floor(Math.sqrt(this.level + 1));
     this.onChange();
   }
 

@@ -12,8 +12,6 @@ export default function Players() {
     queryFn: () => getTotalPlayers(),
   });
 
-  // if (error) throw new Error("Leaderboard fetching error:", error);
-
   const noData = isPending || isFetching || error || data === undefined;
 
   return (

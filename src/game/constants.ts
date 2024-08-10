@@ -1,5 +1,3 @@
-import ControlMapping from "./logic/controls";
-
 const pentominoes: Record<PentName, Pentomino> = {
   F: {
     color: "#8745fd",
@@ -238,14 +236,14 @@ const bucketTwelve: PentName[] = [
   "Z",
 ];
 
-const rowScores = [0, 1, 3, 5, 10, 25];
+const rowScores = [0, 1, 3, 5, 12, 25];
 
 const levelSpeeds = [
-  50, 44, 38, 33, 28, 24, 20, 17, 15, 13, 11, 10, 9, 8, 7, 6, 6, 5, 5, 4, 4, 3,
-  3, 3, 2,
+  50, 44, 38, 33, 28, 24, 20, 17, 15, 13, 11, 10, 9, 8, 7, 7, 6, 6, 5, 5, 4, 4,
+  3, 3, 3, 2,
 ];
 
-const levelLength = 60;
+const levelLength = 10;
 
 const kickTable: Coor[] = [
   [0, 0],
@@ -265,7 +263,7 @@ const kickTable: Coor[] = [
   [0, -2],
 ];
 
-const newbieControlMapping = new ControlMapping({
+const defaultKeybinds: Record<GameAction, string[]> = {
   left: ["ArrowLeft"],
   right: ["ArrowRight"],
   down: ["ArrowDown"],
@@ -274,14 +272,14 @@ const newbieControlMapping = new ControlMapping({
   rotateCcw: ["KeyD"],
   reflect: ["Space", "KeyS"],
   bank: ["KeyW"],
-});
+};
 
 export {
   bucketTwelve,
+  defaultKeybinds,
   kickTable,
   levelLength,
   levelSpeeds,
-  newbieControlMapping,
   pentominoes,
   rowScores,
 };

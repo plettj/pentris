@@ -6,20 +6,43 @@ import {
   GearIcon,
   GitHubLogoIcon,
 } from "@radix-ui/react-icons";
-import { board, graphics, score } from "game/objects";
+import { board, controls, graphics, score } from "game/objects";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useLocalStorage } from "usehooks-ts";
 import { Button } from "../ui/button";
-import Players from "./Players";
+import IndividualStandings from "./IndividualStandings";
+
+type Keybinds = Map<string, GameAction>;
 
 export default function GameSelect() {
   const { theme } = useTheme();
-
   const [isMenu, setIsMenu] = useState(true);
-  const [finalScores, setFinalScores] = useState<number[]>([]); // [level, score]
+  const [startLevel] = useLocalStorage("startLevel", 1);
+  const [storedKeybinds] = useLocalStorage<string>(
+    "keybinds",
+    JSON.stringify(Array.from(controls?.getMapping()))
+  );
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    score.setOnGameOver(handleGameOver);
+  }, []);
 
   const handleSubmit = () => {
     setIsMenu(false);
+
+    try {
+      const parsedKeybinds: Keybinds = new Map(JSON.parse(storedKeybinds));
+      controls.setMapping(parsedKeybinds);
+    } catch (error) {
+      console.error("Failed to parse stored keybinds:", error);
+    }
+
+    score.startLevel = startLevel - 1;
+    board.reset();
+    score.reset();
     score.start();
     if (graphics.animationFrameId === 0) {
       graphics.animate(0);
@@ -29,16 +52,11 @@ export default function GameSelect() {
   };
 
   const handleGameOver = () => {
-    setFinalScores([score.level + 1, score.score]);
     setIsMenu(true);
     score.reset();
     graphics.pause(true);
     board.reset();
   };
-
-  useEffect(() => {
-    score.setOnGameOver(handleGameOver);
-  }, []);
 
   return (
     <div
@@ -90,26 +108,18 @@ export default function GameSelect() {
           <Link href={HOME_HREF}>Home</Link>
         </Button>
         <div className="absolute top-4 right-4">
-          <Players />
+          <IndividualStandings />
         </div>
-        {finalScores.length > 0 ? (
-          <>
-            <h1 className="text-xl mb-4">Game Over</h1>
-            <p style={{ color: theme.pieces.ghost }}>
-              Level:{" "}
-              <span style={{ color: theme.outline }}>{finalScores[0]}</span>
-            </p>
-            <p className="mb-6" style={{ color: theme.pieces.ghost }}>
-              Score:{" "}
-              <span style={{ color: theme.outline }}>{finalScores[1]}</span>
-            </p>
-          </>
-        ) : (
-          <h1 className="text-2xl mb-6">Pentris</h1>
+        <h1 className="text-2xl mb-6">Pentris</h1>
+        {isMounted && (
+          <Button
+            className="text-black"
+            variant="outline"
+            onClick={handleSubmit}
+          >
+            {`Start Game ${startLevel > 1 ? `- lvl ${startLevel}` : ""}`}
+          </Button>
         )}
-        <Button className="text-black" variant="outline" onClick={handleSubmit}>
-          {finalScores.length > 0 ? "Play Again" : "Start Game"}
-        </Button>
       </div>
     </div>
   );

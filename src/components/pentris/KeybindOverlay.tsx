@@ -1,3 +1,4 @@
+import { useTheme } from "@/context/ThemeContext";
 import { useEffect } from "react";
 
 interface KeybindOverlayProps {
@@ -9,6 +10,7 @@ export default function KeybindOverlay({
   onClose,
   onKeyPress,
 }: KeybindOverlayProps) {
+  const { themeName, theme } = useTheme();
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       console.log(event);
@@ -31,11 +33,18 @@ export default function KeybindOverlay({
   }, [onClose, onKeyPress]);
 
   return (
-    <div className="absolute inset-0 bg-black bg-opacity-90 flex justify-center items-center">
-      <div className="p-8 rounded-lg shadow-lg flex flex-col justify-center items-center">
-        <p className="text-center text-lg text-white mb-2">Press any key</p>
-        <p className="text-center text-white text-sm">or click to cancel</p>
-      </div>
+    <div
+      className="absolute -inset-2 flex flex-col justify-center items-center"
+      style={{
+        backgroundColor:
+          themeName === "light"
+            ? "rgba(255, 255, 255, 0.93)"
+            : "rgba(0, 0, 0, 0.85)",
+        color: theme.outline,
+      }}
+    >
+      <p className="text-center text-lg mb-2">Press any key</p>
+      <p className="text-center text-sm">or click to cancel</p>
     </div>
   );
 }
