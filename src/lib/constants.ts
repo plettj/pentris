@@ -5,6 +5,7 @@ export const BASE_URL =
 
 export const HOME_HREF = "/";
 export const PENTRIS_HREF = "/pentris";
+export const PENTRIS_SETTINGS_HREF = "/pentris/settings";
 export const SPLIT_SECOND_HREF = "/split-second";
 
 export const PENTRIS_IMAGES_HREF = "/static/pentris";

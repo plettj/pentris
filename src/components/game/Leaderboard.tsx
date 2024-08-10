@@ -16,10 +16,8 @@ export default function Leaderboard() {
 
   const { isPending, error, data, isFetching } = useQuery({
     queryKey: ["leaderboard"],
-    queryFn: () => fetchHighScores("normal"),
+    queryFn: () => fetchHighScores("classic"),
   });
-
-  // if (error) throw new Error("Leaderboard fetching error:", error);
 
   const noData = isPending || isFetching || error || data.length === 0;
 

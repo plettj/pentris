@@ -77,6 +77,7 @@ class Board {
   }
 
   drawBackground() {
+    if (!graphics.contexts[0]) return;
     // Draw top line of the board.
     let ctx = graphics.contexts[0];
     ctx.strokeStyle = theme.getTheme().outline;

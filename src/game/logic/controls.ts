@@ -1,11 +1,10 @@
-import { board, graphics } from "game/objects";
-import { controlMapping } from "../constants";
+import { board, controls, graphics } from "game/objects";
 
-export default class ControlMapping {
-  private mapping: Map<string, GameAction>;
+export default class Controls {
+  private mapping: Keybinds;
 
   constructor(mapping: Record<GameAction, string[]>) {
-    this.mapping = new Map<string, GameAction>();
+    this.mapping = new Map();
     for (const [action, codes] of Object.entries(mapping)) {
       codes.forEach((code) => {
         this.mapping.set(code, action as GameAction);
@@ -16,12 +15,20 @@ export default class ControlMapping {
   getAction(code: string): GameAction | null {
     return this.mapping.get(code) || null;
   }
+
+  getMapping(): Keybinds {
+    return this.mapping;
+  }
+
+  setMapping(mapping: Keybinds) {
+    this.mapping = mapping;
+  }
 }
 
 export const handleKey = (type: "down" | "up") => (event: KeyboardEvent) => {
-  if (graphics.paused) return;
+  if (graphics.paused || !controls) return;
 
-  const action: GameAction | null = controlMapping.getAction(event.code);
+  const action: GameAction | null = controls.getAction(event.code);
 
   if (action === null) {
     return;

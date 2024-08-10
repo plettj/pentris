@@ -1,4 +1,4 @@
-import { board, score } from "game/objects";
+import { board } from "game/objects";
 
 export default class Graphics {
   paused: boolean = true;
@@ -39,10 +39,6 @@ export default class Graphics {
     this.frame++;
 
     board.render();
-
-    if (this.frame % (60 * score.levelLength) === 0) {
-      score.updateLevel();
-    }
   }
 
   clear(context: number) {
