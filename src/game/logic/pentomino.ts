@@ -196,7 +196,8 @@ class Pent {
           this.coor[0],
           this.coor[1] + 1,
         ]);
-      case "drop":
+      case "sonicDrop":
+      case "hardDrop":
         return true;
       case "rotateCw":
       case "rotateCcw":
@@ -257,11 +258,17 @@ class Pent {
       case "down":
         this.coor[1]++;
         break;
-      case "drop":
+      case "sonicDrop":
         while (this.canMove("down")) {
           this.coor[1]++;
         }
         this.isSettling = true;
+        break;
+      case "hardDrop":
+        while (this.canMove("down")) {
+          this.coor[1]++;
+        }
+        board.place();
         break;
       case "rotateCw":
         this.orientation = this.rotate(true);

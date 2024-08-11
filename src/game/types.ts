@@ -25,7 +25,7 @@ type ModifyAction = "rotateCw" | "rotateCcw" | "reflect";
 
 type TranslateAction = "left" | "right" | "down";
 
-type MoveAction = ModifyAction | TranslateAction | "drop";
+type MoveAction = ModifyAction | TranslateAction | "sonicDrop" | "hardDrop";
 
 type GameAction = MoveAction | "bank";
 
