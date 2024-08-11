@@ -275,7 +275,7 @@ class Pent {
   rotate(cw: boolean = true) {
     const isReflected = this.orientation >= 4;
     return (
-      ((this.orientation + (isReflected ? (cw ? 3 : 1) : cw ? 1 : 3)) % 4) +
+      ((this.orientation + (isReflected ? (cw ? 1 : 3) : cw ? 3 : 1)) % 4) +
       (isReflected ? 4 : 0)
     );
   }
