@@ -264,14 +264,14 @@ const kickTable: Coor[] = [
 
 const defaultKeybinds: Record<GameAction, string[]> = {
   left: ["ArrowLeft"],
-  right: ["ArrowRight"],
+  right: ["ArrowUp"],
   down: ["ArrowDown"],
-  sonicDrop: ["ArrowUp"],
-  hardDrop: ["KeyF"],
-  rotateCw: ["KeyD"],
-  rotateCcw: ["KeyA"],
-  reflect: ["Space"],
-  bank: ["KeyW"],
+  sonicDrop: [],
+  hardDrop: ["Space"],
+  rotateCw: ["KeyUp"],
+  rotateCcw: ["KeyZ"],
+  reflect: ["KeyA"],
+  bank: ["KeyC"],
 };
 
 export {
