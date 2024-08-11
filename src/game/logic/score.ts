@@ -42,6 +42,7 @@ export default class Score {
   }
 
   getSpeed() {
+    if (this.level + 1 >= 36) return 1;
     return this.levelSpeeds[
       this.level >= this.levelSpeeds.length
         ? this.levelSpeeds.length - 1

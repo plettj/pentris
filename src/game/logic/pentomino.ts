@@ -81,7 +81,10 @@ class Pent {
           ((frame % score.getSpeed()) / score.getSpeed() - 0.5) * board.unit
       );
 
-      if (!this.canMove("down") && pixelY >= drawY * board.unit) {
+      if (
+        !this.canMove("down") &&
+        (pixelY >= drawY * board.unit || score.getSpeed() < 2)
+      ) {
         this.isSettling = true;
       } else if (this.canMove("down")) {
         this.isSettling = false;
