@@ -5,15 +5,15 @@ import { prisma } from "@/lib/prisma";
 import { GameData, GameMode, ScoreList, SetScoreSchema } from "./schema";
 
 async function validateGame(data: GameData) {
-  if (
-    data.level < 0 ||
-    data.score < 0 ||
-    data.lines < 0 ||
-    data.totalTime < 1
-  ) {
-    console.warn("Player submitted explicitly invalid game data.");
-    return false;
-  }
+  // if (
+  //   data.level < 0 ||
+  //   data.score < 0 ||
+  //   data.lines < 0 ||
+  //   data.totalTime < 1
+  // ) {
+  //   console.warn("Player submitted explicitly invalid game data.");
+  //   return false;
+  // }
   // if (
   //   data.level < data.startLevel ||
   //   (Math.floor(data.lines / 10) > data.startLevel &&
@@ -77,7 +77,7 @@ export async function putHighScore({
   }
 
   const highScore = await prisma.highScore.upsert({
-    where: { id },
+    where: { id, mode },
     update: { value, username: sanitizedUsername },
     create: { id, userId, username: sanitizedUsername, value, mode },
   });

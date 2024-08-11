@@ -28,6 +28,8 @@ export default function IndividualStandings() {
     );
   }
 
+  // Score in the database
+  const score = data ? data.find((score) => score.userId === userId)?.value : 0;
   const place = data
     ? data.findIndex((score) => score.userId === userId) + 1
     : 0;
@@ -43,7 +45,7 @@ export default function IndividualStandings() {
           <span style={{ color: theme.outline }}>#{place}</span>
           <br />
           Score
-          <span style={{ color: theme.outline }}> {highScore}</span>
+          <span style={{ color: theme.outline }}> {score}</span>
         </p>
       ) : (
         <p>
