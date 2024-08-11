@@ -13,7 +13,7 @@ export default function IndividualStandings() {
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["leaderboard"],
-    queryFn: () => fetchHighScores("classic"),
+    queryFn: () => fetchHighScores("v2-normal"),
   });
 
   if (isLoading) {

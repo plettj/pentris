@@ -61,7 +61,6 @@ export async function getTotalPlayers() {
 }
 
 export async function putHighScore({
-  id,
   userId,
   username,
   value,
@@ -77,9 +76,9 @@ export async function putHighScore({
   }
 
   const highScore = await prisma.highScore.upsert({
-    where: { id, mode },
+    where: { id: "00000000-0000-0000-0000-000000000000", userId, mode },
     update: { value, username: sanitizedUsername },
-    create: { id, userId, username: sanitizedUsername, value, mode },
+    create: { userId, username: sanitizedUsername, value, mode },
   });
 
   return highScore !== null;

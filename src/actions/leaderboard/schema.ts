@@ -1,4 +1,4 @@
-export type GameMode = "normal" | "classic";
+export type GameMode = "v2-normal";
 
 export type ScoreList = { userId: string; username: string; value: number }[];
 
@@ -11,7 +11,6 @@ export type GameData = {
 };
 
 export type SetScoreSchema = {
-  id: string;
   userId: string;
   username: string;
   value: number;

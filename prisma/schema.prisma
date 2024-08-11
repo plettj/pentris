@@ -20,7 +20,7 @@ model Users {
 }
 
 model HighScore {
-  id        String     @default(cuid())
+  id        String     @id @default(cuid())
   userId    String
   
   mode      String
@@ -31,5 +31,5 @@ model HighScore {
   link      String?
 
   @@map(name: "highscores")
-  @@unique([id, mode])
+  @@unique([userId, mode])
 }

@@ -6,7 +6,7 @@ export default class Score {
   lines: number = 0;
   highScore: number = 0;
   userId: string = "";
-  mode: GameMode = "classic";
+  mode: GameMode = "v2-normal";
 
   private rowScores: number[] = rowScores;
   private levelSpeeds: number[] = levelSpeeds;
