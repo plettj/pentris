@@ -11,8 +11,16 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
-model HighScore {
+model Users {
   id        String     @id @default(cuid())
+  username  String     
+  
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model HighScore {
+  id        String     @default(cuid())
   userId    String
   
   mode      String
@@ -23,4 +31,5 @@ model HighScore {
   link      String?
 
   @@map(name: "highscores")
+  @@unique([id, mode])
 }
