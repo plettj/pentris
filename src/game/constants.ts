@@ -79,8 +79,7 @@ const pentominoes: Record<PentName, Pentomino> = {
     color: "#ff1488",
     /**
      * 0 1
-     * 2 3
-     * 4
+     * 2 3 4
      */
     shape: {
       points: [
@@ -88,9 +87,9 @@ const pentominoes: Record<PentName, Pentomino> = {
         [1, 0],
         [0, 1],
         [1, 1],
-        [0, 2],
+        [2, 1],
       ],
-      center: [0.5, 1],
+      center: [1, 0.5],
     },
   },
   T: {
