@@ -25,7 +25,7 @@ export default class Controls {
   }
 }
 
-export const handleKey = (type: "down" | "up") => (event: KeyboardEvent) => {
+const handleKey = (type: "down" | "up") => (event: KeyboardEvent) => {
   if (graphics.paused || !controls) return;
 
   const action: GameAction | null = controls.getAction(event.code);
@@ -37,3 +37,11 @@ export const handleKey = (type: "down" | "up") => (event: KeyboardEvent) => {
   event.preventDefault();
   board.move(action, type === "down");
 };
+
+export function handleKeyDown(event: KeyboardEvent) {
+  handleKey("down")(event);
+}
+
+export function handleKeyUp(event: KeyboardEvent) {
+  handleKey("up")(event);
+}

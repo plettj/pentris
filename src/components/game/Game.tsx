@@ -3,7 +3,7 @@
 import { useTheme } from "@/context/ThemeContext";
 import { board, graphics } from "@/game/objects";
 import { getUnitFromHeight } from "@/game/util";
-import { handleKey } from "game/logic/controls";
+import { handleKeyDown, handleKeyUp } from "game/logic/controls";
 import { useEffect, useRef } from "react";
 import Canvas from "./Canvas";
 import Score from "./Score";
@@ -58,12 +58,14 @@ export default function Game() {
   useEffect(() => {
     initializeCanvases();
 
-    window.addEventListener("keydown", handleKey("down"));
-    window.addEventListener("keyup", handleKey("up"));
+    console.log("Game setup....");
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
 
     return () => {
-      window.removeEventListener("keydown", handleKey("down"));
-      window.removeEventListener("keyup", handleKey("up"));
+      console.log("Game cleanup....");
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
       window.cancelAnimationFrame(graphics.animationFrameId);
     };
     // Empty dependency array to run once on mount.
