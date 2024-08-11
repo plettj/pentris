@@ -5,34 +5,34 @@ import { prisma } from "@/lib/prisma";
 import { GameData, GameMode, ScoreList, SetScoreSchema } from "./schema";
 
 async function validateGame(data: GameData) {
-  // if (
-  //   data.level < 0 ||
-  //   data.score < 0 ||
-  //   data.lines < 0 ||
-  //   data.totalTime < 1
-  // ) {
-  //   console.warn("Player submitted explicitly invalid game data.");
-  //   return false;
-  // }
-  // if (
-  //   data.level < data.startLevel ||
-  //   (Math.floor(data.lines / 10) > data.startLevel &&
-  //     Math.floor(data.lines / 10) !== data.level)
-  // ) {
-  //   console.warn(
-  //     "Player cleared the wrong amount of lines for their level achieved."
-  //   );
-  //   return false;
-  // }
-  // if (
-  //   (25 * Math.floor(Math.sqrt(data.level + 1)) * data.lines) / 5 <
-  //   data.score
-  // ) {
-  //   console.warn(
-  //     "Player's score is impossibly large given their lines cleared."
-  //   );
-  //   return false;
-  // }
+  if (
+    data.level < 0 ||
+    data.score < 0 ||
+    data.lines < 0 ||
+    data.totalTime < 0
+  ) {
+    console.warn("Player submitted explicitly invalid game data.");
+    return false;
+  }
+  if (
+    data.level < data.startLevel ||
+    (Math.floor(data.lines / 10) > data.startLevel &&
+      Math.floor(data.lines / 10) !== data.level)
+  ) {
+    console.warn(
+      "Player cleared the wrong amount of lines for their level achieved."
+    );
+    return false;
+  }
+  if (
+    (25 * Math.floor(Math.sqrt(data.level + 1)) * data.lines) / 5 <
+    data.score
+  ) {
+    console.warn(
+      "Player's score is impossibly large given their lines cleared."
+    );
+    return false;
+  }
 
   return true;
 }
@@ -61,7 +61,6 @@ export async function getTotalPlayers() {
 }
 
 export async function putHighScore({
-  id,
   userId,
   username,
   value,
@@ -77,9 +76,13 @@ export async function putHighScore({
   }
 
   const highScore = await prisma.highScore.upsert({
-    where: { id, mode },
+    where: {
+      id: "00000000-0000-0000-0000-000000000000",
+      userId,
+      mode,
+    },
     update: { value, username: sanitizedUsername },
-    create: { id, userId, username: sanitizedUsername, value, mode },
+    create: { userId, username: sanitizedUsername, value, mode },
   });
 
   return highScore !== null;

@@ -29,7 +29,6 @@ export default function Score({ width }: { width: number }) {
 
   const handleHighScore = useCallback(async () => {
     const successful: boolean = await putHighScore({
-      id: userId,
       userId: userId,
       username: username === "" ? "Anonymous" : username,
       value: score.score,

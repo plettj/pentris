@@ -11,7 +11,6 @@ export type GameData = {
 };
 
 export type SetScoreSchema = {
-  id: string;
   userId: string;
   username: string;
   value: number;
