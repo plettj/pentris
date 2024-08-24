@@ -30,7 +30,17 @@ class Board {
   readonly settleCountLimit: number = 2;
 
   // Controls
-  keys: boolean[] = [false, false, false]; // [left, right, down]
+  keys: { [key in GameAction]: boolean } = {
+    left: false,
+    right: false,
+    down: false,
+    rotateCw: false,
+    rotateCcw: false,
+    reflect: false,
+    sonicDrop: false,
+    hardDrop: false,
+    bank: false,
+  };
   slideTimer: number = 0;
   slideFirst: boolean = true;
   readonly slideSpeed: number = 3;
@@ -64,6 +74,10 @@ class Board {
     this.grid = Array.from(
       { length: this.size[1] },
       () => Array(this.size[0]).fill(0) as number[]
+    );
+
+    Object.keys(this.keys).forEach(
+      (key) => (this.keys[key as GameAction] = false)
     );
 
     this.upcomingPentominoes = [];
@@ -124,9 +138,15 @@ class Board {
    * Keypress utility for smooth translation controls.
    */
   handleKeys() {
-    const key = this.keys.indexOf(true);
+    const action = (Object.entries(this.keys).find(([_, value]) => value) || [
+      null,
+    ])[0] as GameAction | null;
 
-    if (key === -1) return;
+    if (!action) return;
+
+    if (!moveIsTranslate(action)) {
+      return;
+    }
 
     if (this.slideTimer < this.slideSpeed * (this.slideFirst ? 3 : 1)) {
       this.slideTimer++;
@@ -134,49 +154,27 @@ class Board {
     } else {
       this.slideTimer = 0;
       this.slideFirst = false;
-      this.activePentomino!.move(this.getMoveFromKey(key));
-    }
-  }
-
-  getKeyFromMove(move: TranslateAction): number {
-    switch (move) {
-      case "left":
-        return 0;
-      case "right":
-        return 1;
-      case "down":
-        return 2;
-    }
-  }
-
-  getMoveFromKey(key: number): TranslateAction {
-    switch (key) {
-      case 0:
-        return "left";
-      case 1:
-        return "right";
-      case 2:
-      default:
-        return "down";
+      this.activePentomino!.move(action as MoveAction);
     }
   }
 
   move(move: GameAction, down: boolean = true) {
+    const before = this.keys[move];
+
     if (moveIsTranslate(move)) {
-      const key = this.getKeyFromMove(move as TranslateAction);
-      const currentlyPressed = this.keys[key];
+      if (before && down) return;
 
-      if (currentlyPressed && down) return;
+      this.keys[move] = down;
 
-      this.keys[key] = down;
-
-      if (!down && currentlyPressed) {
+      if (!down && before) {
         this.slideTimer = 0;
         this.slideFirst = true;
       }
     }
 
-    if (!down || !this.activePentomino) {
+    this.keys[move] = down;
+
+    if (!down || (before && down) || !this.activePentomino) {
       return;
     }
 

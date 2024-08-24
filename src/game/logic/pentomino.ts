@@ -232,8 +232,13 @@ class Pent {
           this.coor[1] + coor[1],
         ])
       ) {
+        if (coor[1] < 0 && board.settleCount >= board.settleCountLimit) {
+          this.isSettling = true;
+          return false;
+        }
         this.coor[0] += coor[0] * kickPreference;
         this.coor[1] += coor[1];
+
         return true;
       }
     }
