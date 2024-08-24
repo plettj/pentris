@@ -76,6 +76,10 @@ class Board {
       () => Array(this.size[0]).fill(0) as number[]
     );
 
+    Object.keys(this.keys).forEach(
+      (key) => (this.keys[key as GameAction] = false)
+    );
+
     this.upcomingPentominoes = [];
 
     for (let i = 0; i < 3; i++) {
