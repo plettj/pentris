@@ -237,6 +237,7 @@ const bucketTwelve: PentName[] = [
 
 const rowScores = [0, 1, 3, 5, 12, 25];
 
+/** Units: Game squares per game frame (60 fps) */
 const levelSpeeds = [
   50, 44, 38, 33, 28, 24, 20, 17, 15, 13, 11, 10, 9, 8, 7, 7, 6, 6, 5, 5, 4, 4,
   3, 3, 3, 2,

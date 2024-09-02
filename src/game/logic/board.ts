@@ -12,10 +12,12 @@ class Board {
   grid: number[][];
   unit: number = 22;
   size: Coor = [13, 26];
+  /** Number of squares between the visual top of the user's area, and the top of the playing field. */
   readonly topGap: number = 5;
 
   breaksAnimating: number[] = [];
   breaksTimer: number = 0;
+  /** Number of frames it takes to animate (via plain fade) the line breaking. */
   readonly breaksTimerLimit: number = 25;
 
   // Pentominoes
@@ -26,7 +28,9 @@ class Board {
   // Dynamic Settling
   settleTimer: number = 0;
   settleCount: number = 0;
+  /** Lock delay; the number of frames before a piece will settle if untouched. */
   readonly settleTimerLimit: number = 25;
+  /** Lock delay forgiveness limit; the number of times a player can use up lock delay time before the piece force-locks. */
   readonly settleCountLimit: number = 2;
 
   // Controls
@@ -43,6 +47,7 @@ class Board {
   };
   slideTimer: number = 0;
   slideFirst: boolean = true;
+  /** Auto-shift delay; number of frames per game square of movement when left, right, or down is held. */
   readonly slideSpeed: number = 3;
 
   // Banking
@@ -148,6 +153,8 @@ class Board {
       return;
     }
 
+    // Check if we want to auto-shift the piece at our sliding speed.
+    // Currently set to 3 * speed for the first square, and (naturally) 1 * speed for the rest.
     if (this.slideTimer < this.slideSpeed * (this.slideFirst ? 3 : 1)) {
       this.slideTimer++;
       return;
