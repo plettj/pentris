@@ -15,21 +15,23 @@ class Board {
   /** Number of squares between the visual top of the user's area, and the top of the playing field. */
   readonly topGap: number = 5;
 
+  // Animations
   breaksAnimating: number[] = [];
   breaksTimer: number = 0;
   /** Number of frames it takes to animate (via plain fade) the line breaking. */
-  readonly breaksTimerLimit: number = 25;
+  readonly breaksTimerLimit: number = 30;
 
   // Pentominoes
   activePentomino: Pent | null = null;
   bankPentomino: Pent | null = null;
   upcomingPentominoes: Pent[] = [];
+  private bucket: Pent[] = [];
 
   // Dynamic Settling
   settleTimer: number = 0;
   settleCount: number = 0;
   /** Lock delay; the number of frames before a piece will settle if untouched. */
-  readonly settleTimerLimit: number = 25;
+  readonly settleTimerLimit: number = 30;
   /** Lock delay forgiveness limit; the number of times a player can use up lock delay time before the piece force-locks. */
   readonly settleCountLimit: number = 2;
 
@@ -45,14 +47,11 @@ class Board {
     hardDrop: false,
     bank: false,
   };
+  canBank: boolean = true;
   slideTimer: number = 0;
   slideFirst: boolean = true;
   /** Auto-shift delay; number of frames per game square of movement when left, right, or down is held. */
   readonly slideSpeed: number = 3;
-
-  // Banking
-  canBank: boolean = true;
-  private bucket: Pent[] = [];
 
   constructor() {
     this.grid = Array.from(
@@ -86,6 +85,8 @@ class Board {
     );
 
     this.upcomingPentominoes = [];
+    this.bucket = [];
+    this.canBank = true;
 
     for (let i = 0; i < 3; i++) {
       this.upcomingPentominoes.push(this.newPentomino());

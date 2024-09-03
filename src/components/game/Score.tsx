@@ -18,11 +18,13 @@ export default function Score({ width }: { width: number }) {
   const [usernameModalOpen, setUsernameModalOpen] = useState(false);
   const [currentScore, setCurrentScore] = useState(0);
   const [currentLevel, setCurrentLevel] = useState(0);
+  const [currentLines, setCurrentLines] = useState(0);
   const [tempUsername, setTempUsername] = useState(username);
 
   const handleScore = useCallback(() => {
     setCurrentScore(score.score);
     setCurrentLevel(score.level);
+    setCurrentLines(score.lines);
   }, []);
 
   score.setOnChange(handleScore);
@@ -94,6 +96,16 @@ export default function Score({ width }: { width: number }) {
           </p>
           <p className="text-lg" style={{ color: theme.outline }}>
             {currentLevel + 1}
+          </p>
+        </div>
+      </section>
+      <section className="absolute -left-[8.5rem] bottom-0 right-0 py-2 flex items-center justify-left tracking-tighter">
+        <div className="flex gap-2 px-2" style={{ width: width }}>
+          <p className="text-lg" style={{ color: theme.pieces.ghost }}>
+            Lines:
+          </p>
+          <p className="text-lg" style={{ color: theme.outline }}>
+            {currentLines}
           </p>
         </div>
       </section>
