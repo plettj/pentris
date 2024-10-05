@@ -12,7 +12,7 @@
     "migrate": "prisma generate && prisma migrate dev",
     "prisma-deploy": "prisma generate && prisma migrate deploy"
   },
-  "packageManager": "pnpm@9.3.0",
+  "packageManager": "pnpm@9.12.0",
   "dependencies": {
     "@prisma/client": "^5.17.0",
     "@radix-ui/react-dialog": "^1.1.1",
