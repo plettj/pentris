@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 import { defaultKeybinds } from "./constants";
 import Board from "./logic/board";
 import Controls from "./logic/controls";

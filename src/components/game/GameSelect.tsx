@@ -45,7 +45,7 @@ export default function GameSelect() {
     score.reset();
     score.start();
     if (graphics.animationFrameId === 0) {
-      graphics.animate(0);
+      graphics.animate();
     } else {
       graphics.pause(false);
     }

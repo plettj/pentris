@@ -19,7 +19,7 @@ export default class Graphics {
     board.render();
   }
 
-  animate(newTime: number) {
+  animate(newTime: number = 0) {
     this.animationFrameId = requestAnimationFrame((t) => {
       this.animate(t);
     });
