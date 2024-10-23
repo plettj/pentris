@@ -23,6 +23,13 @@ export default async function Home() {
       <Button asChild className="w-64 my-2">
         <Link href={SPLIT_SECOND_HREF}>Split Second</Link>
       </Button>
+      <hr className="h-2" />
+      <a
+        href="https://old.plett.dev/games"
+        className="no-underline text-blue-900 hover:to-blue-700"
+      >
+        More games
+      </a>
     </main>
   );
 }
