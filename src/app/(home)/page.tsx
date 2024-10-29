@@ -1,10 +1,9 @@
-import { Button } from "@/components/ui/button";
-import { PENTRIS_HREF, SPLIT_SECOND_HREF } from "@/lib/constants";
-import Link from "next/link";
+import GameCard from "@/components/general/GameCard";
+import { gameCardList } from "./content";
 
 export default async function Home() {
   return (
-    <main className="flex flex-col gap-2 my-auto items-center">
+    <main className="flex flex-col gap-2 py-12 items-center">
       <h1>PLETT.FUN</h1>
       <p>
         A tiny website by{" "}
@@ -17,18 +16,16 @@ export default async function Home() {
         .
       </p>
       <hr className="h-2" />
-      <Button asChild className="w-64 my-2">
-        <Link href={PENTRIS_HREF}>Pentris</Link>
-      </Button>
-      <Button asChild className="w-64 my-2">
-        <Link href={SPLIT_SECOND_HREF}>Split Second</Link>
-      </Button>
-      <hr className="h-2" />
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 w-full max-w-[65ch]">
+        {gameCardList.map((gameData) => (
+          <GameCard key={gameData.title} {...gameData} />
+        ))}
+      </div>
       <a
         href="https://old.plett.dev/games"
-        className="no-underline text-blue-900 hover:to-blue-700"
+        className="mt-6 no-underline text-blue-900 hover:to-blue-700"
       >
-        More games
+        Old game site
       </a>
     </main>
   );
