@@ -42,7 +42,7 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en" className={fontSans.variable} suppressHydrationWarning>
-      <body className="flex flex-col h-screen overflow-hidden bg-background font-sans antialiased">
+      <body className="flex flex-col h-screen overflow-x-hidden bg-background font-sans antialiased scrollbar">
         <TopLoader />
         {children}
       </body>
