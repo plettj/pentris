@@ -41,7 +41,7 @@ export default function Leaderboard() {
     >
       <h2 className="text-2xl">Leaderboard</h2>
       <hr className="border my-1" style={{ borderColor: theme.outline }} />
-      <section className="max-h-80 overflow-y-auto scrollbar pr-1">
+      <section className="max-h-80 overflow-y-auto pentris-scrollbar pr-1">
         {noData ? (
           <div style={{ color: theme.pieces.ghost }}>
             Loading high scores...

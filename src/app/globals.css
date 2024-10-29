@@ -4,18 +4,34 @@
 
 @layer utilities {
   .scrollbar::-webkit-scrollbar {
-    width: 8px;
+    width: 10px;
+    height: 10px;
   }
 
   .scrollbar::-webkit-scrollbar-track {
-    background: #171717;
+    background: hsl(var(--muted));
   }
 
   .scrollbar::-webkit-scrollbar-thumb {
-    background: #363636;
+    background: hsla(var(--muted-foreground) / 0.25);
   }
 
   .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: hsla(var(--muted-foreground) / 0.5);
+  }
+  .pentris-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .pentris-scrollbar::-webkit-scrollbar-track {
+    background: #171717;
+  }
+
+  .pentris-scrollbar::-webkit-scrollbar-thumb {
+    background: #363636;
+  }
+
+  .pentris-scrollbar::-webkit-scrollbar-thumb:hover {
     background: #454545;
   }
 }
