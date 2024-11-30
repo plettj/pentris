@@ -107,6 +107,12 @@ const gameCardList: GameCardProps[] = [
     imageSize: [852, 482],
     url: "https://github.com/plettj/hagnusmiemann",
   },
+  {
+    title: "5x5 Boggle",
+    imageSrc: "/static/games/Boggle.png",
+    imageSize: [852, 482],
+    url: "https://plett.fun/boggle",
+  },
 ];
 
 export { gameCardList };
