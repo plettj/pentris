@@ -13,6 +13,7 @@ const fontSans = Silkscreen({
   weight: ["400", "700"],
   subsets: ["latin"],
   variable: "--font-sans",
+  display: "swap", // https://stackoverflow.com/a/78016250/8360465
 });
 
 // OPG compliant metadata (https://ogp.me/)

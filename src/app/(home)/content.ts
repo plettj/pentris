@@ -30,10 +30,10 @@ const gameCardList: GameCardProps[] = [
     url: "https://plettdev.itch.io/flippyfloor",
   },
   {
-    title: "Lo-fi Ghost",
-    imageSrc: "/static/games/LofiGhost.png",
-    imageSize: [1280, 720],
-    url: "https://plettdev.itch.io/lo-fi-ghost",
+    title: "Snake 2",
+    imageSrc: "/static/games/Snake2.png",
+    imageSize: [630, 500],
+    url: "https://plettdev.itch.io/snake-2",
   },
   {
     title: "Split Second V1.0",
@@ -46,6 +46,12 @@ const gameCardList: GameCardProps[] = [
     imageSrc: "/static/games/SpaceGolf.png",
     imageSize: [1080, 725],
     url: "https://spacegolf.surge.sh/",
+  },
+  {
+    title: "Lo-fi Ghost",
+    imageSrc: "/static/games/LofiGhost.png",
+    imageSize: [1280, 720],
+    url: "https://plettdev.itch.io/lo-fi-ghost",
   },
   {
     title: "Chess Board Viewer",
