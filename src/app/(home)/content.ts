@@ -42,6 +42,12 @@ const gameCardList: GameCardProps[] = [
     url: "https://devpost.com/software/split-second",
   },
   {
+    title: "Antropy",
+    imageSrc: "/static/games/Antropy.png",
+    imageSize: [315, 250],
+    url: "https://plettdev.itch.io/antropy",
+  },
+  {
     title: "Space Golf",
     imageSrc: "/static/games/SpaceGolf.png",
     imageSize: [1080, 725],
