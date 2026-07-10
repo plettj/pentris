@@ -52,6 +52,9 @@ class Board {
   slideFirst: boolean = true;
   /** Auto-shift delay; number of frames per game square of movement when left, right, or down is held. */
   readonly slideSpeed: number = 3;
+  rotateTimer: number = 0;
+  /** Repeat delay for held rotation controls at high gravity. */
+  readonly highGravityRotateSpeed: number = 2;
 
   constructor() {
     this.grid = Array.from(
@@ -83,6 +86,10 @@ class Board {
     Object.keys(this.keys).forEach(
       (key) => (this.keys[key as GameAction] = false)
     );
+
+    this.slideTimer = 0;
+    this.slideFirst = true;
+    this.rotateTimer = 0;
 
     this.upcomingPentominoes = [];
     this.bucket = [];
@@ -144,33 +151,70 @@ class Board {
    * Keypress utility for smooth translation controls.
    */
   handleKeys() {
-    const action = (Object.entries(this.keys).find(([_, value]) => value) || [
-      null,
-    ])[0] as GameAction | null;
+    const translateAction = (["left", "right", "down"] as const).find(
+      (action) => this.keys[action]
+    );
+    const modifyAction = (["rotateCw", "rotateCcw", "reflect"] as const).find(
+      (action) => this.keys[action]
+    );
 
-    if (!action) return;
-
-    if (!moveIsTranslate(action)) {
-      return;
+    if (translateAction) {
+      this.handleTranslateKey(translateAction);
     }
 
-    // Check if we want to auto-shift the piece at our sliding speed.
-    // Currently set to 3 * speed for the first square, and (naturally) 1 * speed for the rest.
-    if (this.slideTimer < this.slideSpeed * (this.slideFirst ? 3 : 1)) {
-      this.slideTimer++;
-      return;
-    } else {
-      this.slideTimer = 0;
-      this.slideFirst = false;
-      this.activePentomino!.move(action as MoveAction);
+    if (modifyAction) {
+      this.handleModifyKey(modifyAction);
     }
   }
 
-  move(move: GameAction, down: boolean = true) {
+  private handleTranslateKey(action: TranslateAction) {
+    const slideDelay = this.getSlideDelay();
+
+    if (this.slideTimer < slideDelay) {
+      this.slideTimer++;
+      return;
+    }
+
+    this.slideTimer = 0;
+    this.slideFirst = false;
+    this.activePentomino!.move(action);
+  }
+
+  private handleModifyKey(action: ModifyAction) {
+    if (!this.isHighGravity()) return;
+
+    if (this.rotateTimer < this.highGravityRotateSpeed) {
+      this.rotateTimer++;
+      return;
+    }
+
+    this.rotateTimer = 0;
+    this.activePentomino!.move(action);
+  }
+
+  private getSlideDelay() {
+    if (this.isHighGravity()) {
+      return this.slideFirst ? 2 : 1;
+    }
+
+    return this.slideSpeed * (this.slideFirst ? 3 : 1);
+  }
+
+  private isHighGravity() {
+    return score.getSpeed() <= 2;
+  }
+
+  move(move: GameAction, down: boolean = true, repeated: boolean = false) {
     const before = this.keys[move];
+    const useKeyRepeat =
+      repeated &&
+      down &&
+      before &&
+      this.isHighGravity() &&
+      (moveIsTranslate(move) || this.moveIsModify(move));
 
     if (moveIsTranslate(move)) {
-      if (before && down) return;
+      if (before && down && !useKeyRepeat) return;
 
       this.keys[move] = down;
 
@@ -182,7 +226,11 @@ class Board {
 
     this.keys[move] = down;
 
-    if (!down || (before && down) || !this.activePentomino) {
+    if (!down && !moveIsTranslate(move)) {
+      this.rotateTimer = 0;
+    }
+
+    if (!down || (before && down && !useKeyRepeat) || !this.activePentomino) {
       return;
     }
 
@@ -197,6 +245,10 @@ class Board {
     }
 
     this.activePentomino.move(move);
+  }
+
+  private moveIsModify(move: GameAction): move is ModifyAction {
+    return move === "rotateCw" || move === "rotateCcw" || move === "reflect";
   }
 
   draw() {

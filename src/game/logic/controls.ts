@@ -35,7 +35,7 @@ const handleKey = (type: "down" | "up") => (event: KeyboardEvent) => {
   }
 
   event.preventDefault();
-  board.move(action, type === "down");
+  board.move(action, type === "down", event.repeat);
 };
 
 export function handleKeyDown(event: KeyboardEvent) {
